@@ -116,9 +116,9 @@ exports.subprocesses = {
 	validator: 1,
 	/** for user authentication */
 	verifier: 1,
-	localartemis: 1,
-	remoteartemis: 1,
-	friends: 1,
+	localartemis: 0,
+	remoteartemis: 0,
+	friends: 0,
 	chatdb: 1,
 	modlog: 1,
 	pm: 1,
@@ -298,7 +298,7 @@ exports.reportbattlejoins = true;
  *   the required amount of room punishments.
  *   Set this to 0 to turn the monitor off.
  */
-exports.monitorminpunishments = 3;
+exports.monitorminpunishments = 0;
 
 /**
  * Turns off all time-based throttles - rename, challenges, laddering, etc.
@@ -359,12 +359,12 @@ exports.chatmodchat = false;
  * battle modchat - default minimum group for speaking in battles; changeable with /modchat
  * @type {false | AuthLevel}
  */
-exports.battlemodchat = false;
+exports.battlemodchat = '+';
 /**
  * PM modchat - minimum group for sending private messages or challenges to other users
  * @type {false | AuthLevel}
  */
-exports.pmmodchat = false;
+exports.pmmodchat = '+';
 /**
  * ladder modchat - minimum group for laddering
  * @type {false | GroupSymbol}

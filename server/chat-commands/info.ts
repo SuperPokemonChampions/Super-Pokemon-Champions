@@ -1725,7 +1725,7 @@ export const commands: Chat.ChatCommands = {
 
 	staff(target, room, user) {
 		if (!this.runBroadcast()) return;
-		this.sendReplyBox(`<a href="https://www.smogon.com/forums/posts/10715136/">Pok&eacute;mon Showdown Staff List</a>`);
+		this.sendReplyBox(`no`);
 	},
 	staffhelp: [`/staff - View the staff list.`],
 
@@ -1957,9 +1957,8 @@ export const commands: Chat.ChatCommands = {
 			} else {
 				const genID = ['rb', 'gs', 'rs', 'dp', 'bw', 'xy', 'sm', 'ss', 'sv'];
 				const gen = Dex.forFormat(format).gen;
-				descHtml.push(`This format has no resources linked on its <a href="https://www.smogon.com/dex/${genID[gen - 1] || 'sv'}/formats/">Smogon Dex page</a>. ` +
-					`Please contact a <a href="https://www.smogon.com/forums/forums/757/">C&amp;C Leader</a> to resolve this. ` +
-					`Alternatively, if this format can't have a page on the Smogon Dex, message <username>dhelmise</username>.<br />`);
+				descHtml.push(`This format has no resources listed. ` +
+					`To fix this, please message <username>iforgetwhyimhere</username>.`);
 			}
 			return this.sendReplyBox(`<h2>${format.name}</h2><hr />${formatDesc ? formatDesc + '<hr />' : ''}${descHtml.join("<br />")}${rulesetHtml ? `<br />${rulesetHtml}` : ''}`);
 		}
@@ -2165,13 +2164,13 @@ export const commands: Chat.ChatCommands = {
 			buffer.push(`<a href="https://pokemonshowdown.com/${this.tr`pages/proxyhelp`}">${this.tr`Proxy lock help`}</a>`);
 		}
 		if (showAll || ['ca', 'customavatar', 'customavatars'].includes(target)) {
-			buffer.push(this.tr`Custom avatars are given to Global Staff members, contributors (coders and spriters) to Pokemon Showdown, and Smogon badgeholders at the discretion of the PS! Administrators. They are also sometimes given out as rewards for major events such as PSPL (Pokemon Showdown Premier League). If you're curious, you can view the entire list of <a href="https://www.smogon.com/smeargle/customs/">custom avatars</a>.`);
+			buffer.push(this.tr`You're not getting one.`);
 		}
 		if (showAll || ['privacy', 'private'].includes(target)) {
 			buffer.push(`<a href="https://pokemonshowdown.com/${this.tr`pages/privacy`}">${this.tr`Pokémon Showdown privacy policy`}</a>`);
 		}
 		if (showAll || ['lostpassword', 'password', 'lostpass'].includes(target)) {
-			buffer.push(`Until an email server for Pokemon Showdown is set up, <b>it is no longer possible to reset the password for your account</b>`);
+			buffer.push(`Passwords cannot be reset.`);
 		}
 		if (!buffer.length && target) {
 			this.errorReply(`'${target}' is an invalid FAQ.`);

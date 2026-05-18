@@ -783,13 +783,13 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		mod: 'mixandmega',
 		ruleset: [
 			'Standard OMs', 'Evasion Items Clause', 'Evasion Abilities Clause', 'Sleep Moves Clause', 'Terastal Clause', 'Alphabet Cup Move Legality', 'Camomons Mod',
-			'Scalemons Mod', 'Tier Shift Mod', 'Data Preview', '!Obtainable Abilities', 'Ability Clause = 1', '!Team Preview', 'Team Type Preview',
+			'Scalemons Mod', 'Tier Shift Mod', 'Data Preview', '!Obtainable Abilities', 'Ability Clause = 2', '!Team Preview', 'Team Type Preview',
 		],
 		banlist: [
-			'Breloom', 'Sudowoodo', 'Arena Trap', 'Comatose', 'Contrary', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter', 'Innards Out', 'Moody',
-			'Neutralizing Gas', 'Parental Bond', 'Pure Power', 'Shadow Tag', 'Simple', 'Spicy Spray', 'Speed Boost', 'Water Bubble', 'Wonder Guard', 'Beedrillite', 'Blazikenite',
+			'Breloom', 'Sudowoodo', 'Weepinbell', 'Arena Trap', 'Comatose', 'Contrary', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter', 'Innards Out',
+			'Moody', 'Neutralizing Gas', 'Parental Bond', 'Pure Power', 'Shadow Tag', 'Simple', 'Spicy Spray', 'Speed Boost', 'Water Bubble', 'Wonder Guard', 'Beedrillite', 'Blazikenite',
 			'Damp Rock', 'Eviolite', 'Gengarite', 'Heat Rock', 'Kangaskhanite', 'Light Ball', 'Lucarionite Z', 'Malamarite', 'Mawilite', 'Medichamite', 'Scovillainite', 'Starminite',
-			'Victreebelite', 'Baton Pass', 'Last Respects', 'Shed Tail',
+			'Victreebelite', 'Baton Pass', 'Belly Drum', 'Clangorous Soul', 'Last Respects', 'Shed Tail',
 		],
 		restricted: [
 			'Blissey', 'Chansey', 'Happiny', 'Smeargle', 'Vigoroth', 'Ceaseless Edge', 'Dire Claw', 'Electrify', 'Extreme Speed', 'Revival Blessing', 'Salt Cure', 'Shed Tail',
@@ -1059,7 +1059,7 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 				this.add('-start', pokemon, originalSpecies.requiredItems?.[0] || originalSpecies.requiredItem || originalSpecies.requiredMove, '[silent]');
 				const oSpecies = this.dex.species.get(pokemon.m.originalSpecies);
 				if (oSpecies.types.join('/') !== pokemon.species.types.join('/')) {
-					this.add('-start', pokemon, 'typechange', pokemon.species.types.join('/'), '[silent]');
+					this.add('-start', pokemon, 'typechange', pokemon.species.types.join('/'), '[silent]', '[from] format: Mix and Mega');
 				}
 			}
 		},
@@ -2683,7 +2683,7 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 				}
 
 				// weather modifier
-				baseDamage = this.battle.runEvent('WeatherModifyDamage', pokemon, target, move, baseDamage);
+				baseDamage = this.battle.priorityEvent('WeatherModifyDamage', pokemon, target, move, baseDamage);
 
 				// crit - not a modifier
 				const isCrit = target.getMoveHitData(move).crit;
@@ -3399,7 +3399,7 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		name: "[Gen 9] National Dex UU",
 		mod: 'gen9',
 		ruleset: ['[Gen 9] National Dex'],
-		banlist: ['ND OU', 'ND UUBL', 'Drizzle', 'Drought', 'Light Clay'],
+		banlist: ['ND OU', 'ND UUBL', 'Drizzle', 'Drought', 'Light Clay', 'Slowbro-Base + Slowbronite'],
 	},
 	{
 		name: "[Gen 9] National Dex RU",

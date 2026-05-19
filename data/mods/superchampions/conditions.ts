@@ -1,6 +1,11 @@
 export const Conditions: import('../../../sim/dex-conditions').ModdedConditionDataTable = {
 	brn: {
+	// BRN = 0.75x reduction, multiply Atk by 1.5
+	// as BP is halved directly through battle.ts
 		inherit: true,
+		onModifyAtk(atk, pokemon) {
+			return this.chainModify(1.5);
+		},
 	},
 	sunnyday: {
 		inherit: true,

@@ -494,7 +494,7 @@ export class Format extends BasicEffect implements Readonly<BasicEffect> {
 }
 
 /** merges format lists from config/formats and config/custom-formats */
-function mergeFormatLists(main: FormatList, custom: FormatList | undefined): FormatList {
+function mergeFormatLists(custom: FormatList): FormatList {
 	// interface for the builder.
 	interface FormatSection {
 		section: string;
@@ -513,7 +513,7 @@ function mergeFormatLists(main: FormatList, custom: FormatList | undefined): For
 
 	// populates the original sections and formats easily
 	// there should be no repeat sections at this point.
-	for (const element of main) {
+	for (const element of custom) {
 		if (element.section) {
 			current = { section: element.section, column: element.column, formats: [] };
 			build.push(current);
@@ -582,7 +582,7 @@ export class DexFormats {
 		if (!Array.isArray(Formats)) {
 			throw new TypeError(`Exported property 'Formats' from "./config/formats.ts" must be an array`);
 		}
-		if (customFormats) Formats = mergeFormatLists(Formats as any, customFormats);
+		Formats = customFormats;
 
 		let section = '';
 		let column = 1;

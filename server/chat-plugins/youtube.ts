@@ -94,7 +94,7 @@ export class YoutubeInterface {
 	}
 	async getChannelData(link: string, username?: string) {
 		if (!Config.youtubeKey) {
-			throw new Chat.ErrorMessage(`This server does not support YouTube commands. If you're the owner, you can enable them by setting up Config.youtubekey.`);
+			throw new Chat.ErrorMessage(`YouTube commands are not supported.`);
 		}
 		const id = this.getId(link);
 		const raw = await Net(`${ROOT}channels`).get({
@@ -748,7 +748,7 @@ export const commands: Chat.ChatCommands = {
 export const pages: Chat.PageTable = {
 	async channels(args, user) {
 		const [type] = args;
-		if (!Config.youtubeKey) return `<h2>Youtube is not configured.</h2>`;
+		if (!Config.youtubeKey) return `<h2>Youtube is not supported.</h2>`;
 		const titles: { [k: string]: string } = {
 			all: 'All channels',
 			categories: 'by category',

@@ -578,11 +578,11 @@ export class DexFormats {
 				throw e;
 			}
 		}
-		let Formats: AnyObject[] = require(`${__dirname}/../config/formats`).Formats;
+		/*let Formats: AnyObject[] = require(`${__dirname}/../config/formats`).Formats;
 		if (!Array.isArray(Formats)) {
 			throw new TypeError(`Exported property 'Formats' from "./config/formats.ts" must be an array`);
-		}
-		Formats = customFormats;
+		}*/
+		const Formats = customFormats;
 
 		let section = '';
 		let column = 1;

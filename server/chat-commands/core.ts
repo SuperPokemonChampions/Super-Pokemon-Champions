@@ -66,7 +66,6 @@ export const crqHandlers: { [k: string]: Chat.CRQHandler } = {
 			name: targetUser.name,
 			avatar: targetUser.avatar,
 			group,
-			customgroup: sectionleader ? "Section Leader" : undefined,
 			autoconfirmed: targetUser.autoconfirmed ? true : undefined,
 			status: targetUser.getStatus() || undefined,
 			rooms: roomList,
@@ -1459,7 +1458,7 @@ export const commands: Chat.ChatCommands = {
 		if (target) {
 			if (Config.laddermodchat && !Users.globalAuth.atLeast(user, Config.laddermodchat)) {
 				const groupName = Config.groups[Config.laddermodchat].name || Config.laddermodchat;
-				this.popupReply(this.tr`This server requires you to be rank ${groupName} or higher to search for a battle.`);
+				this.popupReply(this.tr`Error: You must be a Global ${groupName} (or higher) to search for a battle.`);
 				return false;
 			}
 			const ladder = Ladders(target);
@@ -1507,7 +1506,7 @@ export const commands: Chat.ChatCommands = {
 		}
 		if (Config.pmmodchat && !user.hasSysopAccess() && !Users.globalAuth.atLeast(user, Config.pmmodchat as GroupSymbol)) {
 			const groupName = Config.groups[Config.pmmodchat].name || Config.pmmodchat;
-			this.popupReply(this.tr`This server requires you to be rank ${groupName} or higher to challenge users.`);
+			this.popupReply(this.tr`Error: You must be a Global ${groupName} (or higher) to challenge users.`);
 			return false;
 		}
 		return Ladders(formatName).makeChallenge(connection, targetUser);

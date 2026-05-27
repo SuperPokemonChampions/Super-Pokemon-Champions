@@ -33,6 +33,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	alluringvoice: {
 		inherit: true,
 		shortDesc: "Confuses the target if it has stat boosts.",
+		desc: "Confuses the target if it has stat boosts.",
 		basePower: 60,
 		pp: 10,
 		secondary: {
@@ -54,6 +55,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	ancientpower: {
 		inherit: true,
 		shortDesc: "10% chance to omniboost by 2 (excluding acc/eva).",
+		desc: "10% chance to omniboost by 2 (excluding acc/eva).",
 		secondary: {
 			chance: 10,
 			self: {
@@ -70,6 +72,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	armorcannon: {
 		inherit: true,
 		shortDesc: "User: -1 Def/SpD",
+		desc: "User: -1 Def/SpD",
 		self: {
 			boosts: {
 				def: -2,
@@ -119,6 +122,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	boomburst: {
 		inherit: true,
 		shortDesc: "Hits adjacent Pokemon. Clears hazards + trapping.",
+		desc: "Hits adjacent Pokemon. Clears hazards + trapping.",
 		onAfterHit(target, pokemon, move) {
 			if (!move.hasSheerForce) {
 				if (pokemon.removeVolatile('leechseed')) {
@@ -167,6 +171,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	brutalswing: {
 		inherit: true,
 		shortDesc: "Hits adjacent Pokemon. Clears hazards + trapping.",
+		desc: "Hits adjacent Pokemon. Clears hazards + trapping.",
 		onAfterHit(target, pokemon, move) {
 			if (!move.hasSheerForce) {
 				if (pokemon.removeVolatile('leechseed')) {
@@ -202,7 +207,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	bugbuzz: {
 		inherit: true,
-		shortDesc: "10% to lower SpD by 1. Wakes all active Pkmn.",
+		shortDesc: "Hits adjacent Pokemon. Clears hazards + trapping.",
+		desc: "Hits adjacent Pokemon. Clears hazards + trapping.",
 		onTryHit(target) {
 			const activeTeam = target.side.activeTeam();
 			const foeActiveTeam = target.side.foe.activeTeam();
@@ -216,6 +222,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	bulldoze: {
 		inherit: true,
 		shortDesc: "100% chance lower adjacent Pkmn Speed by 1. Clears hazards + trapping.",
+		desc: "100% chance lower adjacent Pkmn Speed by 1. Clears hazards + trapping.",
 		onAfterHit(target, pokemon, move) {
 			if (!move.hasSheerForce) {
 				if (pokemon.removeVolatile('leechseed')) {
@@ -252,6 +259,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	burningjealousy: {
 		inherit: true,
 		shortDesc: "Burns the target.",
+		desc: "Burns the target.",
 		secondary: {
 			chance: 100,
 			onHit(target, source, move) {
@@ -269,6 +277,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	charm: {
 		inherit: true,
 		shortDesc: "Lowers the target's Attack by 3.",
+		desc: "Lowers the target's Attack by 3.",
 		boosts: {
 			atk: -3,
 		},
@@ -280,6 +289,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	closecombat: {
 		inherit: true,
 		shortDesc: "Lowers the user's Defense and Sp. Def by 2.",
+		desc: "Lowers the user's Defense and Sp. Def by 2.",
 		self: {
 			boosts: {
 				def: -2,
@@ -290,6 +300,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	cosmicpower: {
 		inherit: true,
 		shortDesc: "Raises the user's Defense and Sp. Def by 2.",
+		desc: "Raises the user's Defense and Sp. Def by 2.",
 		boosts: {
 			def: 2,
 			spd: 2,

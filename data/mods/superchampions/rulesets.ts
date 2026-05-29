@@ -32,7 +32,7 @@ export const Rulesets: import('../../../sim/dex-formats').ModdedFormatDataTable 
 		// No effects should affect OHKO moves
 		onAccuracy(accuracy, target, source, move) {
 			if (move.ohko) {
-				return 30;
+				return move.accuracy;
 			};
 		},
 		// Ignore accuracy check if targeting an ally
@@ -40,6 +40,9 @@ export const Rulesets: import('../../../sim/dex-formats').ModdedFormatDataTable 
 			if (source.isAlly(target)) {
 				move.ignoreAccuracy = true;
 			};
+		},
+		onBattleStart() {
+			var trappedTurns = 0;
 		},
 	},
 };

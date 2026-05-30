@@ -236,7 +236,7 @@ describe('Dex data', () => {
 
 	it('should have valid Learnsets entries', function () {
 		this.timeout(0);
-		const dexes = [Dex.mod('gen2'), Dex.mod('gen7letsgo'), Dex.mod('gen8bdsp'), Dex.mod('gen8legends'), Dex.mod('gen9legends'), Dex.mod('champions'), Dex];
+		const dexes = [Dex.mod('gen2'), Dex.mod('gen7letsgo'), Dex.mod('gen8bdsp'), Dex.mod('gen8legends'), Dex.mod('gen9legends'), Dex.mod('superchampions'), Dex];
 		for (const mod of dexes) {
 			for (const speciesid in mod.data.Learnsets) {
 				const species = Dex.species.get(speciesid);

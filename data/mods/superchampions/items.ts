@@ -36,6 +36,9 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
 				this.damage(source.baseMaxhp / 10, source, source, this.dex.items.get('lifeorb'));
 			}
 		},
+		onAfterMoveSecondarySelf(source, target, move) {
+			null;
+		},
 		num: 270,
 		gen: 4,
 	},

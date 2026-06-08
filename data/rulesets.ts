@@ -13,7 +13,8 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		name: 'Standard AG',
 		desc: "The minimal ruleset for Anything Goes",
 		ruleset: [
-			'Obtainable', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod', 'Endless Battle Clause',
+			'Obtainable', 'Team Preview', 'Cancel Mod', 'Endless Battle Clause',
+			'Adjust Level = 50', 'Species Clause', 'Min Team Size = 6',
 		],
 	},
 	standard: {

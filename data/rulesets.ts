@@ -8,13 +8,20 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 	// Rulesets
 	///////////////////////////////////////////////////////////////////
 
+	openitemsheets: {
+		effectType: 'Rule',
+		name: 'Open Item Sheets',
+		desc: "Allows players to optionally display held items.",
+		// finish this later ig
+	},
+
 	standardag: {
 		effectType: 'ValidatorRule',
 		name: 'Standard AG',
 		desc: "The minimal ruleset for Anything Goes",
 		ruleset: [
-			'Obtainable', 'Team Preview', 'Cancel Mod', 'Endless Battle Clause',
-			'Adjust Level = 50', 'Species Clause', 'Min Team Size = 6',
+			 'Obtainable', 'Team Preview',
+			 'HP Percentage Mod', 'Cancel Mod', 'Endless Battle Clause',
 		],
 	},
 	standard: {

@@ -3605,8 +3605,9 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		},
 		condition: {
 			noCopy: true, // doesn't get copied by Baton Pass
+			duration: 1,
 			onStart(pokemon) {
-				this.add('-singlemove', pokemon, 'Destiny Bond');
+				this.add('-singleturn', pokemon, 'Destiny Bond');
 			},
 			onFaint(target, source, effect) {
 				if (!source || !effect || target.isAlly(source)) return;

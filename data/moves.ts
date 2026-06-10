@@ -3047,11 +3047,11 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Status",
 		name: "Cosmic Power",
 		pp: 20,
-		priority: 0,
+		priority: 0.1,
 		flags: { snatch: 1, metronome: 1 },
 		boosts: {
-			def: 2,
-			spd: 2,
+			def: 1,
+			spd: 1,
 		},
 		target: "self",
 		type: "Psychic",
@@ -3065,7 +3065,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Status",
 		name: "Cotton Guard",
 		pp: 10,
-		priority: 0,
+		priority: 0.1,
 		flags: { snatch: 1, metronome: 1 },
 		boosts: {
 			def: 3,
@@ -3207,7 +3207,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	covet: {
 		num: 343,
 		accuracy: 100,
-		basePower: 60,
+		basePower: 30,
 		category: "Physical",
 		name: "Covet",
 		pp: 25,
@@ -3323,7 +3323,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		secondary: {
 			chance: 20,
 			boosts: {
-				def: -1,
+				def: -2,
 			},
 		},
 		target: "normal",
@@ -3564,7 +3564,9 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		flags: { protect: 1, reflectable: 1, mirror: 1, bypasssub: 1, metronome: 1 },
 		onHit(target, source, move) {
 			let success = false;
-			if (!target.volatiles['substitute'] || move.infiltrates) success = !!this.boost({ evasion: -1 });
+			if (!target.volatiles['substitute'] || move.infiltrates)
+				success = true,
+				target.setBoost({ evasion: -1 });
 			const removeAll = ['spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge'];
 			const removeTarget = ['reflect', 'lightscreen', 'auroraveil', 'safeguard', 'mist', ...removeAll];
 			for (const targetCondition of removeTarget) {
@@ -3595,7 +3597,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Status",
 		name: "Destiny Bond",
 		pp: 5,
-		priority: 0,
+		priority: 0.1,
 		flags: { bypasssub: 1, noassist: 1, failcopycat: 1 },
 		volatileStatus: 'destinybond',
 		onPrepareHit(pokemon) {

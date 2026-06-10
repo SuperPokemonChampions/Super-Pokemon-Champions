@@ -2,9 +2,10 @@ import { Utils } from '../lib/utils';
 import { assignMissingFields, toID, BasicEffect } from './dex-data';
 import type { EventMethods } from './dex-conditions';
 import type { SpeciesData } from './dex-species';
+// @ts-ignore rootDir shenanigans
 import { Tags } from '../data/tags';
 
-const DEFAULT_MOD = 'gen9';
+const DEFAULT_MOD = 'superchampions';
 
 export interface FormatData extends Partial<Format>, EventMethods {
 	name: string;
@@ -281,7 +282,7 @@ export class RuleTable extends Map<string, string> {
 			if (format.mod === 'gen7letsgo') {
 				this.evLimit = this.has('lgpenormalrules') ? 0 : null;
 			}
-			if (format.mod === 'champions') {
+			if (format.mod === 'superchampions') {
 				this.evLimit = 66;
 			}
 			// Gen 6 hackmons also has a limit, which is currently implemented
@@ -474,7 +475,7 @@ export class Format extends BasicEffect implements Readonly<BasicEffect> {
 	constructor(data: AnyObject) {
 		super(data);
 
-		this.mod = Utils.getString(data.mod) || 'gen9';
+		this.mod = Utils.getString(data.mod) || 'superchampions';
 		this.effectType = Utils.getString(data.effectType) as FormatEffectType || 'Condition';
 		this.debug = !!data.debug;
 		this.rated = (typeof data.rated === 'string' ? data.rated : data.rated !== false);
@@ -494,7 +495,7 @@ export class Format extends BasicEffect implements Readonly<BasicEffect> {
 }
 
 /** merges format lists from config/formats and config/custom-formats */
-function mergeFormatLists(main: FormatList, custom: FormatList | undefined): FormatList {
+function mergeFormatLists(custom: FormatList): FormatList {
 	// interface for the builder.
 	interface FormatSection {
 		section: string;
@@ -513,7 +514,7 @@ function mergeFormatLists(main: FormatList, custom: FormatList | undefined): For
 
 	// populates the original sections and formats easily
 	// there should be no repeat sections at this point.
-	for (const element of main) {
+	for (const element of custom) {
 		if (element.section) {
 			current = { section: element.section, column: element.column, formats: [] };
 			build.push(current);
@@ -578,11 +579,11 @@ export class DexFormats {
 				throw e;
 			}
 		}
-		let Formats: AnyObject[] = require(`${__dirname}/../config/formats`).Formats;
+		/*let Formats: AnyObject[] = require(`${__dirname}/../config/formats`).Formats;
 		if (!Array.isArray(Formats)) {
 			throw new TypeError(`Exported property 'Formats' from "./config/formats.ts" must be an array`);
-		}
-		if (customFormats) Formats = mergeFormatLists(Formats as any, customFormats);
+		}*/
+		const Formats = customFormats;
 
 		let section = '';
 		let column = 1;

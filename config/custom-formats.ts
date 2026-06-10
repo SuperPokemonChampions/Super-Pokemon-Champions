@@ -35,7 +35,7 @@ export const Formats: FormatList = [
 	},
 	{
 		name: "[Super Champions] VGC 6v6",
-		mod: 'champions',
+		mod: 'superchampions',
 		gameType: 'doubles',
 		ruleset: ['Flat Rules', 'VGC Timer', 'Force Open Team Sheets', '!!Picked Team Size = 6', 'Open Item Sheets'],
 	},
@@ -45,6 +45,6 @@ export const Formats: FormatList = [
 		searchShow: false,
 		debug: true,
 		battle: { trunc: Math.trunc },
-		ruleset: ['Team Preview', 'Cancel Mod', 'Max Team Size = 24', 'Max Move Count = 24', 'Max Level = 9999', 'Default Level = 50'],
+		ruleset: ['Team Preview', 'Cancel Mod', 'Max Team Size = 24', 'Max Move Count = 24', 'Max Level = 9999', 'Default Level = 50', 'Super Champions Mod'],
 	},
 ];

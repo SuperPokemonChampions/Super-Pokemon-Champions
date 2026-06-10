@@ -66,7 +66,6 @@ export const crqHandlers: { [k: string]: Chat.CRQHandler } = {
 			name: targetUser.name,
 			avatar: targetUser.avatar,
 			group,
-			customgroup: sectionleader ? "Section Leader" : undefined,
 			autoconfirmed: targetUser.autoconfirmed ? true : undefined,
 			status: targetUser.getStatus() || undefined,
 			rooms: roomList,
@@ -485,6 +484,11 @@ export const commands: Chat.ChatCommands = {
 	ignorepms: 'blockpms',
 	ignorepm: 'blockpms',
 	blockofflinepms: 'blockpms',
+	blockdms: 'blockpms',
+	blockdm: 'blockpms',
+	ignoredms: 'blockpms',
+	ignoredm: 'blockpms',
+	blockofflinedms: 'blockpms',
 	async blockpms(target, room, user, connection, cmd) {
 		target = target.toLowerCase().trim();
 		if (target === 'ac') target = 'autoconfirmed';
@@ -500,7 +504,7 @@ export const commands: Chat.ChatCommands = {
 		} else if (target === 'autoconfirmed' || target === 'trusted' || target === 'unlocked') {
 			if (!isOffline) user.settings.blockPMs = target;
 			target = this.tr(target);
-			this.sendReply(this.tr`You are now blocking ${msg}private messages, except from staff and ${target} users.`);
+			this.sendReply(this.tr`You are now blocking ${msg}private messages, except from staff, friends, and ${target} users.`);
 		} else if (target === 'friends') {
 			if (!isOffline) user.settings.blockPMs = target;
 			this.sendReply(this.tr`You are now blocking ${msg}private messages, except from staff and friends.`);
@@ -522,7 +526,7 @@ export const commands: Chat.ChatCommands = {
 	},
 	blockpmshelp: [
 		`/blockpms - Blocks private messages except from staff. Unblock them with /unblockpms.`,
-		`/blockpms [unlocked/ac/trusted/+/friends] - Blocks private messages except from staff and the specified group.`,
+		`/blockpms [unlocked, ac, trusted, friends, +] - Blocks PMs, except for staff, friends, and the specified group(s).`,
 	],
 
 	unblockpm: 'unblockpms',
@@ -925,7 +929,7 @@ export const commands: Chat.ChatCommands = {
 		}
 
 		let resultString = Utils.escapeHTML(Teams.export(team, {
-			hideStats, useStatPoints: toID(battle.format).includes('champions'),
+			hideStats, useStatPoints: toID(battle.format).includes('superchampions'),
 		}));
 		if (showAll) {
 			resultString = `<details><summary>${this.tr`View team`}</summary>${resultString}</details>`;
@@ -1459,7 +1463,7 @@ export const commands: Chat.ChatCommands = {
 		if (target) {
 			if (Config.laddermodchat && !Users.globalAuth.atLeast(user, Config.laddermodchat)) {
 				const groupName = Config.groups[Config.laddermodchat].name || Config.laddermodchat;
-				this.popupReply(this.tr`This server requires you to be rank ${groupName} or higher to search for a battle.`);
+				this.popupReply(this.tr`Error: You must be a Global ${groupName} (or higher) to search for a battle.`);
 				return false;
 			}
 			const ladder = Ladders(target);
@@ -1507,7 +1511,7 @@ export const commands: Chat.ChatCommands = {
 		}
 		if (Config.pmmodchat && !user.hasSysopAccess() && !Users.globalAuth.atLeast(user, Config.pmmodchat as GroupSymbol)) {
 			const groupName = Config.groups[Config.pmmodchat].name || Config.pmmodchat;
-			this.popupReply(this.tr`This server requires you to be rank ${groupName} or higher to challenge users.`);
+			this.popupReply(this.tr`Error: You must be a Global ${groupName} (or higher) to challenge users.`);
 			return false;
 		}
 		return Ladders(formatName).makeChallenge(connection, targetUser);

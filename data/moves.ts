@@ -70,7 +70,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Status",
 		name: "Acid Armor",
 		pp: 20,
-		priority: 0,
+		priority: 0.1,
 		flags: { snatch: 1, metronome: 1 },
 		boosts: {
 			def: 2,
@@ -79,6 +79,10 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Poison",
 		zMove: { effect: 'clearnegativeboost' },
 		contestType: "Tough",
+		onAfterMoveSecondarySelf(source, target, move) {
+			if (source.boosts.evasion < 1)
+				this.boost({ evasion: 1 }, source, source);
+		},
 	},
 	aciddownpour: {
 		num: 628,
@@ -168,10 +172,10 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	aerialace: {
 		num: 332,
 		accuracy: true,
-		basePower: 60,
+		basePower: 80,
 		category: "Physical",
 		name: "Aerial Ace",
-		pp: 20,
+		pp: 10,
 		priority: 0,
 		flags: { contact: 1, protect: 1, mirror: 1, distance: 1, metronome: 1, slicing: 1 },
 		target: "any",
@@ -235,8 +239,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	aircutter: {
 		num: 314,
-		accuracy: 95,
-		basePower: 60,
+		accuracy: 100,
+		basePower: 65,
 		category: "Special",
 		name: "Air Cutter",
 		pp: 25,
@@ -249,7 +253,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	airslash: {
 		num: 403,
-		accuracy: 95,
+		accuracy: 90,
 		basePower: 75,
 		category: "Special",
 		name: "Air Slash",
@@ -291,7 +295,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		secondary: {
 			chance: 100,
 			onHit(target, source, move) {
-				if (target?.statsRaisedThisTurn) {
+				if (target.positiveBoosts() > 0) {
 					target.addVolatile('confusion', source, move);
 				}
 			},
@@ -366,7 +370,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		priority: 0,
 		flags: { snatch: 1, metronome: 1 },
 		boosts: {
-			spd: 2,
+			spd: 3,
 		},
 		target: "self",
 		type: "Psychic",
@@ -406,11 +410,11 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			chance: 10,
 			self: {
 				boosts: {
-					atk: 1,
-					def: 1,
-					spa: 1,
-					spd: 1,
-					spe: 1,
+					atk: 2,
+					def: 2,
+					spa: 2,
+					spd: 2,
+					spe: 2,
 				},
 			},
 		},
@@ -510,8 +514,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	aquatail: {
 		num: 401,
-		accuracy: 90,
-		basePower: 90,
+		accuracy: 95,
+		basePower: 95,
 		category: "Physical",
 		name: "Aqua Tail",
 		pp: 10,
@@ -532,8 +536,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		flags: { protect: 1, mirror: 1 },
 		self: {
 			boosts: {
-				def: -1,
-				spd: -1,
+				def: -2,
+				spd: -2,
 			},
 		},
 		target: "normal",
@@ -591,14 +595,14 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	aromaticmist: {
 		num: 597,
 		accuracy: true,
-		basePower: 0,
+		basePower: 0.1,
 		category: "Status",
 		name: "Aromatic Mist",
 		pp: 20,
 		priority: 0,
 		flags: { bypasssub: 1, metronome: 1 },
 		boosts: {
-			spd: 1,
+			spd: 2,
 		},
 		target: "adjacentAlly",
 		type: "Fairy",
@@ -834,7 +838,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Status",
 		name: "Aurora Veil",
 		pp: 20,
-		priority: 0,
+		priority: 0.1,
 		flags: { snatch: 1, metronome: 1 },
 		sideCondition: 'auroraveil',
 		onTry() {
@@ -958,7 +962,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		priority: 1,
 		flags: { protect: 1, reflectable: 1, mirror: 1, allyanim: 1, metronome: 1 },
 		boosts: {
-			atk: -1,
+			atk: -2,
 		},
 		target: "normal",
 		type: "Fairy",
@@ -970,9 +974,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 95,
 		basePower: 80,
 		category: "Special",
-		isNonstandard: "LGPE",
 		name: "Baddy Bad",
-		pp: 15,
+		pp: 10,
 		priority: 0,
 		flags: { protect: 1, mirror: 1 },
 		self: {
@@ -1096,7 +1099,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Status",
 		name: "Baton Pass",
 		pp: 40,
-		priority: 0,
+		priority: -1,
 		flags: { metronome: 1 },
 		onHit(target) {
 			if (!this.canSwitch(target.side) || target.volatiles['commanded']) {
@@ -1337,7 +1340,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	bind: {
 		num: 20,
 		accuracy: 85,
-		basePower: 15,
+		basePower: 25,
 		category: "Physical",
 		name: "Bind",
 		pp: 20,
@@ -1413,7 +1416,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	},
 	blastburn: {
 		num: 307,
-		accuracy: 90,
+		accuracy: 100,
 		basePower: 150,
 		category: "Special",
 		name: "Blast Burn",
@@ -1699,6 +1702,41 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "allAdjacent",
 		type: "Normal",
 		contestType: "Tough",
+		onAfterHit(target, pokemon, move) {
+			if (!move.hasSheerForce) {
+				if (pokemon.removeVolatile('leechseed')) {
+					this.add('-end', pokemon, 'Leech Seed', '[from] move: Rapid Spin', `[of] ${pokemon}`);
+				}
+				const sideConditions = ['spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge'];
+				for (const condition of sideConditions) {
+					if (pokemon.side.removeSideCondition(condition)) {
+						this.add('-sideend', pokemon.side, this.dex.conditions.get(condition).name, '[from] move: Rapid Spin', `[of] ${pokemon}`);
+					}
+				}
+				if (pokemon.volatiles['partiallytrapped']) {
+					pokemon.removeVolatile('partiallytrapped');
+				}
+			}
+		},
+		onAfterSubDamage(damage, target, pokemon, move) {
+			if (!move.hasSheerForce) {
+				if (pokemon.hp && pokemon.removeVolatile('leechseed')) {
+					this.add('-end', pokemon, 'Leech Seed', '[from] move: Rapid Spin', `[of] ${pokemon}`);
+				}
+				const sideConditions = ['spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge'];
+				for (const condition of sideConditions) {
+					if (pokemon.hp && pokemon.side.removeSideCondition(condition)) {
+						this.add('-sideend', pokemon.side, this.dex.conditions.get(condition).name, '[from] move: Rapid Spin', `[of] ${pokemon}`);
+					}
+				}
+				if (pokemon.hp && pokemon.volatiles['partiallytrapped']) {
+					pokemon.removeVolatile('partiallytrapped');
+				}
+			}
+		},
+		onHit(target) {
+			if (target.status === 'slp') target.cureStatus();
+		},
 	},
 	bounce: {
 		num: 340,
@@ -1707,7 +1745,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Physical",
 		name: "Bounce",
 		pp: 5,
-		priority: 0,
+		priority: 1,
 		flags: {
 			contact: 1, charge: 1, protect: 1, mirror: 1, gravity: 1, distance: 1,
 			metronome: 1, nosleeptalk: 1, noassist: 1, failinstruct: 1,
@@ -1750,7 +1788,6 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 100,
 		basePower: 60,
 		category: "Special",
-		isNonstandard: "LGPE",
 		name: "Bouncy Bubble",
 		pp: 20,
 		priority: 0,
@@ -1868,6 +1905,38 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "allAdjacent",
 		type: "Dark",
 		contestType: "Tough",
+		onAfterHit(target, pokemon, move) {
+			if (!move.hasSheerForce) {
+				if (pokemon.removeVolatile('leechseed')) {
+					this.add('-end', pokemon, 'Leech Seed', '[from] move: Rapid Spin', `[of] ${pokemon}`);
+				}
+				const sideConditions = ['spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge'];
+				for (const condition of sideConditions) {
+					if (pokemon.side.removeSideCondition(condition)) {
+						this.add('-sideend', pokemon.side, this.dex.conditions.get(condition).name, '[from] move: Rapid Spin', `[of] ${pokemon}`);
+					}
+				}
+				if (pokemon.volatiles['partiallytrapped']) {
+					pokemon.removeVolatile('partiallytrapped');
+				}
+			}
+		},
+		onAfterSubDamage(damage, target, pokemon, move) {
+			if (!move.hasSheerForce) {
+				if (pokemon.hp && pokemon.removeVolatile('leechseed')) {
+					this.add('-end', pokemon, 'Leech Seed', '[from] move: Rapid Spin', `[of] ${pokemon}`);
+				}
+				const sideConditions = ['spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge'];
+				for (const condition of sideConditions) {
+					if (pokemon.hp && pokemon.side.removeSideCondition(condition)) {
+						this.add('-sideend', pokemon.side, this.dex.conditions.get(condition).name, '[from] move: Rapid Spin', `[of] ${pokemon}`);
+					}
+				}
+				if (pokemon.hp && pokemon.volatiles['partiallytrapped']) {
+					pokemon.removeVolatile('partiallytrapped');
+				}
+			}
+		},
 	},
 	bubble: {
 		num: 145,
@@ -1950,6 +2019,15 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "normal",
 		type: "Bug",
 		contestType: "Beautiful",
+		onTryHit(target) {
+			const activeTeam = target.side.activeTeam();
+			const foeActiveTeam = target.side.foe.activeTeam();
+			for (const [i, allyActive] of activeTeam.entries()) {
+				if (allyActive && allyActive.status === 'slp') allyActive.cureStatus();
+				const foeActive = foeActiveTeam[i];
+				if (foeActive && foeActive.status === 'slp') foeActive.cureStatus();
+			}
+		},
 	},
 	bulkup: {
 		num: 339,
@@ -1987,6 +2065,38 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		target: "allAdjacent",
 		type: "Ground",
 		contestType: "Tough",
+		onAfterHit(target, pokemon, move) {
+			if (!move.hasSheerForce) {
+				if (pokemon.removeVolatile('leechseed')) {
+					this.add('-end', pokemon, 'Leech Seed', '[from] move: Rapid Spin', `[of] ${pokemon}`);
+				}
+				const sideConditions = ['spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge'];
+				for (const condition of sideConditions) {
+					if (pokemon.side.removeSideCondition(condition)) {
+						this.add('-sideend', pokemon.side, this.dex.conditions.get(condition).name, '[from] move: Rapid Spin', `[of] ${pokemon}`);
+					}
+				}
+				if (pokemon.volatiles['partiallytrapped']) {
+					pokemon.removeVolatile('partiallytrapped');
+				}
+			}
+		},
+		onAfterSubDamage(damage, target, pokemon, move) {
+			if (!move.hasSheerForce) {
+				if (pokemon.hp && pokemon.removeVolatile('leechseed')) {
+					this.add('-end', pokemon, 'Leech Seed', '[from] move: Rapid Spin', `[of] ${pokemon}`);
+				}
+				const sideConditions = ['spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge'];
+				for (const condition of sideConditions) {
+					if (pokemon.hp && pokemon.side.removeSideCondition(condition)) {
+						this.add('-sideend', pokemon.side, this.dex.conditions.get(condition).name, '[from] move: Rapid Spin', `[of] ${pokemon}`);
+					}
+				}
+				if (pokemon.hp && pokemon.volatiles['partiallytrapped']) {
+					pokemon.removeVolatile('partiallytrapped');
+				}
+			}
+		},
 	},
 	bulletpunch: {
 		num: 418,
@@ -2080,7 +2190,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		secondary: {
 			chance: 100,
 			onHit(target, source, move) {
-				if (target?.statsRaisedThisTurn) {
+				if (target.positiveBoosts() > 0) {
 					target.trySetStatus('brn', source, move);
 				}
 			},
@@ -2120,7 +2230,6 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 100,
 		basePower: 60,
 		category: "Special",
-		isNonstandard: "LGPE",
 		name: "Buzzy Buzz",
 		pp: 20,
 		priority: 0,
@@ -2346,7 +2455,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		priority: 0,
 		flags: { protect: 1, reflectable: 1, mirror: 1, allyanim: 1, metronome: 1 },
 		boosts: {
-			atk: -2,
+			atk: -3,
 		},
 		target: "normal",
 		type: "Fairy",
@@ -2450,7 +2559,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	circlethrow: {
 		num: 509,
 		accuracy: 90,
-		basePower: 60,
+		basePower: 80,
 		category: "Physical",
 		name: "Circle Throw",
 		pp: 10,
@@ -2578,8 +2687,8 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		flags: { contact: 1, protect: 1, mirror: 1, metronome: 1 },
 		self: {
 			boosts: {
-				def: -1,
-				spd: -1,
+				def: -2,
+				spd: -2,
 			},
 		},
 		target: "normal",
@@ -2938,7 +3047,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Status",
 		name: "Cosmic Power",
 		pp: 20,
-		priority: 0,
+		priority: 0.1,
 		flags: { snatch: 1, metronome: 1 },
 		boosts: {
 			def: 1,
@@ -2956,7 +3065,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Status",
 		name: "Cotton Guard",
 		pp: 10,
-		priority: 0,
+		priority: 0.1,
 		flags: { snatch: 1, metronome: 1 },
 		boosts: {
 			def: 3,
@@ -3098,7 +3207,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 	covet: {
 		num: 343,
 		accuracy: 100,
-		basePower: 60,
+		basePower: 30,
 		category: "Physical",
 		name: "Covet",
 		pp: 25,
@@ -3214,7 +3323,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		secondary: {
 			chance: 20,
 			boosts: {
-				def: -1,
+				def: -2,
 			},
 		},
 		target: "normal",
@@ -3455,7 +3564,9 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		flags: { protect: 1, reflectable: 1, mirror: 1, bypasssub: 1, metronome: 1 },
 		onHit(target, source, move) {
 			let success = false;
-			if (!target.volatiles['substitute'] || move.infiltrates) success = !!this.boost({ evasion: -1 });
+			if (!target.volatiles['substitute'] || move.infiltrates)
+				success = true,
+				target.setBoost({ evasion: -1 });
 			const removeAll = ['spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge'];
 			const removeTarget = ['reflect', 'lightscreen', 'auroraveil', 'safeguard', 'mist', ...removeAll];
 			for (const targetCondition of removeTarget) {
@@ -3486,7 +3597,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Status",
 		name: "Destiny Bond",
 		pp: 5,
-		priority: 0,
+		priority: 0.1,
 		flags: { bypasssub: 1, noassist: 1, failcopycat: 1 },
 		volatileStatus: 'destinybond',
 		onPrepareHit(pokemon) {
@@ -3494,8 +3605,9 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		},
 		condition: {
 			noCopy: true, // doesn't get copied by Baton Pass
+			duration: 1,
 			onStart(pokemon) {
-				this.add('-singlemove', pokemon, 'Destiny Bond');
+				this.add('-singleturn', pokemon, 'Destiny Bond');
 			},
 			onFaint(target, source, effect) {
 				if (!source || !effect || target.isAlly(source)) return;
@@ -5802,7 +5914,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 95,
 		basePower: 90,
 		category: "Physical",
-		isNonstandard: "LGPE",
+		
 		name: "Floaty Fall",
 		pp: 15,
 		priority: 0,
@@ -6224,7 +6336,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 90,
 		basePower: 100,
 		category: "Special",
-		isNonstandard: "LGPE",
+		
 		name: "Freezy Frost",
 		pp: 10,
 		priority: 0,
@@ -6696,7 +6808,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 95,
 		basePower: 80,
 		category: "Special",
-		isNonstandard: "LGPE",
+		
 		name: "Glitzy Glow",
 		pp: 15,
 		priority: 0,
@@ -8073,7 +8185,6 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
-		isNonstandard: "Past",
 		name: "Hail",
 		pp: 10,
 		priority: 0,
@@ -13366,7 +13477,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			return bp;
 		},
 		category: "Special",
-		isNonstandard: "LGPE",
+		
 		name: "Pika Papow",
 		pp: 20,
 		priority: 0,
@@ -15736,7 +15847,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 90,
 		basePower: 100,
 		category: "Physical",
-		isNonstandard: "LGPE",
+		
 		name: "Sappy Seed",
 		pp: 10,
 		priority: 0,
@@ -16543,7 +16654,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 100,
 		basePower: 60,
 		category: "Physical",
-		isNonstandard: "LGPE",
+		
 		name: "Sizzly Slide",
 		pp: 20,
 		priority: 0,
@@ -17396,7 +17507,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 85,
 		basePower: 120,
 		category: "Special",
-		isNonstandard: "LGPE",
+		
 		name: "Sparkly Swirl",
 		pp: 5,
 		priority: 0,
@@ -17737,7 +17848,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 100,
 		basePower: 90,
 		category: "Special",
-		isNonstandard: "LGPE",
+		
 		name: "Splishy Splash",
 		pp: 15,
 		priority: 0,
@@ -20334,7 +20445,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			return bp;
 		},
 		category: "Physical",
-		isNonstandard: "LGPE",
+		
 		name: "Veevee Volley",
 		pp: 20,
 		priority: 0,
@@ -21226,7 +21337,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		accuracy: 100,
 		basePower: 80,
 		category: "Physical",
-		isNonstandard: "LGPE",
+		
 		name: "Zippy Zap",
 		pp: 10,
 		priority: 2,

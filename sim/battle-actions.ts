@@ -1819,7 +1819,7 @@ export class BattleActions {
 
 		if (pokemon.status === 'brn' && move.category === 'Physical' && !pokemon.hasAbility('guts')) {
 			if (this.battle.gen < 6 || move.id !== 'facade') {
-				baseDamage = this.battle.modify(baseDamage, 0.5);
+				baseDamage = this.battle.modify(baseDamage, 0.75);
 			}
 		}
 

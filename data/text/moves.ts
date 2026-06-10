@@ -44,8 +44,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	acidarmor: {
 		name: "Acid Armor",
-		desc: "Raises the user's Defense by 2 stages.",
-		shortDesc: "Raises the user's Defense by 2.",
+		desc: "Raises the user's Defense by 3 stages, and Evasion by 1 stage if the user has no positive evasion boosts.",
+		shortDesc: "Raises the user's Defense by 3, Evasion by 1 if no eva boost.",
 	},
 	aciddownpour: {
 		name: "Acid Downpour",
@@ -105,8 +105,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	alluringvoice: {
 		name: "Alluring Voice",
-		desc: "Has a 100% chance to confuse the target if it had a stat stage raised this turn.",
-		shortDesc: "100% confuse target that had a stat rise this turn.",
+		desc: "Has a 100% chance to confuse the target if it has stat stage raises.",
+		shortDesc: "100% confuse target that has a stat rise.",
 	},
 	allyswitch: {
 		name: "Ally Switch",
@@ -140,8 +140,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	ancientpower: {
 		name: "Ancient Power",
-		desc: "Has a 10% chance to raise the user's Attack, Defense, Special Attack, Special Defense, and Speed by 1 stage.",
-		shortDesc: "10% chance to raise all stats by 1 (not acc/eva).",
+		desc: "Has a 10% chance to raise the user's Attack, Defense, Special Attack, Special Defense, and Speed by 2 stages.",
+		shortDesc: "20% chance to raise all stats by 1 (not acc/eva).",
 	},
 	appleacid: {
 		name: "Apple Acid",
@@ -177,8 +177,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	armorcannon: {
 		name: "Armor Cannon",
-		desc: "Lowers the user's Defense and Special Defense by 1 stage.",
-		shortDesc: "Lowers the user's Defense and Sp. Def by 1.",
+		desc: "Lowers the user's Defense and Special Defense by 2 stages.",
+		shortDesc: "Lowers the user's Defense and Sp. Def by 2.",
 	},
 	armthrust: {
 		name: "Arm Thrust",
@@ -206,8 +206,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	aromaticmist: {
 		name: "Aromatic Mist",
-		desc: "Raises the target's Special Defense by 1 stage. Fails if there is no ally adjacent to the user.",
-		shortDesc: "Raises an ally's Sp. Def by 1.",
+		desc: "Raises the target's Special Defense by 2 stages. Fails if there is no ally adjacent to the user.",
+		shortDesc: "Raises an ally's Sp. Def by 2.",
 	},
 	assist: {
 		name: "Assist",
@@ -330,8 +330,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	babydolleyes: {
 		name: "Baby-Doll Eyes",
-		desc: "Lowers the target's Attack by 1 stage.",
-		shortDesc: "Lowers the target's Attack by 1.",
+		desc: "Lowers the target's Attack by 2 stages.",
+		shortDesc: "Lowers the target's Attack by 2.",
 	},
 	baddybad: {
 		name: "Baddy Bad",
@@ -662,8 +662,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	boomburst: {
 		name: "Boomburst",
-		desc: "No additional effect.",
-		shortDesc: "No additional effect. Hits adjacent Pokemon.",
+		desc: "If this move is successful and the user has not fainted, the effects of Leech Seed and binding moves end for the user, and all hazards are removed from the user's side of the field.",
+		shortDesc: "Hits adjacent Pokemon. Clears hazards + trapping.",
 	},
 	bounce: {
 		name: "Bounce",
@@ -733,8 +733,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	brutalswing: {
 		name: "Brutal Swing",
-		desc: "No additional effect.",
-		shortDesc: "No additional effect. Hits adjacent Pokemon.",
+		desc: "If this move is successful and the user has not fainted, the effects of Leech Seed and binding moves end for the user, and all hazards are removed from the user's side of the field.",
+		shortDesc: "Hits adjacent Pokemon. Clears hazards + trapping.",
 	},
 	bubble: {
 		name: "Bubble",
@@ -769,8 +769,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	bugbuzz: {
 		name: "Bug Buzz",
-		desc: "Has a 10% chance to lower the target's Special Defense by 1 stage.",
-		shortDesc: "10% chance to lower the target's Sp. Def by 1.",
+		desc: "Has a 10% chance to lower the target's Special Defense by 1 stage. Any active Pokemon that are asleep wake up.",
+		shortDesc: "10% chance to lower the target's Sp. Def by 1. Slp wake up.",
 	},
 	bulkup: {
 		name: "Bulk Up",
@@ -779,8 +779,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	bulldoze: {
 		name: "Bulldoze",
-		desc: "Has a 100% chance to lower the target's Speed by 1 stage.",
-		shortDesc: "100% chance lower adjacent Pkmn Speed by 1.",
+		desc: "If this move is successful and the user has not fainted, the effects of Leech Seed and binding moves end for the user, and all hazards are removed from the user's side of the field. Lowers target's Speed by 1 stage.",
+		shortDesc: "Free user from hazards/bind/Leech Seed; -1 Spe to targets.",
 	},
 	bulletpunch: {
 		name: "Bullet Punch",
@@ -808,8 +808,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	burningjealousy: {
 		name: "Burning Jealousy",
-		desc: "Has a 100% chance to burn the target if it had a stat stage raised this turn.",
-		shortDesc: "100% burns a target that had a stat rise this turn.",
+		desc: "Has a 100% chance to burn the target if it has positive stat stage changes.",
+		shortDesc: "Burns the target if it has raised stats.",
 	},
 	burnup: {
 		name: "Burn Up",
@@ -892,8 +892,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	charm: {
 		name: "Charm",
-		desc: "Lowers the target's Attack by 2 stages.",
-		shortDesc: "Lowers the target's Attack by 2.",
+		desc: "Lowers the target's Attack by 3 stages.",
+		shortDesc: "Lowers the target's Attack by 3.",
 	},
 	chatter: {
 		name: "Chatter",
@@ -984,8 +984,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	closecombat: {
 		name: "Close Combat",
-		desc: "Lowers the user's Defense and Special Defense by 1 stage.",
-		shortDesc: "Lowers the user's Defense and Sp. Def by 1.",
+		desc: "Lowers the user's Defense and Special Defense by 2 stages.",
+		shortDesc: "Lowers the user's Defense and Sp. Def by 2.",
 	},
 	coaching: {
 		name: "Coaching",
@@ -1136,8 +1136,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	cosmicpower: {
 		name: "Cosmic Power",
-		desc: "Raises the user's Defense and Special Defense by 1 stage.",
-		shortDesc: "Raises the user's Defense and Sp. Def by 1.",
+		desc: "Raises the user's Defense and Special Defense by 2 stages.",
+		shortDesc: "Raises the user's Defense and Sp. Def by 2.",
 	},
 	cottonguard: {
 		name: "Cotton Guard",
@@ -1219,8 +1219,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	crunch: {
 		name: "Crunch",
-		desc: "Has a 20% chance to lower the target's Defense by 1 stage.",
-		shortDesc: "20% chance to lower the target's Defense by 1.",
+		desc: "Has a 20% chance to lower the target's Defense by 2 stages.",
+		shortDesc: "20% chance to lower the target's Defense by 2.",
 		gen3: {
 			desc: "Has a 20% chance to lower the target's Special Defense by 1 stage.",
 			shortDesc: "20% chance to lower the target's Sp. Def by 1.",
@@ -1307,8 +1307,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	defog: {
 		name: "Defog",
-		desc: "Lowers the target's evasiveness by 1 stage. If this move is successful and whether or not the target's evasiveness was affected, the effects of Reflect, Light Screen, Aurora Veil, Safeguard, Mist, Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the target's side, and the effects of Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the user's side. Ignores a target's substitute, although a substitute will still block the lowering of evasiveness. If there is a terrain active and this move is successful, the terrain will be cleared.",
-		shortDesc: "-1 evasion; ends user and target hazards/terrain.",
+		desc: "Sets the target's evasiveness to -1 stage. If this move is successful and whether or not the target's evasiveness was affected, the effects of Reflect, Light Screen, Aurora Veil, Safeguard, Mist, Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the target's side, and the effects of Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the user's side. Ignores a target's substitute, although a substitute will still block the lowering of evasiveness. If there is a terrain active and this move is successful, the terrain will be cleared.",
+		shortDesc: "Sets -1 evasion; ends user and target hazards/terrain.",
 		gen7: {
 			desc: "Lowers the target's evasiveness by 1 stage. If this move is successful and whether or not the target's evasiveness was affected, the effects of Reflect, Light Screen, Aurora Veil, Safeguard, Mist, Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the target's side, and the effects of Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the user's side. Ignores a target's substitute, although a substitute will still block the lowering of evasiveness.",
 			shortDesc: "-1 evasion; clears user and target side's hazards.",

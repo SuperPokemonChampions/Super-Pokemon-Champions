@@ -69,7 +69,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 	regenerator: {
 		inherit: true,
 		onSwitchOut(pokemon) {
-			if (pokemon.heal(pokemon.baseMaxhp / 3)) {
+			if (pokemon.heal(pokemon.baseMaxhp / 6)) {
 				this.add('-heal', pokemon, pokemon.getHealth, '[from] ability: Regenerator', '[silent]');
 			}
 		},

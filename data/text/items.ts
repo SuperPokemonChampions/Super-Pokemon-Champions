@@ -685,7 +685,7 @@ export const ItemsText: { [id: IDEntry]: ItemText } = {
 	},
 	focusband: {
 		name: "Focus Band",
-		shortDesc: "Holder has a 10% chance to survive an attack that would KO it with 1 HP.",
+		shortDesc: "Holder has a 15% chance to survive an attack that would KO it with 1 HP.",
 		gen2: {
 			shortDesc: "Holder has a ~11.7% chance to survive an attack that would KO it with 1 HP.",
 		},
@@ -1781,7 +1781,7 @@ export const ItemsText: { [id: IDEntry]: ItemText } = {
 	},
 	shellbell: {
 		name: "Shell Bell",
-		shortDesc: "After an attack, holder gains 1/8 of the damage in HP dealt to other Pokemon.",
+		shortDesc: "After an attack, holder gains 1/6 of the damage in HP dealt to other Pokemon.",
 
 		heal: "  [POKEMON] restored a little HP using its Shell Bell!",
 	},

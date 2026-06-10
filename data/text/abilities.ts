@@ -5,8 +5,8 @@ export const AbilitiesText: { [id: IDEntry]: AbilityText } = {
 	},
 	adaptability: {
 		name: "Adaptability",
-		desc: "This Pokemon's moves that match one of its types have a same-type attack bonus (STAB) of 2 instead of 1.5.",
-		shortDesc: "This Pokemon's same-type attack bonus (STAB) is 2 instead of 1.5.",
+		desc: "This Pokemon's moves that match one of its types have a same-type attack bonus (STAB) of 0.75 instead of 1.5.",
+		shortDesc: "This Pokemon's same-type attack bonus (STAB) is 1.75 instead of 1.5.",
 	},
 	aerilate: {
 		name: "Aerilate",
@@ -626,8 +626,8 @@ export const AbilitiesText: { [id: IDEntry]: AbilityText } = {
 	},
 	guts: {
 		name: "Guts",
-		desc: "If this Pokemon has a non-volatile status condition, its Attack is multiplied by 1.5. This Pokemon's physical attacks ignore the burn effect of halving damage.",
-		shortDesc: "If this Pokemon is statused, its Attack is 1.5x; ignores burn halving physical damage.",
+		desc: "If this Pokemon has a non-volatile status condition, its Attack is multiplied by 1.25. This Pokemon's physical attacks ignore the burn effect of halving damage.",
+		shortDesc: "If this Pokemon is statused, its Attack is 1.25x; ignores burn halving physical damage.",
 	},
 	hadronengine: {
 		name: "Hadron Engine",
@@ -682,7 +682,7 @@ export const AbilitiesText: { [id: IDEntry]: AbilityText } = {
 	},
 	hugepower: {
 		name: "Huge Power",
-		shortDesc: "This Pokemon's Attack is doubled.",
+		shortDesc: "This Pokemon's Attack is doubled if the last move used wasn't Physical.",
 	},
 	hungerswitch: {
 		name: "Hunger Switch",
@@ -1074,7 +1074,7 @@ export const AbilitiesText: { [id: IDEntry]: AbilityText } = {
 	},
 	multiscale: {
 		name: "Multiscale",
-		shortDesc: "If this Pokemon is at full HP, damage taken from attacks is halved.",
+		shortDesc: "If this Pokemon is at full HP, non-super-effective damage taken from attacks is halved.",
 	},
 	multitype: {
 		name: "Multitype",
@@ -1399,7 +1399,7 @@ export const AbilitiesText: { [id: IDEntry]: AbilityText } = {
 	},
 	purepower: {
 		name: "Pure Power",
-		shortDesc: "This Pokemon's Attack is doubled.",
+		shortDesc: "This Pokemon's Attack is doubled if the last move used wasn't Physical.",
 	},
 	purifyingsalt: {
 		name: "Purifying Salt",
@@ -1483,7 +1483,7 @@ export const AbilitiesText: { [id: IDEntry]: AbilityText } = {
 	},
 	regenerator: {
 		name: "Regenerator",
-		shortDesc: "This Pokemon restores 1/3 of its maximum HP, rounded down, when it switches out.",
+		shortDesc: "This Pokemon restores 1/6 of its maximum HP, rounded down, when it switches out.",
 	},
 	ripen: {
 		name: "Ripen",

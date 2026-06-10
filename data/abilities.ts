@@ -46,7 +46,7 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 				if (stab === 2) {
 					return 2.25;
 				}
-				return 2;
+				return 1.75;
 			}
 		},
 		flags: {},
@@ -1726,7 +1726,7 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, pokemon) {
 			if (pokemon.status) {
-				return this.chainModify(1.5);
+				return this.chainModify(1.25);
 			}
 		},
 		flags: {},
@@ -1840,8 +1840,14 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 	},
 	hugepower: {
 		onModifyAtkPriority: 5,
-		onModifyAtk(atk) {
-			return this.chainModify(2);
+		onModifyAtk(atk, pokemon, move) {
+			let willBoost = 0;
+			if (pokemon.lastMoveUsed?.category === 'Physical' && willBoost === 1) {
+				willBoost =0;
+			} else {
+				willBoost === 1;
+				return this.chainModify(2);
+			};
 		},
 		flags: {},
 		name: "Huge Power",
@@ -2714,7 +2720,7 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 	},
 	multiscale: {
 		onSourceModifyDamage(damage, source, target, move) {
-			if (target.hp >= target.maxhp) {
+			if (target.hp >= target.maxhp && target.runEffectiveness(move) <= 1) {
 				this.debug('Multiscale weaken');
 				return this.chainModify(0.5);
 			}
@@ -3562,8 +3568,14 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 	},
 	purepower: {
 		onModifyAtkPriority: 5,
-		onModifyAtk(atk) {
-			return this.chainModify(2);
+		onModifyAtk(atk, pokemon, move) {
+			let willBoost = 0;
+			if (pokemon.lastMoveUsed?.category === 'Physical' && willBoost === 1) {
+				willBoost =0;
+			} else {
+				willBoost === 1;
+				return this.chainModify(2);
+			};
 		},
 		flags: {},
 		name: "Pure Power",

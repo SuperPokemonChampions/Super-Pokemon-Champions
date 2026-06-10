@@ -2253,7 +2253,7 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		},
 		onDamagePriority: -40,
 		onDamage(damage, target, source, effect) {
-			if (this.randomChance(1, 10) && damage >= target.hp && effect && effect.effectType === 'Move') {
+			if (this.randomChance(1, 15) && damage >= target.hp && effect && effect.effectType === 'Move') {
 				this.add("-activate", target, "item: Focus Band");
 				return target.hp - 1;
 			}
@@ -3405,7 +3405,7 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		onModifyDamage(damage, source, target, move) {
 			return this.chainModify([5324, 4096]);
 		},
-		onAfterMoveSecondarySelf(source, target, move) {
+		onAfterMove(source, target, move) {
 			if (source && source !== target && move && move.category !== 'Status' && !source.forceSwitchFlag) {
 				this.damage(source.baseMaxhp / 10, source, source, this.dex.items.get('lifeorb'));
 			}
@@ -3432,7 +3432,7 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 				return this.chainModify(2);
 			}
 		},
-		itemUser: ["Pikachu", "Pikachu-Cosplay", "Pikachu-Rock-Star", "Pikachu-Belle", "Pikachu-Pop-Star", "Pikachu-PhD", "Pikachu-Libre", "Pikachu-Original", "Pikachu-Hoenn", "Pikachu-Sinnoh", "Pikachu-Unova", "Pikachu-Kalos", "Pikachu-Alola", "Pikachu-Partner", "Pikachu-Starter", "Pikachu-World"],
+		itemUser: ["Pikachu", "Pikachu-Cosplay", "Pikachu-Rock-Star", "Pikachu-Belle", "Pikachu-Pop-Star", "Pikachu-PhD", "Pikachu-Libre", "Pikachu-Original", "Pikachu-Hoenn", "Pikachu-Sinnoh", "Pikachu-Unova", "Pikachu-Kalos", "Pikachu-Alola", "Pikachu-Partner", "Pikachu-World"],
 		num: 236,
 		gen: 2,
 	},
@@ -5651,7 +5651,7 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		onAfterMoveSecondarySelfPriority: -1,
 		onAfterMoveSecondarySelf(pokemon, target, move) {
 			if (move.totalDamage && !pokemon.forceSwitchFlag) {
-				this.heal(move.totalDamage / 8, pokemon);
+				this.heal(move.totalDamage / 6, pokemon);
 			}
 		},
 		num: 253,

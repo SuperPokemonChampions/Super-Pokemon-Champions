@@ -1843,7 +1843,7 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		onModifyAtk(atk, pokemon, move) {
 			let willBoost = 0;
 			if (pokemon.lastMoveUsed?.category === 'Physical' && willBoost === 1) {
-				willBoost =0;
+				willBoost = 0;
 			} else {
 				willBoost === 1;
 				return this.chainModify(2);
@@ -3571,7 +3571,7 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		onModifyAtk(atk, pokemon, move) {
 			let willBoost = 0;
 			if (pokemon.lastMoveUsed?.category === 'Physical' && willBoost === 1) {
-				willBoost =0;
+				willBoost = 0;
 			} else {
 				willBoost === 1;
 				return this.chainModify(2);

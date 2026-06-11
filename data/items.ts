@@ -1868,13 +1868,13 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		},
 		onModifyDefPriority: 2,
 		onModifyDef(def, pokemon) {
-			if (pokemon.baseSpecies.nfe) {
+			if (pokemon.baseSpecies.nfe && !pokemon.baseSpecies.canteviolite) {
 				return this.chainModify(1.5);
 			}
 		},
 		onModifySpDPriority: 2,
 		onModifySpD(spd, pokemon) {
-			if (pokemon.baseSpecies.nfe) {
+			if (pokemon.baseSpecies.nfe && !pokemon.baseSpecies.canteviolite) {
 				return this.chainModify(1.5);
 			}
 		},

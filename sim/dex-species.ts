@@ -163,6 +163,8 @@ export class Species extends BasicEffect implements Readonly<BasicEffect & Speci
 	 * species and forme.
 	 */
 	readonly spriteid: string;
+	/** Can't use Eviolite even if NFE. */
+	readonly canteviolite: true | undefined;
 	/** Abilities. */
 	readonly abilities: SpeciesAbility;
 	/** Types. */

@@ -3701,7 +3701,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		category: "Physical",
 		name: "Dig",
 		pp: 10,
-		priority: 0,
+		priority: 0.1,
 		flags: {
 			contact: 1, charge: 1, protect: 1, mirror: 1,
 			nonsky: 1, metronome: 1, nosleeptalk: 1, noassist: 1, failinstruct: 1,
@@ -3750,7 +3750,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		secondary: {
 			chance: 50,
 			onHit(target, source) {
-				const status = this.sample(['psn', 'par', 'slp']);
+				const status = this.sample(['psn', 'par', 'yawn']);
 				target.trySetStatus(status, source);
 			},
 		},

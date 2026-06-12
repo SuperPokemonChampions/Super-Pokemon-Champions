@@ -143,6 +143,7 @@ export interface MoveEventMethods {
 }
 
 export interface MoveData extends EffectData, MoveEventMethods, HitEffect {
+
 	name: string;
 	/** move index number, used for Metronome rolls */
 	num?: number;

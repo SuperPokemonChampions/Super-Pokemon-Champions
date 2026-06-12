@@ -3585,7 +3585,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			this.field.clearTerrain();
 			return success;
 		},
-		target: "normal",
+		target: "allAdjacentFoes",
 		type: "Flying",
 		zMove: { boost: { accuracy: 1 } },
 		contestType: "Cool",
@@ -3645,12 +3645,44 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		priority: 4,
 		flags: { noassist: 1, failcopycat: 1 },
 		stallingMove: true,
-		volatileStatus: 'protect',
+		volatileStatus: 'detect',
 		onPrepareHit(pokemon) {
 			return !!this.queue.willAct() && this.runEvent('StallMove', pokemon);
 		},
 		onHit(pokemon) {
 			pokemon.addVolatile('stall');
+		},
+		condition: {
+			duration: 1,
+			onStart(target) {
+				this.add('-singleturn', target, 'move: Protect');
+			},
+			onTryHitPriority: 3,
+			onTryHit(target, source, move) {
+				if (this.checkMoveBypassesProtect(move, source, target, false)) return;
+				if (move.smartTarget) {
+					move.smartTarget = false;
+				} else {
+					this.add('-activate', target, 'move: Protect');
+				}
+				const lockedmove = source.getVolatile('lockedmove');
+				if (lockedmove) {
+					// Outrage counter is reset
+					if (source.volatiles['lockedmove'].duration === 2) {
+						delete source.volatiles['lockedmove'];
+					}
+				}
+				if (this.checkMoveMakesContact(move, source, target)) {
+					source.trySetStatus('brn', target);
+				}
+				return this.NOT_FAIL;
+			},
+			onHit(target, source, move) {
+				if (move.isZOrMaxPowered && this.checkMoveMakesContact(move, source, target) &&
+				this.format.gameType === 'singles') {
+					target.shouldPriority = true;
+				}
+			},
 		},
 		target: "self",
 		type: "Fighting",
@@ -3848,6 +3880,38 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		pp: 15,
 		priority: 0,
 		flags: { protect: 1, mirror: 1, metronome: 1 },
+		onAfterHit(target, pokemon, move) {
+			if (!move.hasSheerForce) {
+				if (pokemon.removeVolatile('leechseed')) {
+					this.add('-end', pokemon, 'Leech Seed', '[from] move: Rapid Spin', `[of] ${pokemon}`);
+				}
+				const sideConditions = ['spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge'];
+				for (const condition of sideConditions) {
+					if (pokemon.side.removeSideCondition(condition)) {
+						this.add('-sideend', pokemon.side, this.dex.conditions.get(condition).name, '[from] move: Rapid Spin', `[of] ${pokemon}`);
+					}
+				}
+				if (pokemon.volatiles['partiallytrapped']) {
+					pokemon.removeVolatile('partiallytrapped');
+				}
+			}
+		},
+		onAfterSubDamage(damage, target, pokemon, move) {
+			if (!move.hasSheerForce) {
+				if (pokemon.hp && pokemon.removeVolatile('leechseed')) {
+					this.add('-end', pokemon, 'Leech Seed', '[from] move: Rapid Spin', `[of] ${pokemon}`);
+				}
+				const sideConditions = ['spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge'];
+				for (const condition of sideConditions) {
+					if (pokemon.hp && pokemon.side.removeSideCondition(condition)) {
+						this.add('-sideend', pokemon.side, this.dex.conditions.get(condition).name, '[from] move: Rapid Spin', `[of] ${pokemon}`);
+					}
+				}
+				if (pokemon.hp && pokemon.volatiles['partiallytrapped']) {
+					pokemon.removeVolatile('partiallytrapped');
+				}
+			}
+		},
 		secondary: {
 			chance: 30,
 			status: 'par',

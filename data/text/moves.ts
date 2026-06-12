@@ -1307,8 +1307,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	defog: {
 		name: "Defog",
-		desc: "Sets the target's evasiveness to -1 stage. If this move is successful and whether or not the target's evasiveness was affected, the effects of Reflect, Light Screen, Aurora Veil, Safeguard, Mist, Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the target's side, and the effects of Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the user's side. Ignores a target's substitute, although a substitute will still block the lowering of evasiveness. If there is a terrain active and this move is successful, the terrain will be cleared.",
-		shortDesc: "Sets -1 evasion; ends user and target hazards/terrain.",
+		desc: "Sets the target's evasiveness to -1 stage. If this move is successful and whether or not the target's evasiveness was affected, the effects of Reflect, Light Screen, Aurora Veil, Safeguard, Mist, Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the target's side, and the effects of Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the user's side. Ignores a target's substitute, although a substitute will still block the lowering of evasiveness. If there is a terrain active and this move is successful, the terrain will be cleared. Hits all adjacent opponents.",
+		shortDesc: "Sets -1 evasion; ends user and target hazards/terrain. Hits both foes.",
 		gen7: {
 			desc: "Lowers the target's evasiveness by 1 stage. If this move is successful and whether or not the target's evasiveness was affected, the effects of Reflect, Light Screen, Aurora Veil, Safeguard, Mist, Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the target's side, and the effects of Spikes, Toxic Spikes, Stealth Rock, and Sticky Web end for the user's side. Ignores a target's substitute, although a substitute will still block the lowering of evasiveness.",
 			shortDesc: "-1 evasion; clears user and target side's hazards.",
@@ -1440,8 +1440,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	discharge: {
 		name: "Discharge",
-		desc: "Has a 30% chance to paralyze the target.",
-		shortDesc: "30% chance to paralyze adjacent Pokemon.",
+		desc: "If this move is successful and the user has not fainted, the effects of Leech Seed and binding moves end for the user, and all hazards are removed from the user's side of the field. Has a 30% chance to paralyze target(s).",
+		shortDesc: "Free user from hazards/bind/Leech Seed; 30% prz.",
 	},
 	dive: {
 		name: "Dive",

@@ -71,6 +71,9 @@ export class Pokemon {
 	hpType: string;
 	hpPower: number;
 
+	/** Whether the next move used should boost its priority */
+	shouldPriority?: true | undefined;
+	
 	/**
 	 * Index of `pokemon.side.pokemon` and `pokemon.side.active`, which are
 	 * guaranteed to be the same for active pokemon. Note that this isn't

@@ -14,9 +14,9 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		desc: "Allows players to optionally display held items.",
 		// finish this later ig
 	},
-	superchampionsmod: {
+	superchampions: {
 		effectType: 'Rule',
-		name: 'Super Champions Mod',
+		name: 'Super Champions',
 		desc: "Applies various modifications for Super Champions formats.",
 		// Heal on switch
 		onSwitchOut(pokemon) {
@@ -43,8 +43,12 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				move.ignoreAccuracy = true;
 			};
 		},
-		onBattleStart() {
-			var trappedTurns = 0;
+		// Detect stuff
+		onModifyPriority(relayVar, source, target, move) {
+			if (source.shouldPriority) move.priority = move.priority + 0.2;
+		},
+		onAfterMove(source, target, move) {
+			if (source.shouldPriority) source.shouldPriority = undefined;
 		},
 	},
 

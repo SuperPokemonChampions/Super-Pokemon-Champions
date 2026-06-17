@@ -1547,8 +1547,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	doubleteam: {
 		name: "Double Team",
-		desc: "Raises the user's evasiveness by 1 stage.",
-		shortDesc: "Raises the user's evasiveness by 1.",
+		desc: "Raises the user's evasiveness by 2 stages, if it doesn't have any evasion boosts.",
+		shortDesc: "+2 Evasion, if no Evasion boosts.",
 	},
 	dracometeor: {
 		name: "Draco Meteor",
@@ -1607,8 +1607,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	dragonrush: {
 		name: "Dragon Rush",
-		desc: "Has a 20% chance to make the target flinch. Damage doubles and no accuracy check is done if the target has used Minimize while active.",
-		shortDesc: "20% chance to make the target flinch.",
+		desc: "Has a 30% chance to make the target flinch. Damage doubles and no accuracy check is done if the target has used Minimize while active.",
+		shortDesc: "30% chance to make the target flinch.",
 		gen5: {
 			desc: "Has a 20% chance to make the target flinch.",
 		},
@@ -1683,8 +1683,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	earthpower: {
 		name: "Earth Power",
-		desc: "Has a 10% chance to lower the target's Special Defense by 1 stage.",
-		shortDesc: "10% chance to lower the target's Sp. Def by 1.",
+		desc: "Has a 10% chance to lower the target's Special Defense by 2 stages.",
+		shortDesc: "10% chance to lower the target's Sp. Def by 2.",
 	},
 	earthquake: {
 		name: "Earthquake",

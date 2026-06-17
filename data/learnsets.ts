@@ -18488,6 +18488,7 @@ export const Learnsets: import('../sim/dex-species').LearnsetDataTable = {
 			feint: ["7L1", "6L1", "5L61", "4L61"],
 			flashcannon: ["9M", "8M", "7M", "6M", "5M", "4M"],
 			fling: ["9M", "8M", "7M", "6M", "5M", "4M"],
+			fly: ["9L1"],
 			focusenergy: ["9L28", "8M", "8L28", "7L5", "7V", "6L5", "5L5", "5S3", "4L5", "3L6"],
 			frustration: ["7M", "7V", "6M", "5M", "4M", "3M"],
 			furycutter: ["9L1", "8L1", "7L25", "7V", "6L25", "6S5", "6S6", "5L25", "4T", "4L25", "3T", "3L46", "3S0"],

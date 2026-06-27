@@ -583,9 +583,9 @@ export class Pokemon {
 		boosts[boostName] = boost;
 		boosts = this.battle.runEvent('ModifyBoost', statUser || this, null, null, boosts);
 		boost = boosts[boostName]!;
-		const boostTable = [1, 1.5, 2, 2.5, 3, 3.5, 4];
-		if (boost > 6) boost = 6;
-		if (boost < -6) boost = -6;
+		const boostTable = [1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4];
+		if (boost > 12) boost = 12;
+		if (boost < -12) boost = -12;
 		if (boost >= 0) {
 			stat = Math.floor(stat * boostTable[boost]);
 		} else {
@@ -621,9 +621,9 @@ export class Pokemon {
 				boosts = this.battle.runEvent('ModifyBoost', this, null, null, { ...boosts });
 			}
 			let boost = boosts[statName];
-			const boostTable = [1, 1.5, 2, 2.5, 3, 3.5, 4];
-			if (boost > 6) boost = 6;
-			if (boost < -6) boost = -6;
+			const boostTable = [1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4];
+			if (boost > 12) boost = 12;
+			if (boost < -12) boost = -12;
 			if (boost >= 0) {
 				stat = Math.floor(stat * boostTable[boost]);
 			} else {

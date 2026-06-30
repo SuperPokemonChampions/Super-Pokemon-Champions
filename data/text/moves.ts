@@ -1943,8 +1943,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	fakeout: {
 		name: "Fake Out",
-		desc: "Has a 100% chance to make the target flinch. Fails unless it is the user's first turn on the field.",
-		shortDesc: "Hits first. First turn out only. 100% flinch chance.",
+		desc: "Has a 100% chance to make the target flinch. Fails unless it is the user's first turn on the field and the target has not has Fake Out used on it before.",
+		shortDesc: "Hits first. First turn out + once per target only. 100% flinch chance.",
 		champions: {
 			desc: "Has a 100% chance to make the target flinch. This move cannot be selected unless it is the user's first turn on the field.",
 		},
@@ -2169,8 +2169,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	flashcannon: {
 		name: "Flash Cannon",
-		desc: "Has a 10% chance to lower the target's Special Defense by 1 stage.",
-		shortDesc: "10% chance to lower the target's Sp. Def by 1.",
+		desc: "Has a 10% chance to lower the target's Special Defense by 2 stages.",
+		shortDesc: "10% chance to lower the target's Sp. Def by 2.",
 	},
 	flatter: {
 		name: "Flatter",
@@ -2248,8 +2248,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	focusblast: {
 		name: "Focus Blast",
-		desc: "Has a 10% chance to lower the target's Special Defense by 1 stage.",
-		shortDesc: "10% chance to lower the target's Sp. Def by 1.",
+		desc: "Has a 30% chance to lower the target's Special Defense by 1 stage.",
+		shortDesc: "30% chance to lower the target's Sp. Def by 1.",
 	},
 	focusenergy: {
 		name: "Focus Energy",
@@ -2912,8 +2912,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	headlongrush: {
 		name: "Headlong Rush",
-		desc: "Lowers the user's Defense and Special Defense by 1 stage.",
-		shortDesc: "Lowers the user's Defense and Sp. Def by 1.",
+		desc: "Lowers the user's Defense and Special Defense by 2 stages.",
+		shortDesc: "Lowers the user's Defense and Sp. Def by 2.",
 	},
 	headsmash: {
 		name: "Head Smash",

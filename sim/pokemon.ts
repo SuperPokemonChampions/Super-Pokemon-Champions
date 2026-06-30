@@ -273,6 +273,8 @@ export class Pokemon {
 	weighthg: number;
 	speed: number;
 
+	wasFakedOut: true | false;
+
 	canMegaEvo: string | false | null | undefined;
 	canMegaEvoX: string | false | null | undefined;
 	canMegaEvoY: string | false | null | undefined;
@@ -486,6 +488,7 @@ export class Pokemon {
 		this.stellarBoostedTypes = [];
 		this.isStarted = false;
 		this.duringMove = false;
+		this.wasFakedOut = false;
 
 		this.weighthg = 1;
 		this.speed = 0;

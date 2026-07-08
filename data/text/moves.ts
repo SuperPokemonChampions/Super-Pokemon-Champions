@@ -3185,7 +3185,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	hydropump: {
 		name: "Hydro Pump",
-		shortDesc: "No additional effect.",
+		desc: "Has a 10% chance to flinch the target. When used by Blastoise-Mega, base power is 110%.",
+		shortDesc: "Has a 10% chance to flinch the target.",
 	},
 	hydrosteam: {
 		name: "Hydro Steam",
@@ -3237,12 +3238,12 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	hypervoice: {
 		name: "Hyper Voice",
-		desc: "No additional effect.",
-		shortDesc: "No additional effect. Hits adjacent foes.",
+		desc: "Wakes up all active Pokemon.",
+		shortDesc: "Wakes up all active Pokemon. Hits adjacent foes.",
 	},
 	hypnosis: {
 		name: "Hypnosis",
-		shortDesc: "Causes the target to fall asleep.",
+		shortDesc: "Causes the target to become drowsy.",
 	},
 	iceball: {
 		name: "Ice Ball",
@@ -3294,8 +3295,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	iciclecrash: {
 		name: "Icicle Crash",
-		desc: "Has a 30% chance to make the target flinch.",
-		shortDesc: "30% chance to make the target flinch.",
+		desc: "Has a 20% chance to make the target flinch.",
+		shortDesc: "20% chance to make the target flinch.",
 	},
 	iciclespear: {
 		name: "Icicle Spear",
@@ -3432,8 +3433,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	irontail: {
 		name: "Iron Tail",
-		desc: "Has a 30% chance to lower the target's Defense by 1 stage.",
-		shortDesc: "30% chance to lower the target's Defense by 1.",
+		desc: "Has a 20% chance to lower the target's Defense by 1 stage.",
+		shortDesc: "20% chance to lower the target's Defense by 1.",
 	},
 	ivycudgel: {
 		name: "Ivy Cudgel",
@@ -3550,8 +3551,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	lashout: {
 		name: "Lash Out",
-		desc: "Power doubles if the user had a stat stage lowered this turn.",
-		shortDesc: "2x power if the user had a stat lowered this turn.",
+		shortDesc: "Power doubles if the user had a negative stat stage.",
 	},
 	lastresort: {
 		name: "Last Resort",
@@ -3560,8 +3560,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	lastrespects: {
 		name: "Last Respects",
-		desc: "Power is equal to 50+(X*50), where X is the total number of times any Pokemon has fainted on the user's side, and X cannot be greater than 100.",
-		shortDesc: "+50 power for each time a party member fainted.",
+		desc: "Power is equal to 50+(X*25), where X is the total number of times any Pokemon has fainted on the user's side, and X cannot be greater than 100.",
+		shortDesc: "+25 power for each time a party member fainted.",
 	},
 	lavaplume: {
 		name: "Lava Plume",
@@ -3677,8 +3677,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	liquidation: {
 		name: "Liquidation",
-		desc: "Has a 20% chance to lower the target's Defense by 1 stage.",
-		shortDesc: "20% chance to lower the target's Defense by 1.",
+		desc: "Has a 20% chance to lower the target's Defense by 2 stages.",
+		shortDesc: "20% chance to lower the target's Defense by 2.",
 	},
 	lockon: {
 		name: "Lock-On",
@@ -3824,8 +3824,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	magneticflux: {
 		name: "Magnetic Flux",
-		desc: "Raises the Defense and Special Defense of Pokemon on the user's side with the Plus or Minus Abilities by 1 stage.",
-		shortDesc: "Raises Def, Sp. Def of allies with Plus/Minus by 1.",
+		desc: "Raises the Defense and Special Defense of Pokemon on the user's side with the Plus or Minus Abilities by 2 stages.",
+		shortDesc: "Raises Def, Sp. Def of allies with Plus/Minus by 2.",
 	},
 	magnetrise: {
 		name: "Magnet Rise",
@@ -4045,8 +4045,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	memento: {
 		name: "Memento",
-		desc: "Lowers the target's Attack and Special Attack by 2 stages. The user faints unless this move misses or there is no target. Fails entirely if this move hits a substitute, but does not fail if the target's stats cannot be changed.",
-		shortDesc: "Lowers target's Attack, Sp. Atk by 2. User faints.",
+		desc: "Lowers the target's Attack and Special Attack by 4 stages. The user faints unless this move misses or there is no target. Fails entirely if this move hits a substitute, but does not fail if the target's stats cannot be changed.",
+		shortDesc: "Lowers target's Attack, Sp. Atk by 4. User faints.",
 		gen4: {
 			desc: "Lowers the target's Attack and Special Attack by 2 stages. The user faints, even if this move misses. This move can hit targets in the middle of a two-turn move. Fails entirely if there is no target, but does not fail if the target's stats cannot be changed.",
 		},
@@ -4079,8 +4079,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	metalsound: {
 		name: "Metal Sound",
-		desc: "Lowers the target's Special Defense by 2 stages.",
-		shortDesc: "Lowers the target's Sp. Def by 2.",
+		desc: "Lowers the target's Defense and Special Defense by 2 stages.",
+		shortDesc: "Lowers the target's Def/Sp. Def by 2.",
 	},
 	meteorassault: {
 		name: "Meteor Assault",

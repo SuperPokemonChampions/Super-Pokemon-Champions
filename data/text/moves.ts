@@ -435,12 +435,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	belch: {
 		name: "Belch",
-		desc: "This move cannot be selected until the user eats a Berry, either by eating one that was held, stealing and eating one off another Pokemon with Bug Bite or Pluck, or eating one that was thrown at it with Fling. Once the condition is met, this move can be selected and used for the rest of the battle even if the user gains or uses another item or switches out. Consuming a Berry with Natural Gift does not count for the purposes of eating one.",
-		shortDesc: "Cannot be selected until the user eats a Berry.",
-		champions: {
-			desc: "Fails unless the user has eaten a Berry, either by eating one that was held, stealing and eating one off another Pokemon with Bug Bite or Pluck, or eating one that was thrown at it with Fling. Consuming a Berry with Natural Gift does not count for the purposes of eating one.",
-			shortDesc: "Fails unless the user has eaten a Berry.",
-		},
+		desc: "Fails unless the user has eaten a Berry, either by eating one that was held, stealing and eating one off another Pokemon with Bug Bite or Pluck, or eating one that was thrown at it with Fling. Consuming a Berry with Natural Gift does not count for the purposes of eating one.",
+		shortDesc: "Fails unless the user has eaten a Berry.",
 	},
 	bellydrum: {
 		name: "Belly Drum",
@@ -1395,12 +1391,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	direclaw: {
 		name: "Dire Claw",
-		desc: "Has a 50% chance to cause the target to either fall asleep, become poisoned, or become paralyzed.",
-		shortDesc: "50% chance to sleep, poison, or paralyze target.",
-		champions: {
-			desc: "Has a 30% chance to cause the target to either fall asleep, become poisoned, or become paralyzed.",
-			shortDesc: "30% chance to sleep, poison, or paralyze target.",
-		},
+		desc: "Has a 30% chance to cause the target to either fall asleep, become poisoned, or become paralyzed.",
+		shortDesc: "30% chance to sleep, poison, or paralyze target.",
 	},
 	disable: {
 		name: "Disable",
@@ -1943,11 +1935,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	fakeout: {
 		name: "Fake Out",
-		desc: "Has a 100% chance to make the target flinch. Fails unless it is the user's first turn on the field and the target has not has Fake Out used on it before.",
+		desc: "Has a 100% chance to make the target flinch. This move cannot be selected unless it is the user's first turn on the field and the target has not has Fake Out used on it before.",
 		shortDesc: "Hits first. First turn out + once per target only. 100% flinch chance.",
-		champions: {
-			desc: "Has a 100% chance to make the target flinch. This move cannot be selected unless it is the user's first turn on the field.",
-		},
 	},
 	faketears: {
 		name: "Fake Tears",
@@ -2091,11 +2080,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	firstimpression: {
 		name: "First Impression",
-		desc: "Fails unless it is the user's first turn on the field.",
+		desc: "This move cannot be selected unless it is the user's first turn on the field.",
 		shortDesc: "Nearly always goes first. First turn out only.",
-		champions: {
-			desc: "This move cannot be selected unless it is the user's first turn on the field.",
-		},
 	},
 	fishiousrend: {
 		name: "Fishious Rend",
@@ -2329,12 +2315,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	freezedry: {
 		name: "Freeze-Dry",
-		desc: "Has a 10% chance to freeze the target. This move's type effectiveness against Water is changed to be super effective no matter what this move's type is.",
-		shortDesc: "10% chance to freeze. Super effective on Water.",
-		champions: {
-			desc: "This move's type effectiveness against Water is changed to be super effective no matter what this move's type is.",
-			shortDesc: "Super effective on Water.",
-		},
+		desc: "This move's type effectiveness against Water is changed to be super effective no matter what this move's type is.",
+		shortDesc: "Super effective on Water.",
 	},
 	freezeshock: {
 		name: "Freeze Shock",
@@ -3424,12 +3406,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	ironhead: {
 		name: "Iron Head",
-		desc: "Has a 30% chance to make the target flinch.",
-		shortDesc: "30% chance to make the target flinch.",
-		champions: {
-			desc: "Has a 20% chance to make the target flinch.",
-			shortDesc: "20% chance to make the target flinch.",
-		},
+		desc: "Has a 20% chance to make the target flinch.",
+		shortDesc: "20% chance to make the target flinch.",
 	},
 	irontail: {
 		name: "Iron Tail",
@@ -4096,8 +4074,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	meteormash: {
 		name: "Meteor Mash",
-		desc: "Has a 20% chance to raise the user's Attack by 1 stage.",
-		shortDesc: "20% chance to raise the user's Attack by 1.",
+		desc: "Has a 20% chance to raise the user's Attack by 2 stages.",
+		shortDesc: "20% chance to raise the user's Attack by 2.",
 	},
 	metronome: {
 		name: "Metronome",
@@ -4194,8 +4172,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	minimize: {
 		name: "Minimize",
-		desc: "Raises the user's evasiveness by 2 stages. Whether or not the user's evasiveness was changed, Body Slam, Dragon Rush, Flying Press, Heat Crash, Heavy Slam, Malicious Moonsault, Steamroller, Stomp, and Supercell Slam will not check accuracy and have their damage doubled if used against the user while it is active.",
-		shortDesc: "Raises the user's evasiveness by 2.",
+		desc: "Raises the user's evasiveness by 2 stages. Whether or not the user's evasiveness was changed, Body Slam, Dragon Rush, Flying Press, Heat Crash, Heavy Slam, Malicious Moonsault, Steamroller, Stomp, and Supercell Slam will not check accuracy and have their damage doubled if used against the user while it is active. Fails if the user already has a positive stat stage change for the Evasion stat.",
+		shortDesc: "Raises the user's evasiveness by 2. Fails if already have +eva.",
 		gen8: {
 			desc: "Raises the user's evasiveness by 2 stages. Whether or not the user's evasiveness was changed, Body Slam, Dragon Rush, Flying Press, Heat Crash, Heavy Slam, Malicious Moonsault, Steamroller, and Stomp will not check accuracy and have their damage doubled if used against the user while it is active.",
 		},
@@ -4308,12 +4286,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	moonblast: {
 		name: "Moonblast",
-		desc: "Has a 30% chance to lower the target's Special Attack by 1 stage.",
-		shortDesc: "30% chance to lower the target's Sp. Atk by 1.",
-		champions: {
-			desc: "Has a 10% chance to lower the target's Special Attack by 1 stage.",
-			shortDesc: "10% chance to lower the target's Sp. Atk by 1.",
-		},
+		desc: "Has a 10% chance to lower the target's Special Attack by 2 stages.",
+		shortDesc: "10% chance to lower the target's Sp. Atk by 2.",
 	},
 	moongeistbeam: {
 		name: "Moongeist Beam",
@@ -4377,8 +4351,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	muddywater: {
 		name: "Muddy Water",
-		desc: "Has a 30% chance to lower the target's accuracy by 1 stage.",
-		shortDesc: "30% chance to lower the foe(s) accuracy by 1.",
+		desc: "Has a 30% chance to lower the target's accuracy by 2 stages.",
+		shortDesc: "30% chance to lower the foe(s) accuracy by 2.",
 	},
 	mudshot: {
 		name: "Mud Shot",
@@ -4661,8 +4635,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	petalblizzard: {
 		name: "Petal Blizzard",
-		desc: "No additional effect.",
-		shortDesc: "No additional effect. Hits adjacent Pokemon.",
+		desc: "If this move is successful and the user has not fainted, the effects of Leech Seed and binding moves end for the user, and all hazards are removed from the user's side of the field.",
+		shortDesc: "Free user from hazards/bind/Leech Seed. Hits adjacent Pokemon.",
 	},
 	petaldance: {
 		name: "Petal Dance",
@@ -4708,8 +4682,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	pinmissile: {
 		name: "Pin Missile",
-		desc: "Hits two to five times. Has a 35% chance to hit two or three times and a 15% chance to hit four or five times. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Skill Link Ability, this move will always hit five times. If the user is holding Loaded Dice, this move will hit 4-5 times.",
-		shortDesc: "Hits 2-5 times in one turn.",
+		desc: "Hits two to five times. Has a 35% chance to hit two or three times and a 15% chance to hit four or five times. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Skill Link Ability, this move will always hit five times. If the user is holding Loaded Dice, this move will hit 4-5 times. If the user is a Jolteon, and the target is weak to the Electric type, this move's damage is doubled.",
+		shortDesc: "Hits 2-5 times in one turn. If Jolteon and target weak to Electric, *2 damage.",
 		gen8: {
 			desc: "Hits two to five times. Has a 35% chance to hit two or three times and a 15% chance to hit four or five times. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Skill Link Ability, this move will always hit five times.",
 		},
@@ -4735,8 +4709,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	playrough: {
 		name: "Play Rough",
-		desc: "Has a 10% chance to lower the target's Attack by 1 stage.",
-		shortDesc: "10% chance to lower the target's Attack by 1.",
+		desc: "Has a 10% chance to lower the target's Attack by 2 stages.",
+		shortDesc: "10% chance to lower the target's Attack by 2.",
 	},
 	pluck: {
 		name: "Pluck",
@@ -4772,8 +4746,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	poisonpowder: {
 		name: "Poison Powder",
-		desc: "Poisons the target.",
-		shortDesc: "Poisons the target.",
+		desc: "Poisons the target(s).",
+		shortDesc: "Poisons the target(s). Hits all adjacent foes.",
 	},
 	poisonsting: {
 		name: "Poison Sting",
@@ -5511,12 +5485,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	saltcure: {
 		name: "Salt Cure",
-		desc: "Causes damage to the target equal to 1/8 of its maximum HP (1/4 if the target is Steel or Water type), rounded down, at the end of each turn during effect. This effect ends when the target is no longer active.",
-		shortDesc: "Deals 1/8 max HP each turn; 1/4 on Steel, Water.",
-		champions: {
-			desc: "Causes damage to the target equal to 1/16 of its maximum HP (1/8 if the target is Steel or Water type), rounded down, at the end of each turn during effect. This effect ends when the target is no longer active.",
-			shortDesc: "Deals 1/16 max HP each turn; 1/8 on Steel, Water.",
-		},
+		desc: "Causes damage to the target equal to 1/16 of its maximum HP (1/8 if the target is Steel or Water type), rounded down, at the end of each turn during effect. This effect ends when the target is no longer active.",
+		shortDesc: "Deals 1/16 max HP each turn; 1/8 on Steel, Water.",
 
 		start: "  [POKEMON] is being salt cured!",
 		damage: "  [POKEMON] is hurt by Salt Cure!",
@@ -6505,12 +6475,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	stuffcheeks: {
 		name: "Stuff Cheeks",
-		desc: "This move cannot be selected unless the user is holding a Berry. The user eats its Berry and raises its Defense by 2 stages. This effect is not prevented by the Klutz or Unnerve Abilities, or the effects of Embargo or Magic Room. Fails if the user is not holding a Berry.",
-		shortDesc: "Must hold Berry to use. User eats Berry, Def +2.",
-		champions: {
 			desc: "Fails if the user is not holding a Berry. The user eats its Berry and raises its Defense by 2 stages. This effect is not prevented by the Klutz or Unnerve Abilities, or the effects of Embargo or Magic Room.",
 			shortDesc: "Fails unless a Berry is held. User eats Berry, Def +2.",
-		},
 	},
 	stunspore: {
 		name: "Stun Spore",

@@ -4846,8 +4846,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	powertrip: {
 		name: "Power Trip",
-		desc: "Power is equal to 20+(X*20), where X is the user's total stat stage changes that are greater than 0.",
-		shortDesc: " + 20 power for each of the user's stat boosts.",
+		desc: "Power is equal to 20+(X*20), where X is the user's total stat stage changes that are greater than 0. Caps at 100 BP.",
+		shortDesc: " + 20 power for each of the user's stat boosts, cap 100 BP.",
 	},
 	poweruppunch: {
 		name: "Power-Up Punch",
@@ -4917,8 +4917,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	psychic: {
 		name: "Psychic",
-		desc: "Has a 10% chance to lower the target's Special Defense by 1 stage.",
-		shortDesc: "10% chance to lower the target's Sp. Def by 1.",
+		desc: "Has a 10% chance to lower the target's Special Defense by 2 stages.",
+		shortDesc: "10% chance to lower the target's Sp. Def by 2.",
 		gen1: {
 			desc: "Has a 33% chance to lower the target's Special by 1 stage.",
 			shortDesc: "33% chance to lower the target's Special by 1.",
@@ -5152,8 +5152,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	razorshell: {
 		name: "Razor Shell",
-		desc: "Has a 50% chance to lower the target's Defense by 1 stage.",
-		shortDesc: "50% chance to lower the target's Defense by 1.",
+		desc: "Has a 50% chance to lower the target's Defense by 2 stages.",
+		shortDesc: "50% chance to lower the target's Defense by 2.",
 	},
 	razorwind: {
 		name: "Razor Wind",
@@ -5316,7 +5316,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	roar: {
 		name: "Roar",
-		desc: "The target is forced to switch out and be replaced with a random unfainted ally. Fails if the target is the last unfainted Pokemon in its party, or if the target used Ingrain previously or has the Suction Cups Ability.",
+		desc: "The target is forced to switch out and be replaced with a random unfainted ally. Fails if the target is the last unfainted Pokemon in its party, or if the target used Ingrain previously or has the Suction Cups Ability. If the target is not forced to switch, its stat stage changes are reset to 0. The target is cured of its sleep.",
 		shortDesc: "Forces the target to switch to a random ally.",
 		gen4: {
 			desc: "The target is forced to switch out and be replaced with a random unfainted ally. Fails if the target is the last unfainted Pokemon in its party, if the target used Ingrain previously or has the Suction Cups Ability, or if the user's level is lower than the target's and X * (user's level + target's level) / 256 + 1 is less than or equal to (target's level / 4), rounded down, where X is a random number from 0 to 255.",
@@ -5355,8 +5355,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	rockpolish: {
 		name: "Rock Polish",
-		desc: "Raises the user's Speed by 2 stages.",
-		shortDesc: "Raises the user's Speed by 2.",
+		desc: "Raises the user's Speed by 4 stages.",
+		shortDesc: "Raises the user's Speed by 4.",
 	},
 	rockslide: {
 		name: "Rock Slide",
@@ -5450,8 +5450,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	round: {
 		name: "Round",
-		desc: "If there are other active Pokemon that chose this move for use this turn, those Pokemon take their turn immediately after the user, in Speed order, and this move's power is 120 for each other user.",
-		shortDesc: "Power doubles if others used Round this turn.",
+		desc: "If there are other active Pokemon that chose this move for use this turn, those Pokemon take their turn immediately after the user, in Speed order, and this move's power is 120 for each other user. Wakes up the target.",
+		shortDesc: "Power doubles if others used Round this turn. Wakes target.",
 	},
 	ruination: {
 		name: "Ruination",
@@ -5578,8 +5578,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	screech: {
 		name: "Screech",
-		desc: "Lowers the target's Defense by 2 stages.",
-		shortDesc: "Lowers the target's Defense by 2.",
+		desc: "Lowers the target's Defense by 2 stages. Hits all Pokemon. Wakes up the target(s).",
+		shortDesc: "Lowers the target's Defense by 2. Wakes target(s).",
 	},
 	searingshot: {
 		name: "Searing Shot",
@@ -5623,8 +5623,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	seismictoss: {
 		name: "Seismic Toss",
-		desc: "Deals damage to the target equal to the user's level.",
-		shortDesc: "Does damage equal to the user's level.",
+		shortDesc: "Deals 100 damage.",
 		gen1: {
 			desc: "Deals damage to the target equal to the user's level. This move ignores type immunity.",
 			shortDesc: "Damage = user's level. Can hit Ghost types.",
@@ -5633,7 +5632,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	selfdestruct: {
 		name: "Self-Destruct",
 		desc: "The user faints after using this move, even if this move fails for having no target. This move is prevented from executing if any active Pokemon has the Damp Ability.",
-		shortDesc: "Hits adjacent Pokemon. The user faints.",
+		shortDesc: "Hits adjacent foes. The user faints.",
 		gen4: {
 			desc: "The user faints after using this move, unless this move has no target. The target's Defense is halved during damage calculation. This move is prevented from executing if any active Pokemon has the Damp Ability.",
 			shortDesc: "Target's Def halved during damage. User faints.",
@@ -5650,8 +5649,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	shadowball: {
 		name: "Shadow Ball",
-		desc: "Has a 20% chance to lower the target's Special Defense by 1 stage.",
-		shortDesc: "20% chance to lower the target's Sp. Def by 1.",
+		desc: "Has a 20% chance to lower the target's Special Defense by 2 stages.",
+		shortDesc: "20% chance to lower the target's Sp. Def by 2.",
 	},
 	shadowbone: {
 		name: "Shadow Bone",
@@ -5683,8 +5682,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	shadowsneak: {
 		name: "Shadow Sneak",
-		desc: "No additional effect.",
-		shortDesc: "Usually goes first.",
+		desc: "If this move is successful, it breaks through the target's Baneful Bunker, Detect, King's Shield, Protect, or Spiky Shield for this turn, allowing other Pokemon to attack the target normally. If the target's side is protected by Crafty Shield, Mat Block, Quick Guard, or Wide Guard, that protection is also broken for this turn and other Pokemon may attack the target's side normally.",
+		shortDesc: "Nullifies Protect and variants. Usually goes first.",
 	},
 	shadowstrike: {
 		name: "Shadow Strike",
@@ -5711,7 +5710,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	sheercold: {
 		name: "Sheer Cold",
-		desc: "Deals damage to the target equal to the target's maximum HP. Ignores accuracy and evasiveness modifiers. This attack's accuracy is equal to (user's level - target's level + X)%, where X is 30 if the user is an Ice type and 20 otherwise, and fails if the target is at a higher level. Ice-type Pokemon and Pokemon with the Sturdy Ability are immune.",
+		desc: "Deals damage to the target equal to the target's maximum HP. Ignores accuracy and evasiveness modifiers. This attack's accuracy is equal to (user's level - target's level + X)%, where X is 20 if the user is an Ice type and 10 otherwise, and fails if the target is at a higher level. Ice-type Pokemon and Pokemon with the Sturdy Ability are immune.",
 		shortDesc: "OHKOs non-Ice targets. Fails if user's lower level.",
 		gen6: {
 			desc: "Deals damage to the target equal to the target's maximum HP. Ignores accuracy and evasiveness modifiers. This attack's accuracy is equal to (user's level - target's level + 30)%, and fails if the target is at a higher level. Pokemon with the Sturdy Ability are immune.",
@@ -5725,8 +5724,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	shellsmash: {
 		name: "Shell Smash",
-		desc: "Lowers the user's Defense and Special Defense by 1 stage. Raises the user's Attack, Special Attack, and Speed by 2 stages.",
-		shortDesc: "Lowers Def, SpD by 1; raises Atk, SpA, Spe by 2.",
+		desc: "Lowers the user's Defense and Special Defense by 1 stage. Raises the user's Attack and Special Attack by 1 stage, and Speed by 2 stages.",
+		shortDesc: "Lowers Def, SpD by 1; raises Atk, SpA by 1, Spe by 2.",
 	},
 	shelltrap: {
 		name: "Shell Trap",
@@ -5790,7 +5789,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	sing: {
 		name: "Sing",
-		shortDesc: "Causes the target to fall asleep.",
+		shortDesc: "Causes target(s) to become drowsy. Hits adjacent Pokemon.",
 	},
 	sinisterarrowraid: {
 		name: "Sinister Arrow Raid",
@@ -5961,8 +5960,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	sludgewave: {
 		name: "Sludge Wave",
-		desc: "Has a 10% chance to poison the target.",
-		shortDesc: "10% chance to poison adjacent Pokemon.",
+		desc: "Has a 10% chance to poison the target. Clears entry hazards.",
+		shortDesc: "10% chance to poison adjacent Pokemon. Removes hazards.",
 	},
 	smackdown: {
 		name: "Smack Down",
@@ -6030,8 +6029,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	snore: {
 		name: "Snore",
-		desc: "Has a 30% chance to make the target flinch. Fails if the user is not asleep.",
-		shortDesc: "User must be asleep. 30% chance to flinch target.",
+		desc: "Has a 30% chance to make the target flinch. Fails if the user is not asleep. Hits all adjacent foes.",
+		shortDesc: "User must be asleep. 30% chance to flinch target. Hits adjacent foes.",
 	},
 	snowscape: {
 		name: "Snowscape",
@@ -6286,7 +6285,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	spore: {
 		name: "Spore",
-		shortDesc: "Causes the target to fall asleep.",
+		shortDesc: "Causes the target to become drowsy.",
 	},
 	spotlight: {
 		name: "Spotlight",
@@ -6303,7 +6302,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	stealthrock: {
 		name: "Stealth Rock",
-		desc: "Sets up a hazard on the opposing side of the field, damaging each opposing Pokemon that switches in. Fails if the effect is already active on the opposing side. Foes lose 1/32, 1/16, 1/8, 1/4, or 1/2 of their maximum HP, rounded down, based on their weakness to the Rock type; 0.25x, 0.5x, neutral, 2x, or 4x, respectively. Can be removed from the opposing side if any Pokemon uses Tidy Up, or if any opposing Pokemon uses Mortal Spin, Rapid Spin, or Defog successfully, or is hit by Defog.",
+		desc: "Sets up a hazard on the opposing side of the field, damaging each opposing Pokemon that switches in. Fails if the effect is already active on the opposing side. Foes lose 1%, 2.5%, 5%, 7.5%, or 10% of their maximum HP, rounded down, based on their weakness to the Rock type; 0.25x, 0.5x, neutral, 2x, or 4x, respectively. Can be removed from the opposing side if any Pokemon uses Tidy Up, or if any opposing Pokemon uses Mortal Spin, Rapid Spin, or Defog successfully, or is hit by Defog.",
 		shortDesc: "Hurts foes on switch-in. Factors Rock weakness.",
 		gen8: {
 			desc: "Sets up a hazard on the opposing side of the field, damaging each opposing Pokemon that switches in. Fails if the effect is already active on the opposing side. Foes lose 1/32, 1/16, 1/8, 1/4, or 1/2 of their maximum HP, rounded down, based on their weakness to the Rock type; 0.25x, 0.5x, neutral, 2x, or 4x, respectively. Can be removed from the opposing side if any opposing Pokemon uses Rapid Spin or Defog successfully, or is hit by Defog.",
@@ -6343,13 +6342,13 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	steelwing: {
 		name: "Steel Wing",
-		desc: "Has a 10% chance to raise the user's Defense by 1 stage.",
-		shortDesc: "10% chance to raise the user's Defense by 1.",
+		desc: "Has a 50% chance to raise the user's Defense by 1 stage.",
+		shortDesc: "50% chance to raise the user's Defense by 1.",
 	},
 	stickyweb: {
 		name: "Sticky Web",
-		desc: "Sets up a hazard on the opposing side of the field, lowering the Speed by 1 stage of each opposing Pokemon that switches in, unless it is a Flying-type Pokemon or has the Levitate Ability. Fails if the effect is already active on the opposing side. Can be removed from the opposing side if any Pokemon uses Tidy Up, or if any opposing Pokemon uses Mortal Spin, Rapid Spin, or Defog successfully, or is hit by Defog.",
-		shortDesc: "Lowers Speed of grounded foes by 1 on switch-in.",
+		desc: "Sets up a hazard on the opposing side of the field, lowering the Speed by 2 stages of each opposing Pokemon that switches in, unless it is a Flying-type Pokemon or has the Levitate Ability. Fails if the effect is already active on the opposing side. Can be removed from the opposing side if any Pokemon uses Tidy Up, or if any opposing Pokemon uses Mortal Spin, Rapid Spin, or Defog successfully, or is hit by Defog.",
+		shortDesc: "Lowers Speed of grounded foes by 2 on switch-in.",
 		gen8: {
 			desc: "Sets up a hazard on the opposing side of the field, lowering the Speed by 1 stage of each opposing Pokemon that switches in, unless it is a Flying-type Pokemon or has the Levitate Ability. Fails if the effect is already active on the opposing side. Can be removed from the opposing side if any opposing Pokemon uses Rapid Spin or Defog successfully, or is hit by Defog.",
 		},
@@ -6360,8 +6359,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	stockpile: {
 		name: "Stockpile",
-		desc: "Raises the user's Defense and Special Defense by 1 stage. The user's Stockpile count increases by 1. Fails if the user's Stockpile count is 3. The user's Stockpile count is reset to 0 when it is no longer active.",
-		shortDesc: "Raises user's Defense, Sp. Def by 1. Max 3 uses.",
+		desc: "Raises the user's Defense and Special Defense by 2 stages. The user's Stockpile count increases by 1. Fails if the user's Stockpile count is 3. The user's Stockpile count is reset to 0 when it is no longer active.",
+		shortDesc: "Raises user's Defense, Sp. Def by 2. Max 3 uses.",
 		gen3: {
 			desc: "The user's Stockpile count increases by 1. Fails if the user's Stockpile count is 3. The user's Stockpile count is reset to 0 when it is no longer active.",
 			shortDesc: "Raises user's Stockpile count by 1. Max 3 uses.",
@@ -6412,8 +6411,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	storedpower: {
 		name: "Stored Power",
-		desc: "Power is equal to 20+(X*20), where X is the user's total stat stage changes that are greater than 0.",
-		shortDesc: " + 20 power for each of the user's stat boosts.",
+		desc: "Power is equal to 20+(X*20), where X is the user's total stat stage changes that are greater than 0. If the base power would be higher than 100, it is instead 100.",
+		shortDesc: " + 20 power for each of the user's stat boosts. Max 100 BP.",
 	},
 	stormthrow: {
 		name: "Storm Throw",
@@ -6475,8 +6474,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	stuffcheeks: {
 		name: "Stuff Cheeks",
-			desc: "Fails if the user is not holding a Berry. The user eats its Berry and raises its Defense by 2 stages. This effect is not prevented by the Klutz or Unnerve Abilities, or the effects of Embargo or Magic Room.",
-			shortDesc: "Fails unless a Berry is held. User eats Berry, Def +2.",
+			desc: "Fails if the user is not holding a Berry. The user eats its Berry and raises its Defense by 4 stages. This effect is not prevented by the Klutz or Unnerve Abilities, or the effects of Embargo or Magic Room.",
+			shortDesc: "Fails unless a Berry is held. User eats Berry, Def +4.",
 	},
 	stunspore: {
 		name: "Stun Spore",
@@ -6570,8 +6569,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	superpower: {
 		name: "Superpower",
-		desc: "Lowers the user's Attack and Defense by 1 stage.",
-		shortDesc: "Lowers the user's Attack and Defense by 1.",
+		desc: "Lowers the user's Attack and Defense by 2 stages.",
+		shortDesc: "Lowers the user's Attack and Defense by 2.",
 	},
 	supersonic: {
 		name: "Supersonic",
@@ -6697,8 +6696,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	syrupbomb: {
 		name: "Syrup Bomb",
-		desc: "If this move is successful, it causes the target's Speed to be lowered by 1 stage at the end of each turn for 3 turns.",
-		shortDesc: "Target's Speed is lowered by 1 stage for 3 turns.",
+		desc: "If this move is successful, it causes the target's Speed to be lowered by 2 stages at the end of each turn for 3 turns.",
+		shortDesc: "Target's Speed is lowered by 2 stages for 3 turns.",
 
 		start: "  [POKEMON] got covered in sticky candy syrup!",
 	},
@@ -6872,7 +6871,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	thief: {
 		name: "Thief",
-		desc: "If this attack was successful and the user has not fainted, it steals the target's held item if the user is not holding one. The target's item is not stolen if it is a Mail or Z-Crystal, or if the target is a Kyogre holding a Blue Orb, a Groudon holding a Red Orb, a Giratina holding a Griseous Orb, an Arceus holding a Plate, a Genesect holding a Drive, a Silvally holding a Memory, or a Pokemon that can Mega Evolve holding the Mega Stone for its species. Items lost to this move cannot be regained with Recycle or the Harvest Ability.",
+		desc: "If this attack was successful and the user has not fainted, it steals the target's held item if the user is not holding one. The target's item is not stolen if it is a Mail or Z-Crystal, or if the target is a Kyogre holding a Blue Orb, a Groudon holding a Red Orb, a Giratina holding a Griseous Orb, an Arceus holding a Plate, a Genesect holding a Drive, a Silvally holding a Memory, or a Pokemon that can Mega Evolve holding the Mega Stone for its species. Items lost to this move cannot be regained with Recycle or the Harvest Ability. If the user is holding an item, and the target is holding an item that can be knocked off or stolen from it, it is removed from the target.",
 		shortDesc: "If the user has no item, it steals the target's.",
 		gen6: {
 			desc: "If this attack was successful and the user has not fainted, it steals the target's held item if the user is not holding one. The target's item is not stolen if it is a Mail, or if the target is a Kyogre holding a Blue Orb, a Groudon holding a Red Orb, a Giratina holding a Griseous Orb, an Arceus holding a Plate, a Genesect holding a Drive, or a Pokemon that can Mega Evolve holding the Mega Stone for its species. Items lost to this move cannot be regained with Recycle or the Harvest Ability.",
@@ -7058,12 +7057,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	toxicthread: {
 		name: "Toxic Thread",
-		desc: "Lowers the target's Speed by 1 stage and poisons it.",
-		shortDesc: "Lowers the target's Speed by 1 and poisons it.",
-		champions: {
-			desc: "Lowers the target's Speed by 2 stages and poisons it.",
-			shortDesc: "Lowers the target's Speed by 2 and poisons it.",
-		},
+		desc: "Lowers the target's Speed by 2 stages and poisons it.",
+		shortDesc: "Lowers the target's Speed by 2 and poisons it.",
 	},
 	trailblaze: {
 		name: "Trailblaze",
@@ -7138,7 +7133,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	tripleaxel: {
 		name: "Triple Axel",
-		desc: "Hits three times. Power increases to 40 for the second hit and 60 for the third. This move checks accuracy for each hit, and the attack ends if the target avoids a hit. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Skill Link Ability, this move will always hit three times.",
+		desc: "Hits three times. Power increases to 30 for the second hit and 40 for the third. This move checks accuracy for each hit, and the attack ends if the target avoids a hit. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Skill Link Ability, this move will always hit three times.",
 		shortDesc: "Hits 3 times. Each hit can miss, but power rises.",
 	},
 	tripledive: {
@@ -7262,8 +7257,7 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	veeveevolley: {
 		name: "Veevee Volley",
-		desc: "Power is equal to the greater of (user's Happiness * 2/5), rounded down, or 1.",
-		shortDesc: "Max happiness: 102 power. Can't miss.",
+		shortDesc: "No additional effect.",
 	},
 	venomdrench: {
 		name: "Venom Drench",
@@ -7348,13 +7342,13 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	waterpulse: {
 		name: "Water Pulse",
-		desc: "Has a 20% chance to confuse the target.",
-		shortDesc: "20% chance to confuse the target.",
+		desc: "Has a 30% chance to confuse the target.",
+		shortDesc: "30% chance to confuse the target.",
 	},
 	watershuriken: {
 		name: "Water Shuriken",
-		desc: "Hits two to five times. Has a 35% chance to hit two or three times and a 15% chance to hit four or five times. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Skill Link Ability, this move will always hit five times. If the user is an Ash-Greninja with the Battle Bond Ability, this move has a power of 20 and always hits three times. If the user is holding Loaded Dice, this move will hit 4-5 times.",
-		shortDesc: "Usually goes first. Hits 2-5 times in one turn.",
+		desc: "Hits two to five times. Has a 35% chance to hit two or three times and a 15% chance to hit four or five times. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Skill Link Ability, this move will always hit five times. If the user is an Ash-Greninja with the Battle Bond Ability, this move has a power of 20 and always hits three times. If the user is holding Loaded Dice, this move will hit 4-5 times. If the user is Greninja-Mega, this move will have 75 base power and hit once.",
+		shortDesc: "Usually goes first. Hits 2-5 times in one turn, or once if Greninja-Mega.",
 		gen8: {
 			desc: "Hits two to five times. Has a 35% chance to hit two or three times and a 15% chance to hit four or five times. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Skill Link Ability, this move will always hit five times.",
 		},
@@ -7599,8 +7593,8 @@ export const MovesText: { [id: IDEntry]: MoveText } = {
 	},
 	zenheadbutt: {
 		name: "Zen Headbutt",
-		desc: "Has a 20% chance to make the target flinch.",
-		shortDesc: "20% chance to make the target flinch.",
+		desc: "Has a 25% chance to make the target flinch.",
+		shortDesc: "25% chance to make the target flinch.",
 	},
 	zingzap: {
 		name: "Zing Zap",

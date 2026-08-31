@@ -1632,7 +1632,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				if (pokemon.species.id === 'rayquaza') {
 					pokemon.canMegaEvo = null;
 					// ability to terastal was determined before the clause activated, causing incorrect behavior
-					if (!this.ruleTable.has('terastalclause')) {
+					if (this.ruleTable.has('terastalclause')) {
 						pokemon.canTerastallize = this.actions.canTerastallize(pokemon);
 					}
 				}
@@ -1661,12 +1661,9 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 	terastalclause: {
 		effectType: 'Rule',
 		name: 'Terastal Clause',
-		desc: "Prevents Pok&eacute;mon from Terastallizing",
+		desc: "Allows Pok&eacute;mon to Terastallizing",
 		onBegin() {
-			for (const pokemon of this.getAllPokemon()) {
-				pokemon.canTerastallize = null;
-			}
-			this.add('rule', 'Terastal Clause: You cannot Terastallize');
+			this.add('rule', 'Terastal Clause: You can Terastallize');
 		},
 	},
 	fullarceusclause: {

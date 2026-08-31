@@ -690,8 +690,8 @@ export class BattleActions {
 			let accuracy = move.accuracy;
 			if (move.ohko) { // bypasses accuracy modifiers
 				if (!target.isSemiInvulnerable()) {
-					accuracy = 30;
-					if (move.ohko === 'Ice' && this.battle.gen >= 7 && !pokemon.hasType('Ice')) {
+					accuracy = 10;
+					if (move.ohko === 'Ice' && this.battle.gen >= 7 && pokemon.hasType('Ice')) {
 						accuracy = 20;
 					}
 					if (!target.volatiles['dynamax'] && pokemon.level >= target.level &&
@@ -1380,7 +1380,7 @@ export class BattleActions {
 				if (hitResult) {
 					target.forceSwitchFlag = true;
 				} else if (hitResult === false && move.category === 'Status') {
-					this.battle.add('-fail', source);
+					target.clearBoosts();
 					this.battle.attrLastMove('[still]');
 					damage[i] = false;
 				}
@@ -1733,7 +1733,7 @@ export class BattleActions {
 		const type = move.type;
 
 		baseDamage += 2;
-
+		
 		if (move.spreadHit) {
 			// multi-target modifier (doubles only)
 			const spreadModifier = this.battle.gameType === 'freeforall' ? 0.5 : 0.75;
@@ -1801,15 +1801,13 @@ export class BattleActions {
 		typeMod = this.battle.clampIntRange(typeMod, -6, 6);
 		target.getMoveHitData(move).typeMod = typeMod;
 		if (typeMod > 0) {
-			if (!suppressMessages) this.battle.add('-supereffective', target);
-
+			if (!suppressMessages) this.battle.add('-supereffective', target, Math.min(typeMod, 2));
 			for (let i = 0; i < typeMod; i++) {
 				baseDamage *= 2;
 			}
 		}
 		if (typeMod < 0) {
-			if (!suppressMessages) this.battle.add('-resisted', target);
-
+			if (!suppressMessages) this.battle.add('-resisted', target, Math.min(-typeMod, 2));
 			for (let i = 0; i > typeMod; i--) {
 				baseDamage = tr(baseDamage / 2);
 			}
@@ -1819,7 +1817,7 @@ export class BattleActions {
 
 		if (pokemon.status === 'brn' && move.category === 'Physical' && !pokemon.hasAbility('guts')) {
 			if (this.battle.gen < 6 || move.id !== 'facade') {
-				baseDamage = this.battle.modify(baseDamage, 0.75);
+				baseDamage = this.battle.modify(baseDamage, 0.5);
 			}
 		}
 
@@ -1881,14 +1879,7 @@ export class BattleActions {
 			pokemon.baseMoves.includes(toID(altForme.requiredMove)) && !item.zMove) {
 			return altForme.name;
 		}
-		if (!item.megaStone) return null;
-		// TODO confirm with generation shift
-		let megaEvolution = item.megaStone[species.name];
-		if (megaEvolution && this.dex.species.get(megaEvolution).gen >= 9) return megaEvolution;
-		// a hacked-in Megazard X can mega evolve into Megazard Y, but not into Megazard X
-		// FIXME: Change to species.name when champions comes
-		megaEvolution = item.megaStone[species.baseSpecies];
-		return megaEvolution && megaEvolution !== species.name ? megaEvolution : null;
+		return item.megaStone?.[species.name] || null;
 	}
 
 	canUltraBurst(pokemon: Pokemon) {
@@ -1929,6 +1920,7 @@ export class BattleActions {
 		if (pokemon.getItem().zMove || pokemon.canMegaEvo || this.dex.gen !== 9) {
 			return null;
 		}
+		if (!this.battle.ruleTable.has('terastalclause')) return null;
 		return pokemon.teraType;
 	}
 

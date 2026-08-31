@@ -273,6 +273,8 @@ export class Pokemon {
 	weighthg: number;
 	speed: number;
 
+	knowsSurf?: boolean;
+
 	wasFakedOut: true | false;
 
 	canMegaEvo: string | false | null | undefined;
@@ -509,6 +511,10 @@ export class Pokemon {
 		this.hp = 0;
 		this.clearVolatile();
 		this.hp = this.maxhp;
+
+		for (const MoveSlot of this.moveSlots) {
+			if (MoveSlot.id === 'surf') this.knowsSurf = true;
+		}
 	}
 
 	toJSON(): AnyObject {
@@ -649,9 +655,9 @@ export class Pokemon {
 		const trickRoomCheck = this.battle.ruleTable.has('twisteddimensionmod') ?
 			!this.battle.field.getPseudoWeather('trickroom') : this.battle.field.getPseudoWeather('trickroom');
 		if (trickRoomCheck) {
-			speed = 10000 - speed;
+			speed = -speed;
 		}
-		return this.battle.trunc(speed, 13);
+		return speed;
 	}
 
 	/**
@@ -1450,7 +1456,7 @@ export class Pokemon {
 		isPermanent?: boolean, abilitySlot = '0', message?: string
 	) {
 		const rawSpecies = this.battle.dex.species.get(speciesId);
-
+		
 		const species = this.setSpecies(rawSpecies, source);
 		if (!species) return false;
 
@@ -1486,7 +1492,6 @@ export class Pokemon {
 					this.battle.add('-mega', this, apparentSpecies, species.requiredItem);
 					this.moveThisTurnResult = true; // Mega Evolution counts as an action for Truant
 				}
-				this.formeRegression = true;
 			} else if (source.effectType === 'Status') {
 				// Shaymin-Sky -> Shaymin
 				this.battle.add('-formechange', this, species.name, message);
@@ -1507,7 +1512,7 @@ export class Pokemon {
 			// Ogerpon's forme change doesn't override permanent abilities
 			if (source || !this.getAbility().flags['cantsuppress']) this.setAbility(ability, null, null, true);
 			// However, its ability does reset upon switching out
-			this.baseAbility = toID(ability);
+			this.baseAbility = this.battle.toID(ability);
 		}
 		if (this.terastallized) {
 			this.knownType = true;
@@ -2227,6 +2232,7 @@ export class Pokemon {
 	}
 
 	runEffectiveness(move: ActiveMove) {
+		if (this.knowsSurf && move.type === 'Water') return 0;
 		let totalTypeMod = 0;
 		if (this.terastallized && move.type === 'Stellar') {
 			totalTypeMod = 1;

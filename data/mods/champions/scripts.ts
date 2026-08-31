@@ -31,16 +31,6 @@ export const Scripts: ModdedBattleScriptsData = {
 		return move.noPPBoosts ? move.pp : (move.pp / 5 + 1) * 4;
 	},
 	pokemon: {
-		// Remove Trick Room underflow
-		getActionSpeed() {
-			let speed = this.getStat('spe', false, false);
-			const trickRoomCheck = this.battle.ruleTable.has('twisteddimensionmod') ?
-				!this.battle.field.getPseudoWeather('trickroom') : this.battle.field.getPseudoWeather('trickroom');
-			if (trickRoomCheck) {
-				speed = -speed;
-			}
-			return speed;
-		},
 		// Don't revert Mega Evolutions after fainting
 		// TODO: confirm interaction with Revival Blessing
 		formeChange(speciesId, source, isPermanent, abilitySlot = '0', message) {
@@ -111,22 +101,6 @@ export const Scripts: ModdedBattleScriptsData = {
 		},
 	},
 	actions: {
-		canTerastallize(pokemon) {
-			return null;
-		},
-		canMegaEvo(pokemon: Pokemon) {
-			const species = pokemon.baseSpecies;
-			const altForme = species.otherFormes && this.dex.species.get(species.otherFormes[0]);
-			const item = pokemon.getItem();
-			// Mega Rayquaza
-			if ((this.battle.gen <= 7 || this.battle.ruleTable.has('+pokemontag:past') ||
-				this.battle.ruleTable.has('+pokemontag:future')) &&
-				altForme?.isMega && altForme?.requiredMove &&
-				pokemon.baseMoves.includes(toID(altForme.requiredMove)) && !item.zMove) {
-				return altForme.name;
-			}
-			return item.megaStone?.[species.name] || null;
-		},
 		// Announce 4x and 0.25x effectiveness
 		modifyDamage(baseDamage, pokemon, target, move, suppressMessages) {
 			const tr = this.battle.trunc;

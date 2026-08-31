@@ -8,12 +8,6 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 	// Rulesets
 	///////////////////////////////////////////////////////////////////
 
-	openitemsheets: {
-		effectType: 'Rule',
-		name: 'Open Item Sheets',
-		desc: "Allows players to optionally display held items.",
-		// finish this later ig
-	},
 	superchampions: {
 		effectType: 'Rule',
 		name: 'Super Champions',

@@ -44,6 +44,14 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		onAfterMove(source, target, move) {
 			if (source.shouldPriority) source.shouldPriority = undefined;
 		},
+		checkCanLearn(move, species, setSources, set) {
+			if (
+				(species.types.includes('Steel') && move.id === 'metalburst') ||
+				(species.types.includes('Rock') && move.id === 'Smack Down') ||
+				move.id === 'doubleteam' || move.id === 'quickattack' ||
+					move.id === 'taunt'
+			) { return '9L1' } else return null;
+		},
 	},
 
 	// Other Rulesets

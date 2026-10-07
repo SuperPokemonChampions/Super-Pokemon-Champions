@@ -50,7 +50,9 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				(species.types.includes('Rock') && move.id === 'Smack Down') ||
 				move.id === 'doubleteam' || move.id === 'quickattack' ||
 					move.id === 'taunt'
-			) { return '9L1' } else return null;
+			) {
+				return '9L1';
+			} else return this.checkCanLearn(move, species, setSources, set);
 		},
 	},
 

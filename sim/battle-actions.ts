@@ -906,7 +906,7 @@ export class BattleActions {
 			// like this (Triple Kick)
 			if (target && move.multiaccuracy && hit > 1) {
 				let accuracy = move.accuracy;
-				const boostTable = [1, 4 / 3, 5 / 3, 2, 7 / 3, 8 / 3, 3];
+				const boostTable = [1, 7 / 6, 8 / 6, 9 / 6, 10 / 6, 11 / 6, 2, 13 / 6, 14 / 6, 15 / 6, 16 / 6, 3];
 				if (accuracy !== true) {
 					if (!move.ignoreAccuracy) {
 						const boosts = this.battle.runEvent('ModifyBoost', pokemon, null, null, { ...pokemon.boosts });

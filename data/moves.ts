@@ -18235,15 +18235,15 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			},
 			onSwitchIn(pokemon) {
 				if (pokemon.hasItem('heavydutyboots')) return;
-				let typeMod = this.clampIntRange(pokemon.runEffectiveness(this.dex.getActiveMove('stealthrock')), -6, 6);
-				// fuck this
-				if (typeMod === 0.25) typeMod = 1;
-				else if (typeMod === 0.5) typeMod = 2.5;
-				else if (typeMod === 1) typeMod = 5;
-				else if (typeMod === 2) typeMod = 7.5;
-				else if (typeMod === 4) typeMod = 10;
-				else throw new Error(`stealthrock damage invalid damage mult ${typeMod}`);
-				this.damage(typeMod / 100);
+				const typeMod = this.clampIntRange(pokemon.runEffectiveness(this.dex.getActiveMove('stealthrock')), -6, 6);
+				const damage: { [k: number]: number } = {
+					0.25: 1,
+					0.5: 2.5,
+					1: 5,
+					2: 7.5,
+					4: 10,
+				}
+				this.damage(pokemon.maxhp * (damage[typeMod] || 0));
 			},
 		},
 		target: "foeSide",

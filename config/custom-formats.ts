@@ -19,19 +19,19 @@ export const Formats: FormatList = [
 		name: "[Super Champions] Singles 3v3",
 		mod: 'champions',
 		bestOfDefault: true,
-		ruleset: ['Flat Rules', 'VGC Timer', 'Open Team Sheets', 'Super Champions'],
+		ruleset: ['Flat Rules', 'VGC Timer', 'Open Team Sheets', 'Super Champions', '!Item Clause'],
 	},
 	{
 		name: "[Super Champions] Singles 4v4",
 		mod: 'champions',
 		bestOfDefault: true,
-		ruleset: ['Flat Rules', 'VGC Timer', '!!Picked Team Size = 4', 'Open Team Sheets', 'Super Champions'],
+		ruleset: ['Flat Rules', 'VGC Timer', '!!Picked Team Size = 4', 'Open Team Sheets', 'Super Champions', '!Item Clause'],
 	},
 	{
 		name: "[Super Champions] Singles 6v6",
 		mod: 'champions',
 		bestOfDefault: true,
-		ruleset: ['Flat Rules', 'VGC Timer', '!!Picked Team Size = 6', 'Open Team Sheets', 'Super Champions'],
+		ruleset: ['Flat Rules', 'VGC Timer', '!!Picked Team Size = 6', 'Open Team Sheets', 'Super Champions', '!Item Clause'],
 	},
 	{
 		name: "[Super Champions] VGC 6v6",

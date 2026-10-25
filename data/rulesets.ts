@@ -15,15 +15,8 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		// Heal on switch
 		onSwitchOut(pokemon) {
 			if (!pokemon.hasAbility('Regenerator')) {
-				this.heal(pokemon.maxhp / 12);
+				this.heal(pokemon.maxhp / 12, pokemon, pokemon, 'Take a Break' as unknown as Effect);
 			};
-		},
-		// Remove crits if +0 ratio
-		onAnyCriticalHit(pokemon, source, move) {
-			// @ts-expect-error
-			if (source.critRatio < 1) {
-				return false;
-			}
 		},
 		// No effects should affect OHKO moves
 		onAccuracy(accuracy, target, source, move) {

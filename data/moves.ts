@@ -8784,7 +8784,7 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		name: "Heat Wave",
 		pp: 10,
 		priority: 0,
-		flags: { protect: 1, mirror: 1, metronome: 1, wind: 1 },
+		flags: { protect: 1, mirror: 1, metronome: 1, wind: 1, defrost: 1 },
 		secondary: {
 			chance: 10,
 			status: 'brn',
@@ -18235,15 +18235,10 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 			},
 			onSwitchIn(pokemon) {
 				if (pokemon.hasItem('heavydutyboots')) return;
-				const typeMod = this.clampIntRange(pokemon.runEffectiveness(this.dex.getActiveMove('stealthrock')), -6, 6);
-				const damage: { [k: number]: number } = {
-					0.25: 1,
-					0.5: 2.5,
-					1: 5,
-					2: 7.5,
-					4: 10,
-				}
-				this.damage(pokemon.maxhp * (damage[typeMod] || 0));
+				const typeMod = this.clampIntRange(pokemon.runEffectiveness(this.dex.getActiveMove('stealthrock')), -2, 2);
+				// index 0..4 = typeMod -2..2 (4x resist, resist, neutral, weak, 4x weak)
+				const percents = [1, 2.5, 5, 7.5, 10];
+				this.damage(pokemon.maxhp * percents[typeMod + 2] / 100);
 			},
 		},
 		target: "foeSide",

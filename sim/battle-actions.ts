@@ -1641,7 +1641,7 @@ export class BattleActions {
 		const moveHit = target.getMoveHitData(move);
 		moveHit.crit = move.willCrit || false;
 		if (move.willCrit === undefined) {
-			if (critRatio) {
+			if (critRatio > 1) {
 				moveHit.crit = this.battle.randomChance(1, critMult[critRatio]);
 			}
 		}

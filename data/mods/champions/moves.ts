@@ -1376,7 +1376,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	workup: {
 		inherit: true,
 		pp: 20,
-		isNonstandard: "Past",
+		isNonstandard: null,
 	},
 	zingzap: {
 		inherit: true,

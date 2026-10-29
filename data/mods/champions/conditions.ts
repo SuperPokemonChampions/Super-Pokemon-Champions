@@ -1,4 +1,14 @@
 export const Conditions: import('../../../sim/dex-conditions').ModdedConditionDataTable = {
+	flinch: {
+		inherit: true,
+		duration: 2,
+		onBeforeMove(pokemon) {
+			this.add('cant', pokemon, 'flinch');
+			this.runEvent('Flinch', pokemon);
+			pokemon.removeVolatile('flinch');
+			return false;
+		},
+	},
 	drowsy: {
 		name: 'Drowsy',
 		duration: 2,

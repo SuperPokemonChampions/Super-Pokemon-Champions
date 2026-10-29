@@ -114,7 +114,16 @@ export class BattleActions {
 				pokemon.copyVolatileFrom(oldActive, switchCopyFlag);
 			}
 			if (newMove) pokemon.lastMove = newMove;
+			const retainedOffensiveBoosts =
+				['champions', 'superchampions'].includes(this.battle.dex.modid) && !isDrag && !oldActive.forceSwitchFlag ? {
+					atk: Math.max(0, Math.min(oldActive.boosts.atk - 1, 2)),
+					spa: Math.max(0, Math.min(oldActive.boosts.spa - 1, 2)),
+				} : null;
 			oldActive.clearVolatile();
+			if (retainedOffensiveBoosts) {
+				oldActive.boosts.atk = retainedOffensiveBoosts.atk;
+				oldActive.boosts.spa = retainedOffensiveBoosts.spa;
+			}
 		}
 		if (oldActive) {
 			oldActive.isActive = false;

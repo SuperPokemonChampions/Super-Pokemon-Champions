@@ -16,6 +16,16 @@ export const Formats: FormatList = [
 		ruleset: ['Obtainable', 'Species Clause', 'HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod', 'Illusion Level Mod', 'Super Champions'],
 	}, */
 	{
+		name: "[Super Champions] Singles 6v6",
+		mod: 'champions',
+		bestOfDefault: true,
+		ruleset: [
+			'Flat Rules', '!! Adjust Level = 50', '!! Max Level = 50', '!! Default Level = 50',
+			'VGC Timer', '!! Timer Starting = 300', '!!Picked Team Size = 6', 'Open Team Sheets',
+			'Super Champions', '!Item Clause',
+		],
+	},
+	{
 		name: "[Super Champions] Singles 3v3",
 		mod: 'champions',
 		bestOfDefault: true,
@@ -26,12 +36,6 @@ export const Formats: FormatList = [
 		mod: 'champions',
 		bestOfDefault: true,
 		ruleset: ['Flat Rules', 'VGC Timer', '!!Picked Team Size = 4', 'Open Team Sheets', 'Super Champions', '!Item Clause'],
-	},
-	{
-		name: "[Super Champions] Singles 6v6",
-		mod: 'champions',
-		bestOfDefault: true,
-		ruleset: ['Flat Rules', 'VGC Timer', '!!Picked Team Size = 6', 'Open Team Sheets', 'Super Champions', '!Item Clause'],
 	},
 	{
 		name: "[Super Champions] VGC 6v6",

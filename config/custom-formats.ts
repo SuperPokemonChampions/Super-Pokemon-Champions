@@ -19,8 +19,8 @@ export const Formats: FormatList = [
 		name: "[Super Champions] Singles 6v6",
 		mod: 'champions',
 		bestOfDefault: true,
-		ruleset: [
-			'Flat Rules', '!! Max Level = 50', '!! Default Level = 50',
+			ruleset: [
+			'Flat Rules',
 			'VGC Timer', '!! Timer Starting = 300', '!!Picked Team Size = 6', 'Open Team Sheets',
 			'Super Champions', '!Item Clause',
 		],

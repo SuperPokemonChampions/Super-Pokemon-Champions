@@ -6,6 +6,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 	},
 	sharpness: {
 		inherit: true,
+		isNonstandard: null,
 		desc: "Increases the power of slicing moves by 25%.",
 		shortDesc: "Increases slicing move power by 25%.",
 		onBasePower(basePower, attacker, defender, move) {

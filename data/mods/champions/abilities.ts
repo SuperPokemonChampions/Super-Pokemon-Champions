@@ -1,6 +1,13 @@
 export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTable = {
+	sheerforce: {
+		inherit: true,
+		desc: "Removes move secondary effects to increase power, but does not prevent Life Orb recoil or Shell Bell recovery.",
+		shortDesc: "Boosts moves with secondary effects; Life Orb recoil and Shell Bell recovery still apply.",
+	},
 	sharpness: {
 		inherit: true,
+		desc: "Increases the power of slicing moves by 25%.",
+		shortDesc: "Increases slicing move power by 25%.",
 		onBasePower(basePower, attacker, defender, move) {
 			if (move.flags['slicing']) return this.chainModify(1.25);
 		},

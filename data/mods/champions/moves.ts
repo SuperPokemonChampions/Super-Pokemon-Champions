@@ -1,5 +1,10 @@
 export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
-	airslash: { inherit: true, basePower: 90, accuracy: 90, pp: 12, secondary: { chance: 20, volatileStatus: 'flinch' } },
+	airslash: {
+		inherit: true, basePower: 90, accuracy: 90, pp: 12,
+		secondary: { chance: 20, volatileStatus: 'flinch' },
+		desc: "Has a 20% chance to make the target flinch.",
+		shortDesc: "20% chance to make the target flinch.",
+	},
 	aquaring: {
 		inherit: true,
 		target: 'adjacentAllyOrSelf',
@@ -9,12 +14,22 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 			onSourceModifyDamage(damage, source, target, move) { if (move.type === 'Fire') return this.chainModify(0.75); },
 		},
 	},
-	bodyslam: { inherit: true, pp: 12, secondary: { chance: 10, status: 'par' } },
-	ceaselessedge: { inherit: true, basePower: 75 },
-	curse: { inherit: true },
-	darkpulse: { inherit: true, secondary: { chance: 10, volatileStatus: 'flinch' } },
+	bodyslam: {
+		inherit: true, pp: 12, secondary: { chance: 10, status: 'par' },
+		desc: "Has a 10% chance to paralyze the target.",
+		shortDesc: "10% chance to paralyze the target.",
+	},
+	ceaselessedge: { inherit: true, basePower: 75, desc: "75 base power.", shortDesc: "75 base power." },
+	curse: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
+	darkpulse: {
+		inherit: true, secondary: { chance: 10, volatileStatus: 'flinch' },
+		desc: "Has a 10% chance to make the target flinch.",
+		shortDesc: "10% chance to make the target flinch.",
+	},
 	detect: {
 		inherit: true,
+		desc: "In Singles, blocks contact moves and makes the user's next move of the same or higher priority go first. It dodges moves that can miss rather than blocking them.",
+		shortDesc: "In Singles, contact moves grant the user priority next turn.",
 		condition: {
 			inherit: true,
 			onTryHit(target, source, move) {
@@ -33,30 +48,46 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	destinybond: {
 		inherit: true,
 		pp: 1,
+		desc: "If the user is knocked out by an opponent's move, that opponent also faints. Expires after an opponent acts. Goes before moves of the same priority.",
+		shortDesc: "If knocked out by an opponent, that opponent also faints.",
 	},
-	disable: { inherit: true },
+	disable: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
 	discharge: {
 		inherit: true,
 		secondary: { chance: 10, status: 'par' },
+		desc: "Removes all entry hazards. Has a 10% chance to paralyze the target.",
+		shortDesc: "Removes all entry hazards; 10% chance to paralyze.",
 		onHit(target, source) {
 			for (const side of [source.side, source.side.foe]) {
 				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) side.removeSideCondition(hazard);
 			}
 		},
 	},
-	firespin: { inherit: true, accuracy: 100, pp: 8, flags: { defrost: 1 } },
-	flamethrower: { inherit: true, secondary: undefined, flags: { defrost: 1 } },
-	flareblitz: { inherit: true, secondary: undefined },
-	flipturn: { inherit: true, basePower: 50, pp: 8 },
-	glare: { inherit: true },
-	gravity: { inherit: true },
-	guardswap: { inherit: true },
-	haze: { inherit: true },
-	heatwave: { inherit: true, accuracy: 95, secondary: undefined },
-	icebeam: { inherit: true, secondary: undefined },
-	imprison: { inherit: true },
+	firespin: {
+		inherit: true, accuracy: 100, pp: 8, flags: { defrost: 1 },
+		desc: "Thaws the user. Goes before moves of the same priority.",
+		shortDesc: "100% accurate; thaws the user.",
+	},
+	flamethrower: {
+		inherit: true, secondary: undefined, flags: { defrost: 1 },
+		desc: "Thaws the user. Has no burn effect.", shortDesc: "Thaws the user; no burn effect.",
+	},
+	flareblitz: { inherit: true, secondary: undefined, desc: "Has no burn effect.", shortDesc: "No burn effect." },
+	flipturn: { inherit: true, basePower: 50, pp: 8, desc: "50 base power; 8 PP.", shortDesc: "50 base power; 8 PP." },
+	glare: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
+	gravity: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
+	guardswap: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
+	haze: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
+	heatwave: {
+		inherit: true, accuracy: 95, secondary: undefined,
+		desc: "Has 95% accuracy and no secondary effect.", shortDesc: "95% accurate; no secondary effect.",
+	},
+	icebeam: { inherit: true, secondary: undefined, desc: "Has no secondary effect.", shortDesc: "No secondary effect." },
+	imprison: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
 	instruct: {
 		inherit: true,
+		desc: "Repeats the target's last move immediately after it, but never before moves of higher priority.",
+		shortDesc: "Repeats the target's last move immediately after it.",
 		onHit(target, source) {
 			if (!target.lastMove || target.volatiles['dynamax']) return false;
 			const lastMove = target.lastMove;
@@ -86,11 +117,20 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 			}
 		},
 	},
-	partingshot: { inherit: true, pp: 8 },
-	playrough: { inherit: true, secondary: { chance: 30, boosts: { atk: -2 } } },
-	populationbomb: { inherit: true, basePower: 10, accuracy: 85 },
+	partingshot: { inherit: true, pp: 8, desc: "8 PP.", shortDesc: "8 PP." },
+	playrough: {
+		inherit: true, secondary: { chance: 30, boosts: { atk: -2 } },
+		desc: "Has a 30% chance to lower the target's Attack by 2 stages.",
+		shortDesc: "30% chance to lower the target's Attack by 2 stages.",
+	},
+	populationbomb: {
+		inherit: true, basePower: 10, accuracy: 85,
+		desc: "10 base power; 85% accuracy.", shortDesc: "10 base power; 85% accuracy.",
+	},
 	psychup: {
 		inherit: true,
+		desc: "Copies the target's stat changes to the user and its active teammates. Goes before moves of the same priority.",
+		shortDesc: "Copies stat changes to the user and active teammates.",
 		onHit(target, source) {
 			let i: BoostID;
 			for (i in target.boosts) source.boosts[i] = target.boosts[i];
@@ -103,9 +143,13 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 			for (const volatile of volatilesToCopy) if (target.volatiles[volatile]) source.addVolatile(volatile);
 		},
 	},
-	psychic: { inherit: true, secondary: { chance: 10, boosts: { spd: -1 } } },
+	psychic: {
+		inherit: true, secondary: { chance: 10, boosts: { spd: -1 } },
+		desc: "Has a 10% chance to lower the target's Special Defense by 1 stage.",
+		shortDesc: "10% chance to lower the target's Sp. Def by 1 stage.",
+	},
 	psychicterrain: { inherit: true },
-	quash: { inherit: true },
+	quash: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
 	raindance: { inherit: true },
 	reflect: { inherit: true },
 	safeguard: {
@@ -456,6 +500,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	encore: {
 		inherit: true,
+		desc: "Goes before moves of the same priority.",
+		shortDesc: "Goes before moves of the same priority.",
 		condition: {
 			inherit: true,
 			onStart(target) {
@@ -841,6 +887,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		accuracy: 95,
 		pp: 8,
 		secondary: { chance: 30, boosts: { accuracy: -1 } },
+		desc: "Has a 30% chance to lower the target's accuracy by 1 stage.",
+		shortDesc: "95% accurate; 30% chance to lower accuracy.",
 	},
 	nightslash: {
 		inherit: true,
@@ -954,6 +1002,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		inherit: true,
 		accuracy: 80,
 		isNonstandard: "Past",
+		desc: "Has 80% accuracy.",
+		shortDesc: "80% accurate.",
 	},
 	ragefist: {
 		inherit: true,
@@ -980,6 +1030,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		inherit: true,
 		pp: 1,
 		isNonstandard: "Custom",
+		desc: "Revives a fainted teammate with 50% HP. The user loses 50% of its max HP.",
+		shortDesc: "Revives an ally; the user loses 50% max HP.",
 		onHit(source) {
 			this.damage(source.baseMaxhp / 2, source, source, this.dex.moves.get('revivalblessing') as ActiveMove);
 		},

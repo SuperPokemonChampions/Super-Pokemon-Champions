@@ -2,7 +2,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 	sharpness: {
 		inherit: true,
 		onBasePower(basePower, attacker, defender, move) {
-			if (move.flags['slicing']) return this.chainModify(1.875);
+			if (move.flags['slicing']) return this.chainModify(1.25);
 		},
 	},
 	angershell: {

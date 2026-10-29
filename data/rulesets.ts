@@ -2,6 +2,32 @@
 
 import type { Learnset } from "../sim/dex-species";
 
+const AURA_SPHERE_EXCEPTIONS = new Set([
+	'aerodactyl', 'alakazam', 'mukalola', 'exeggutoralola', 'amoonguss', 'bewear', 'blacephalon',
+	'braviary', 'chandelure', 'cloyster', 'diggersby', 'dragonite', 'druddigon', 'electrode',
+	'ekans', 'excadrill', 'exeggutor', 'feraligatr', 'forretress', 'furret', 'galvantula',
+	'weezinggalar', 'garbodor', 'gengar', 'golduck', 'golurk', 'grapploct', 'guzzlord',
+	'krookodile', 'magmortar', 'malamar', 'melmetal', 'mudsdale', 'muk', 'noivern', 'omastar',
+	'palossand', 'parasect', 'pinsir', 'polteageist', 'rampardos', 'relicanth', 'reuniclus',
+	'rhydon', 'rhyperior', 'runerigus', 'shuckle', 'slaking', 'snorlax', 'spiritomb', 'starmie',
+	'stonjourner', 'swampert', 'talonflame', 'toxtricity', 'tyranitar', 'typhlosion', 'vileplume',
+	'weezing',
+]);
+const ENDEAVOR_EXCEPTIONS = new Set([
+	'shedinja', 'metapod', 'kakuna', 'silcoon', 'cascoon', 'spewpa', 'unown', 'porygon', 'porygon2',
+	'porygonz', 'magearna', 'cosmog', 'cosmoem', 'togedemaru', 'ditto', 'grimer', 'muk', 'slugma',
+	'magcargo', 'gulpin', 'swalot', 'castform', 'milcery', 'alcremie', 'magnemite', 'magneton',
+	'magnezone', 'voltorb', 'electrode', 'baltoy', 'claydol', 'bronzor', 'bronzong', 'klink', 'klang',
+	'klinklang', 'klefki', 'orthworm', 'sunkern', 'parasect', 'bounsweet', 'slakoth', 'slaking', 'komala',
+]);
+const WORK_UP_EXCEPTIONS = new Set([
+	'aegislash', 'alcremie', 'bronzong', 'bronzor', 'chandelure', 'cofagrigus', 'cosmoem', 'cosmog',
+	'ditto', 'drifblim', 'dusknoir', 'grimer', 'honedge', 'klang', 'klink', 'klinklang', 'komala',
+	'lampent', 'litwick', 'magnemite', 'magneton', 'magnezone', 'milcery', 'minior', 'muk',
+	'polteageist', 'poltchageist', 'pyukumuku', 'reuniclus', 'runerigus', 'shuckle', 'sinistcha',
+	'sinistea', 'slaking', 'solosis', 'wynaut', 'wobbuffet',
+]);
+
 // The list of formats is stored in config/formats.js
 export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 
@@ -31,13 +57,25 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			};
 		},
 		// Detect stuff
-		onModifyPriority(relayVar, source, target, move) {
-			if (source.shouldPriority) move.priority = move.priority + 0.2;
+		onModifyPriority(priority, source, target, move) {
+			if (source.shouldPriority) priority += 0.2;
+			if (move && [
+				'courtchange', 'curse', 'destinybond', 'disable', 'encore', 'glare', 'gravity',
+				'guardswap', 'haze', 'imprison', 'psychup', 'quash',
+			].includes(move.id)) priority += 0.1;
+			return priority;
 		},
 		onAfterMove(source, target, move) {
 			if (source.shouldPriority) source.shouldPriority = undefined;
+			for (const foe of source.side.foe.activeTeam()) foe?.removeVolatile('destinybond');
 		},
 		checkCanLearn(move, species, setSources, set) {
+			if (move.id === 'aurasphere' && !AURA_SPHERE_EXCEPTIONS.has(species.id)) {
+				const focusBlast = this.checkCanLearn(this.dex.moves.get('focusblast'), species, this.allSources(species), set);
+				if (!focusBlast) return '9M';
+			}
+			if (move.id === 'endeavor' && !ENDEAVOR_EXCEPTIONS.has(species.id) && !species.types.includes('Ghost')) return '9M';
+			if (move.id === 'workup' && !WORK_UP_EXCEPTIONS.has(species.id)) return '9M';
 			if (
 				(species.types.includes('Steel') && move.id === 'metalburst') ||
 				(species.types.includes('Rock') && move.id === 'Smack Down') ||

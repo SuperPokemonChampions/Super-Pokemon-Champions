@@ -30,7 +30,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 			},
 		},
 	},
-	destinybond: { inherit: true, pp: 1 },
+	destinybond: {
+		inherit: true,
+		pp: 1,
+	},
 	disable: { inherit: true },
 	discharge: {
 		inherit: true,
@@ -701,8 +704,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 			chance: 10,
 			volatileStatus: 'flinch',
 		},
-		desc: "Has a 20% chance to make the target flinch.",
-		shortDesc: "20% chance to make the target flinch.",
+		desc: "Has a 10% chance to make the target flinch.",
+		shortDesc: "10% chance to make the target flinch.",
 	},
 	ivycudgel: {
 		inherit: true,

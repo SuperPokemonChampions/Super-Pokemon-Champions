@@ -1,4 +1,166 @@
 export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+	airslash: { inherit: true, basePower: 90, accuracy: 90, pp: 12, secondary: { chance: 20, volatileStatus: 'flinch' } },
+	aquaring: {
+		inherit: true,
+		target: 'adjacentAllyOrSelf',
+		condition: {
+			inherit: true,
+			onSetStatus(status) { if (status.id === 'brn') return false; },
+			onSourceModifyDamage(damage, source, target, move) { if (move.type === 'Fire') return this.chainModify(0.75); },
+		},
+	},
+	bodyslam: { inherit: true, pp: 12, secondary: { chance: 10, status: 'par' } },
+	ceaselessedge: { inherit: true, basePower: 75 },
+	curse: { inherit: true },
+	darkpulse: { inherit: true, secondary: { chance: 10, volatileStatus: 'flinch' } },
+	detect: {
+		inherit: true,
+		condition: {
+			inherit: true,
+			onTryHit(target, source, move) {
+				if (move.accuracy === true || move.alwaysHit) return;
+				if (move.smartTarget) move.smartTarget = false;
+				else this.add('-activate', target, 'move: Protect');
+				const lockedmove = source.getVolatile('lockedmove');
+				if (lockedmove && source.volatiles['lockedmove'].duration === 2) delete source.volatiles['lockedmove'];
+				return this.NOT_FAIL;
+			},
+			onHit(target, source, move) {
+				if (this.format.gameType === 'singles' && this.checkMoveMakesContact(move, source, target)) target.shouldPriority = true;
+			},
+		},
+	},
+	destinybond: { inherit: true, pp: 1 },
+	disable: { inherit: true },
+	discharge: {
+		inherit: true,
+		secondary: { chance: 10, status: 'par' },
+		onHit(target, source) {
+			for (const side of [source.side, source.side.foe]) {
+				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) side.removeSideCondition(hazard);
+			}
+		},
+	},
+	firespin: { inherit: true, accuracy: 100, pp: 8, flags: { defrost: 1 } },
+	flamethrower: { inherit: true, secondary: undefined, flags: { defrost: 1 } },
+	flareblitz: { inherit: true, secondary: undefined },
+	flipturn: { inherit: true, basePower: 50, pp: 8 },
+	glare: { inherit: true },
+	gravity: { inherit: true },
+	guardswap: { inherit: true },
+	haze: { inherit: true },
+	heatwave: { inherit: true, accuracy: 95, secondary: undefined },
+	icebeam: { inherit: true, secondary: undefined },
+	imprison: { inherit: true },
+	instruct: {
+		inherit: true,
+		onHit(target, source) {
+			if (!target.lastMove || target.volatiles['dynamax']) return false;
+			const lastMove = target.lastMove;
+			const moveSlot = target.getMoveData(lastMove.id);
+			if (
+				lastMove.flags['failinstruct'] || lastMove.isZ || lastMove.isMax || lastMove.flags['charge'] ||
+				lastMove.flags['recharge'] || target.volatiles['beakblast'] || target.volatiles['focuspunch'] ||
+				target.volatiles['shelltrap'] || (moveSlot && moveSlot.pp <= 0)
+			) return false;
+			this.add('-singleturn', target, 'move: Instruct', `[of] ${source}`);
+			this.queue.insertChoice({
+				choice: 'move', pokemon: target, moveid: lastMove.id,
+				targetLoc: target.lastMoveTargetLoc!, subOrder: 1,
+			});
+		},
+	},
+	knockoff: { inherit: true, basePower: 65, basePowerCallback() { return 65; }, onBasePower: undefined },
+	lastrespects: { inherit: true, stallingMove: true, basePowerCallback(pokemon) { return 50 + 25 * pokemon.side.totalFainted; } },
+	leaftornado: { inherit: true, basePower: 50, accuracy: 100 },
+	magicroom: { inherit: true },
+	lavaplume: {
+		inherit: true,
+		secondary: { chance: 10, status: 'brn' },
+		onHit(target, source) {
+			for (const side of [source.side, source.side.foe]) {
+				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) side.removeSideCondition(hazard);
+			}
+		},
+	},
+	partingshot: { inherit: true, pp: 8 },
+	playrough: { inherit: true, secondary: { chance: 30, boosts: { atk: -2 } } },
+	populationbomb: { inherit: true, basePower: 10, accuracy: 85 },
+	psychup: {
+		inherit: true,
+		onHit(target, source) {
+			let i: BoostID;
+			for (i in target.boosts) source.boosts[i] = target.boosts[i];
+			for (const ally of source.side.activeTeam()) {
+				if (!ally || ally === source) continue;
+				for (i in target.boosts) ally.boosts[i] = target.boosts[i];
+			}
+			const volatilesToCopy = ['dragoncheer', 'focusenergy', 'gmaxchistrike', 'laserfocus'];
+			for (const volatile of volatilesToCopy) source.removeVolatile(volatile);
+			for (const volatile of volatilesToCopy) if (target.volatiles[volatile]) source.addVolatile(volatile);
+		},
+	},
+	psychic: { inherit: true, secondary: { chance: 10, boosts: { spd: -1 } } },
+	psychicterrain: { inherit: true },
+	quash: { inherit: true },
+	raindance: { inherit: true },
+	reflect: { inherit: true },
+	safeguard: {
+		inherit: true,
+		condition: {
+			inherit: true,
+			onSourceModifyDamage(damage, source, target, move) {
+				if (move.category === 'Physical' || move.category === 'Special') return this.chainModify(0.75);
+			},
+		},
+	},
+	sandtomb: { inherit: true, accuracy: 100, pp: 8 },
+	scald: { inherit: true, basePower: 70 },
+	shellsidearm: { inherit: true, secondary: { chance: 10, status: 'psn' } },
+	sludgebomb: { inherit: true, secondary: { chance: 10, status: 'psn' } },
+	sludgewave: {
+		inherit: true,
+		secondary: undefined,
+		onHit(target, source) {
+			for (const side of [source.side, source.side.foe]) {
+				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) side.removeSideCondition(hazard);
+			}
+		},
+	},
+	skillswap: { inherit: true },
+	speedswap: { inherit: true },
+	spite: { inherit: true },
+	stockpile: {
+		inherit: true,
+		condition: {
+			inherit: true,
+			onRestart(target) {
+				if (this.effectState.layers >= 3) return false;
+				this.effectState.layers++;
+				this.add('-start', target, 'stockpile' + this.effectState.layers);
+				const curDef = target.boosts.def;
+				const curSpD = target.boosts.spd;
+				this.boost({ def: 2, spd: 2 }, target, target);
+				if (curDef !== target.boosts.def) this.effectState.def--;
+				if (curSpD !== target.boosts.spd) this.effectState.spd--;
+			},
+		},
+	},
+	stoneaxe: { inherit: true, basePower: 75 },
+	supercellslam: {
+		inherit: true,
+		onMoveFail(target, source) {
+			this.damage(source.baseMaxhp / 4, source, source, this.dex.moves.get('supercellslam') as ActiveMove);
+		},
+	},
+	thunderbolt: { inherit: true, secondary: undefined },
+	torment: { inherit: true },
+	triplearrows: { inherit: true, accuracy: 85, secondaries: [{ chance: 50, boosts: { def: -1 } }, { chance: 10, volatileStatus: 'flinch' }] },
+	uturn: { inherit: true, basePower: 50, pp: 8 },
+	voltswitch: { inherit: true, basePower: 50, pp: 8 },
+	waterfall: { inherit: true, secondary: { chance: 10, volatileStatus: 'flinch' } },
+	whirlpool: { inherit: true, accuracy: 100 },
+	wrap: { inherit: true, accuracy: 100, pp: 12 },
 	absorb: {
 		inherit: true,
 		isNonstandard: "Past",
@@ -194,11 +356,12 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	direclaw: {
 		inherit: true,
+		basePower: 70,
 		flags: { contact: 1, protect: 1, mirror: 1, metronome: 1, slicing: 1 },
 		secondary: {
 			chance: 30,
 			onHit(target, source) {
-				const status = this.sample(['psn', 'par', 'slp']);
+				const status = this.sample(['psn', 'par', 'drowsy']);
 				// This seems to only happen with Dire Claw
 				if (target.status) {
 					if (target.status === status) {
@@ -208,11 +371,12 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 					}
 					return;
 				}
-				target.trySetStatus(status, source);
+				if (status === 'drowsy') target.addVolatile('drowsy', source);
+				else target.trySetStatus(status, source);
 			},
 		},
-		desc: "Has a 30% chance to cause the target to either fall asleep, become poisoned, or become paralyzed.",
-		shortDesc: "30% chance to sleep, poison, or paralyze target.",
+		desc: "Has a 30% chance to make the target drowsy, poison it, or paralyze it.",
+		shortDesc: "30% chance to make the target drowsy, poison, or paralyze it.",
 	},
 	disarmingvoice: {
 		inherit: true,
@@ -534,7 +698,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	ironhead: {
 		inherit: true,
 		secondary: {
-			chance: 20,
+			chance: 10,
 			volatileStatus: 'flinch',
 		},
 		desc: "Has a 20% chance to make the target flinch.",
@@ -660,6 +824,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	mountaingale: {
 		inherit: true,
+		accuracy: 80,
+		pp: 8,
 		basePower: 120,
 	},
 	mysticalpower: {
@@ -668,7 +834,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	nightdaze: {
 		inherit: true,
-		basePower: 90,
+		basePower: 95,
+		accuracy: 95,
+		pp: 8,
+		secondary: { chance: 30, boosts: { accuracy: -1 } },
 	},
 	nightslash: {
 		inherit: true,
@@ -780,6 +949,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	pyroball: {
 		inherit: true,
+		accuracy: 80,
 		isNonstandard: "Past",
 	},
 	ragefist: {
@@ -805,7 +975,11 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	revivalblessing: {
 		inherit: true,
+		pp: 1,
 		isNonstandard: "Custom",
+		onHit(source) {
+			this.damage(source.baseMaxhp / 2, source, source, this.dex.moves.get('revivalblessing') as ActiveMove);
+		},
 	},
 	roaroftime: {
 		inherit: true,
@@ -1146,10 +1320,12 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	workup: {
 		inherit: true,
+		pp: 20,
 		isNonstandard: "Past",
 	},
 	zingzap: {
 		inherit: true,
+		secondary: { chance: 20, volatileStatus: 'flinch' },
 		isNonstandard: "Past",
 	},
 };

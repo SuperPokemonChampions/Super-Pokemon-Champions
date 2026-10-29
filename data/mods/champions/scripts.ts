@@ -6,6 +6,36 @@ export const Scripts: ModdedBattleScriptsData = {
 				this.modData('Moves', i).pp = 20;
 			}
 		}
+		const auraSphereExclusions = new Set([
+			'aerodactyl', 'alakazam', 'mukalola', 'exeggutoralola', 'amoonguss', 'bewear', 'blacephalon',
+			'braviary', 'chandelure', 'cloyster', 'diggersby', 'dragonite', 'druddigon', 'electrode', 'eternatus',
+			'excadrill', 'exeggutor', 'feraligatr', 'forretress', 'furret', 'weezinggalar', 'garbodor', 'gengar',
+			'gholdengo', 'golurk', 'grapploct', 'guzzlord', 'krookodile', 'magmortar', 'malamar', 'melmetal',
+			'mudsdale', 'muk', 'noivern', 'omastar', 'palossand', 'parasect', 'pinsir', 'polteageist', 'rampardos',
+			'relicanth', 'reuniclus', 'rhydon', 'rhyperior', 'runerigus', 'shuckle', 'slaking', 'snorlax',
+			'spiritomb', 'starmie', 'stonjourner', 'swampert', 'talonflame', 'toxtricity', 'tyranitar', 'vileplume', 'weezing',
+		]);
+		const endeavorExclusions = new Set([
+			'shedinja', 'metapod', 'kakuna', 'silcoon', 'cascoon', 'spewpa', 'unown', 'porygon', 'porygon2',
+			'porygonz', 'magearna', 'cosmog', 'cosmoem', 'togedemaru', 'ditto', 'grimer', 'muk', 'slugma',
+			'magcargo', 'gulpin', 'swalot', 'castform', 'milcery', 'alcremie', 'magnemite', 'magneton', 'magnezone',
+			'voltorb', 'electrode', 'baltoy', 'claydol', 'bronzor', 'bronzong', 'klink', 'klang', 'klinklang',
+			'klefki', 'orthworm', 'sunkern', 'seedot', 'parasect', 'bounsweet', 'slakoth', 'slaking', 'komala',
+		]);
+		const workUpExclusions = new Set([
+			'aegislash', 'alcremie', 'bronzong', 'bronzor', 'chandelure', 'cofagrigus', 'cosmoem', 'cosmog', 'ditto',
+			'doublade', 'duosion', 'grimer', 'honedge', 'klang', 'klink', 'klinklang', 'komala', 'lampent', 'litwick',
+			'magnemite', 'magneton', 'magnezone', 'milcery', 'minior', 'muk', 'polteageist', 'poltchageist',
+			'pyukumuku', 'reuniclus', 'runerigus', 'shuckle', 'sinistcha', 'sinistea', 'slaking', 'solosis', 'wynaut', 'wobbuffet',
+		]);
+		for (const speciesId in this.data.Learnsets) {
+			const learnset = this.data.Learnsets[speciesId].learnset;
+			if (!learnset) continue;
+			const species = this.data.Pokedex[speciesId];
+			if (learnset.focusblast && !auraSphereExclusions.has(speciesId)) learnset.aurasphere = [...learnset.focusblast];
+			if (learnset.endeavor && (endeavorExclusions.has(speciesId) || species?.types?.includes('Ghost'))) delete learnset.endeavor;
+			if (learnset.workup && workUpExclusions.has(speciesId)) delete learnset.workup;
+		}
 	},
 	statModify(baseStats, set, statName) {
 		const tr = this.trunc;

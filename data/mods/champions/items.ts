@@ -1,4 +1,11 @@
 export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+	shellbell: {
+		inherit: true,
+		onAfterMoveSecondarySelf: undefined,
+		onAfterMove(source, target, move) {
+			if (move.totalDamage && !source.forceSwitchFlag) this.heal(move.totalDamage / 6, source);
+		},
+	},
 	abilityshield: {
 		inherit: true,
 		isNonstandard: "Past",

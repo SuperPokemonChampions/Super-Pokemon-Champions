@@ -1,4 +1,16 @@
 export const Conditions: import('../../../sim/dex-conditions').ModdedConditionDataTable = {
+	drowsy: {
+		name: 'Drowsy',
+		duration: 2,
+		onStart(target) {
+			this.add('-start', target, 'Drowsy');
+		},
+		onResidualOrder: 22,
+		onResidual(target) {
+			if (target.status || !target.isActive) return;
+			target.trySetStatus('slp', target, this.dex.moves.get('direclaw') as ActiveMove);
+		},
+	},
 	par: {
 		inherit: true,
 		onBeforeMove(pokemon) {

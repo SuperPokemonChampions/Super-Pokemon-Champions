@@ -1,4 +1,10 @@
 export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTable = {
+	sharpness: {
+		inherit: true,
+		onBasePower(basePower, attacker, defender, move) {
+			if (move.flags['slicing']) return this.chainModify(1.875);
+		},
+	},
 	angershell: {
 		inherit: true,
 		onDamage(damage, target, source, effect) {
@@ -79,7 +85,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 	unseenfist: {
 		onModifyMove: undefined, // no inherit
 		onHitProtect(source, target, move) {
-			if (move.flags['contact']) {
+			if (move.flags['contact'] && !target.volatiles['detect']) {
 				target.getMoveHitData(move).bypassProtect = this.effect;
 				return false;
 			}

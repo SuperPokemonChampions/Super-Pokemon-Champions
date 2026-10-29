@@ -247,6 +247,11 @@ export class BattleQueue {
 					}));
 				}
 				action.fractionalPriority = this.battle.runEvent('FractionalPriority', action.pokemon, null, action.move, 0);
+				if ([
+					'aquaring', 'courtchange', 'curse', 'disable', 'encore', 'glare', 'gravity', 'guardswap',
+					'haze', 'imprison', 'magicroom', 'psychup', 'psychicterrain', 'quash', 'raindance',
+					'reflect', 'safeguard', 'skillswap', 'speedswap', 'spite', 'torment', 'topsyturvy',
+				].includes(action.move.id)) action.fractionalPriority += 0.1;
 			} else if (['switch', 'instaswitch'].includes(action.choice)) {
 				if (typeof action.pokemon.switchFlag === 'string') {
 					action.sourceEffect = this.battle.dex.moves.get(action.pokemon.switchFlag as ID) as any;

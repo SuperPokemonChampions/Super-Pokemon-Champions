@@ -20,7 +20,7 @@ export const Formats: FormatList = [
 		mod: 'champions',
 		bestOfDefault: true,
 		ruleset: [
-			'Flat Rules', '!! Adjust Level = 50', '!! Max Level = 50', '!! Default Level = 50',
+			'Flat Rules', '!! Max Level = 50', '!! Default Level = 50',
 			'VGC Timer', '!! Timer Starting = 300', '!!Picked Team Size = 6', 'Open Team Sheets',
 			'Super Champions', '!Item Clause',
 		],

@@ -5,12 +5,12 @@ import type { Learnset } from "../sim/dex-species";
 const AURA_SPHERE_EXCEPTIONS = new Set([
 	'aerodactyl', 'alakazam', 'mukalola', 'exeggutoralola', 'amoonguss', 'bewear', 'blacephalon',
 	'braviary', 'chandelure', 'cloyster', 'diggersby', 'dragonite', 'druddigon', 'electrode',
-	'ekans', 'excadrill', 'exeggutor', 'feraligatr', 'forretress', 'furret', 'galvantula',
-	'weezinggalar', 'garbodor', 'gengar', 'golduck', 'golurk', 'grapploct', 'guzzlord',
+	'eternatus', 'excadrill', 'exeggutor', 'feraligatr', 'forretress', 'furret',
+	'weezinggalar', 'garbodor', 'gengar', 'gholdengo', 'golurk', 'grapploct', 'guzzlord',
 	'krookodile', 'magmortar', 'malamar', 'melmetal', 'mudsdale', 'muk', 'noivern', 'omastar',
 	'palossand', 'parasect', 'pinsir', 'polteageist', 'rampardos', 'relicanth', 'reuniclus',
 	'rhydon', 'rhyperior', 'runerigus', 'shuckle', 'slaking', 'snorlax', 'spiritomb', 'starmie',
-	'stonjourner', 'swampert', 'talonflame', 'toxtricity', 'tyranitar', 'typhlosion', 'vileplume',
+	'stonjourner', 'swampert', 'talonflame', 'toxtricity', 'tyranitar', 'vileplume',
 	'weezing',
 ]);
 const ENDEAVOR_EXCEPTIONS = new Set([
@@ -22,7 +22,7 @@ const ENDEAVOR_EXCEPTIONS = new Set([
 ]);
 const WORK_UP_EXCEPTIONS = new Set([
 	'aegislash', 'alcremie', 'bronzong', 'bronzor', 'chandelure', 'cofagrigus', 'cosmoem', 'cosmog',
-	'ditto', 'drifblim', 'dusknoir', 'grimer', 'honedge', 'klang', 'klink', 'klinklang', 'komala',
+	'ditto', 'doublade', 'duosion', 'grimer', 'honedge', 'klang', 'klink', 'klinklang', 'komala',
 	'lampent', 'litwick', 'magnemite', 'magneton', 'magnezone', 'milcery', 'minior', 'muk',
 	'polteageist', 'poltchageist', 'pyukumuku', 'reuniclus', 'runerigus', 'shuckle', 'sinistcha',
 	'sinistea', 'slaking', 'solosis', 'wynaut', 'wobbuffet',
@@ -72,15 +72,15 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		checkCanLearn(move, species, setSources, set) {
 			if (move.id === 'aurasphere' && !AURA_SPHERE_EXCEPTIONS.has(species.id)) {
 				const focusBlast = this.checkCanLearn(this.dex.moves.get('focusblast'), species, this.allSources(species), set);
-				if (!focusBlast) return '9M';
+				if (!focusBlast) return null;
 			}
-			if (move.id === 'endeavor' && !ENDEAVOR_EXCEPTIONS.has(species.id) && !species.types.includes('Ghost')) return '9M';
-			if (move.id === 'workup' && !WORK_UP_EXCEPTIONS.has(species.id)) return '9M';
+			if (move.id === 'endeavor' && !ENDEAVOR_EXCEPTIONS.has(species.id) && !species.types.includes('Ghost')) return null;
+			if (move.id === 'workup' && !WORK_UP_EXCEPTIONS.has(species.id)) return null;
 			if (
 				(species.types.includes('Steel') && move.id === 'metalburst') ||
 				(species.types.includes('Rock') && move.id === 'Smack Down') ||
 				move.id === 'doubleteam' || move.id === 'quickattack' ||
-					move.id === 'taunt'
+				move.id === 'taunt'
 			) {
 				return '9L1';
 			} else return this.checkCanLearn(move, species, setSources, set);
@@ -94,8 +94,8 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		name: 'Standard AG',
 		desc: "The minimal ruleset for Anything Goes",
 		ruleset: [
-			 'Obtainable', 'Team Preview',
-			 'HP Percentage Mod', 'Cancel Mod', 'Endless Battle Clause',
+			'Obtainable', 'Team Preview',
+			'HP Percentage Mod', 'Cancel Mod', 'Endless Battle Clause',
 		],
 	},
 	standard: {

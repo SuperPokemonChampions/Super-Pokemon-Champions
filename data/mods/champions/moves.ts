@@ -19,7 +19,11 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		desc: "Has a 10% chance to paralyze the target.",
 		shortDesc: "10% chance to paralyze the target.",
 	},
-	ceaselessedge: { inherit: true, basePower: 75, desc: "75 base power.", shortDesc: "75 base power." },
+	ceaselessedge: {
+		inherit: true, basePower: 75,
+		desc: "75 base power. Sets one layer of Spikes on the opposing side after a hit.",
+		shortDesc: "75 base power; sets Spikes after a hit.",
+	},
 	curse: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
 	darkpulse: {
 		inherit: true, secondary: { chance: 10, volatileStatus: 'flinch' },
@@ -28,8 +32,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	detect: {
 		inherit: true,
-		desc: "In Singles, blocks contact moves and makes the user's next move of the same or higher priority go first. It dodges moves that can miss rather than blocking them.",
-		shortDesc: "In Singles, contact moves grant the user priority next turn.",
+		desc: "In Singles, blocks contact moves. If it blocks one, the user's next move of the same or higher priority goes first. " +
+			"Moves that can miss are dodged instead of blocked. It blocks Protect-piercing contact moves such as Unseen Fist, " +
+			"but not moves that bypass Protect without contact, such as Aura Sphere.",
+		shortDesc: "In Singles, blocks contact and grants priority next turn; always-hit moves bypass it.",
 		condition: {
 			inherit: true,
 			onTryHit(target, source, move) {
@@ -168,6 +174,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	sludgewave: {
 		inherit: true,
 		secondary: undefined,
+		desc: "Clears all entry hazards from both sides. Has no chance to poison.",
+		shortDesc: "Clears entry hazards; no poison chance.",
 		onHit(target, source) {
 			for (const side of [source.side, source.side.foe]) {
 				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) side.removeSideCondition(hazard);
@@ -196,11 +204,18 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	stoneaxe: { inherit: true, basePower: 75 },
 	supercellslam: {
 		inherit: true,
+		desc: "If this move fails, the user loses 25% of its maximum HP as crash damage.",
+		shortDesc: "User loses 25% of its max HP if this move fails.",
 		onMoveFail(target, source) {
 			this.damage(source.baseMaxhp / 4, source, source, this.dex.moves.get('supercellslam') as ActiveMove);
 		},
 	},
-	thunderbolt: { inherit: true, secondary: undefined },
+	thunderbolt: {
+		inherit: true,
+		secondary: undefined,
+		desc: "Has no paralysis effect.",
+		shortDesc: "No paralysis effect.",
+	},
 	torment: { inherit: true },
 	triplearrows: { inherit: true, accuracy: 85, secondaries: [{ chance: 50, boosts: { def: -1 } }, { chance: 10, volatileStatus: 'flinch' }] },
 	uturn: { inherit: true, basePower: 50, pp: 8 },

@@ -70,12 +70,25 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			for (const foe of source.side.foe.activeTeam()) foe?.removeVolatile('destinybond');
 		},
 		checkCanLearn(move, species, setSources, set) {
-			if (move.id === 'aurasphere' && !AURA_SPHERE_EXCEPTIONS.has(species.id)) {
+			if (move.id === 'aurasphere') {
+				if (AURA_SPHERE_EXCEPTIONS.has(species.id)) {
+					return ` can't learn Aura Sphere under Super Champions rules.`;
+				}
 				const focusBlast = this.checkCanLearn(this.dex.moves.get('focusblast'), species, this.allSources(species), set);
 				if (!focusBlast) return null;
 			}
-			if (move.id === 'endeavor' && !ENDEAVOR_EXCEPTIONS.has(species.id) && !species.types.includes('Ghost')) return null;
-			if (move.id === 'workup' && !WORK_UP_EXCEPTIONS.has(species.id)) return null;
+			if (move.id === 'endeavor') {
+				if (ENDEAVOR_EXCEPTIONS.has(species.id) || species.types.includes('Ghost')) {
+					return ` can't learn Endeavor under Super Champions rules.`;
+				}
+				return null;
+			}
+			if (move.id === 'workup') {
+				if (WORK_UP_EXCEPTIONS.has(species.id)) {
+					return ` can't learn Work Up under Super Champions rules.`;
+				}
+				return null;
+			}
 			if (
 				(species.types.includes('Steel') && move.id === 'metalburst') ||
 				(species.types.includes('Rock') && move.id === 'Smack Down') ||

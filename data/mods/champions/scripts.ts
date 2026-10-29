@@ -32,9 +32,17 @@ export const Scripts: ModdedBattleScriptsData = {
 			const learnset = this.data.Learnsets[speciesId].learnset;
 			if (!learnset) continue;
 			const species = this.data.Pokedex[speciesId];
-			if (learnset.focusblast && !auraSphereExclusions.has(speciesId)) learnset.aurasphere = [...learnset.focusblast];
-			if (learnset.endeavor && (endeavorExclusions.has(speciesId) || species?.types?.includes('Ghost'))) delete learnset.endeavor;
-			if (learnset.workup && workUpExclusions.has(speciesId)) delete learnset.workup;
+			if (auraSphereExclusions.has(speciesId)) {
+				delete learnset.aurasphere;
+			} else if (learnset.focusblast) {
+				learnset.aurasphere = [...learnset.focusblast];
+			}
+			if (endeavorExclusions.has(speciesId) || species?.types?.includes('Ghost')) {
+				delete learnset.endeavor;
+			}
+			if (workUpExclusions.has(speciesId)) {
+				delete learnset.workup;
+			}
 		}
 	},
 	statModify(baseStats, set, statName) {

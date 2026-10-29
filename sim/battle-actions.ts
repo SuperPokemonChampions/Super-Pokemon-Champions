@@ -115,7 +115,7 @@ export class BattleActions {
 			}
 			if (newMove) pokemon.lastMove = newMove;
 			const retainedOffensiveBoosts =
-				['champions', 'superchampions'].includes(this.battle.dex.modid) && !isDrag && !oldActive.forceSwitchFlag ? {
+				['champions', 'superchampions'].includes(this.battle.dex.currentMod) && !isDrag && !oldActive.forceSwitchFlag ? {
 					atk: Math.max(0, Math.min(oldActive.boosts.atk - 1, 2)),
 					spa: Math.max(0, Math.min(oldActive.boosts.spa - 1, 2)),
 				} : null;
@@ -1742,7 +1742,7 @@ export class BattleActions {
 		const type = move.type;
 
 		baseDamage += 2;
-		
+
 		if (move.spreadHit) {
 			// multi-target modifier (doubles only)
 			const spreadModifier = this.battle.gameType === 'freeforall' ? 0.5 : 0.75;

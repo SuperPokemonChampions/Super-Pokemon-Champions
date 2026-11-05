@@ -241,12 +241,16 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
 	choiceband: {
 		inherit: true,
 		isNonstandard: null,
+		desc: 'Holder’s Attack is multiplied by 1.3, but it can only select the first move it executes.',
+		shortDesc: 'Holder’s Attack is boosted by 30%, but it can only select the first move it executes.',
 		onModifyAtkPriority: 1,
 		onModifyAtk(atk, pokemon) { if (!pokemon.volatiles['dynamax']) return this.chainModify(1.3); },
 	},
 	choicespecs: {
 		inherit: true,
 		isNonstandard: null,
+		desc: 'Holder’s Special Attack is multiplied by 1.3, but it can only select the first move it executes.',
+		shortDesc: 'Holder’s Sp. Atk is boosted by 30%, but it can only select the first move it executes.',
 		onModifySpAPriority: 1,
 		onModifySpA(spa, pokemon) { if (!pokemon.volatiles['dynamax']) return this.chainModify(1.3); },
 	},
@@ -873,6 +877,8 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
 	lifeorb: {
 		inherit: true,
 		isNonstandard: null,
+		desc: 'Holder’s attacks do 1.2x damage, and it loses 1/20 of its maximum HP after using a damaging move.',
+		shortDesc: 'Holder’s attacks do 1.2x damage; loses 1/20 max HP after a damaging move.',
 		onModifyDamage(damage, source, target, move) { return this.chainModify(1.2); },
 		onAfterMove(source, target, move) {
 			if (source && source !== target && move && move.category !== 'Status' && !source.forceSwitchFlag) {

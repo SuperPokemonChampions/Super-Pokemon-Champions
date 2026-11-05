@@ -66,6 +66,8 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 	},
 	hadronengine: {
 		inherit: true,
+		desc: 'When this Pokémon enters battle, Electric Terrain begins for 2 turns, or 5 turns with Terrain Extender. While Electric Terrain is active, this Pokémon\'s Special Attack is multiplied by 1.15.',
+		shortDesc: 'Sets Electric Terrain for 2 turns (5 with Terrain Extender); boosts Sp. Atk by 15% in Electric Terrain.',
 		onStart(pokemon) {
 			if (!this.field.setTerrain('electricterrain', pokemon, this.effect) && this.field.isTerrain('electricterrain')) {
 				this.add('-activate', pokemon, 'ability: Hadron Engine');
@@ -79,6 +81,8 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 	},
 	orichalcumpulse: {
 		inherit: true,
+		desc: 'When this Pokémon enters battle, the sunlight turns harsh for 2 turns, or 5 turns with Heat Rock. While the sun is active, this Pokémon\'s Attack is multiplied by 1.15.',
+		shortDesc: 'Sets sun for 2 turns (5 with Heat Rock); boosts Attack by 15% in sun.',
 		onStart(pokemon) {
 			if (this.field.setWeather('sunnyday', pokemon, this.effect)) this.add('-activate', pokemon, 'Orichalcum Pulse', '[source]');
 			else if (this.field.isWeather('sunnyday')) this.add('-activate', pokemon, 'ability: Orichalcum Pulse');

@@ -21,6 +21,7 @@ export const Formats: FormatList = [
 		bestOfDefault: true,
 		ruleset: [
 			'Team Preview', 'Default Level = 50', 'Min Team Size = 1', 'Max Team Size = 6',
+			'Obtainable Moves',
 			'Timer Starting = 300', 'Timer Grace = 90', 'Timer Add Per Turn = 20', 'Timer Max Per Turn = 240',
 			'Timer Max First Turn = 90', 'Timeout Auto Choose', 'DC Timer Bank', 'Open Team Sheets',
 			'Super Champions', 'Champions Singles 6v6 Rules', 'Cancel Mod',

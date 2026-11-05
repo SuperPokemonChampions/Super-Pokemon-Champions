@@ -68,6 +68,17 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		onAfterMove(source, target, move) {
 			if (source.shouldPriority) source.shouldPriority = undefined;
 			for (const foe of source.side.foe.activeTeam()) foe?.removeVolatile('destinybond');
+			if ([
+				'earthquake', 'bulldoze', 'magnitude', 'surf', 'sparklingaria', 'discharge', 'paraboliccharge',
+				'lavaplume', 'searingshot', 'mindblown', 'boomburst', 'explosion', 'selfdestruct',
+				'sludgewave', 'brutalswing', 'petalblizzard',
+			].includes(move.id)) {
+				for (const side of [source.side, source.side.foe]) {
+					for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) {
+						side.removeSideCondition(hazard);
+					}
+				}
+			}
 		},
 		checkCanLearn(move, species, setSources, set) {
 			if (move.id === 'aurasphere') {
@@ -97,6 +108,37 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			) {
 				return '9L1';
 			} else return this.checkCanLearn(move, species, setSources, set);
+		},
+	},
+	championssingles6v6rules: {
+		effectType: 'ValidatorRule',
+		name: 'Champions Singles 6v6 Rules',
+		desc: 'Singles 6v6 team limits and one-gimmick rules.',
+		onResidualOrder: 1,
+		onResidual() {
+			if (this.randomChance(1, 20)) this.field.setWeather('deepfog');
+		},
+		onValidateTeam(team) {
+			if (team.length < 1 || team.length > 6) return ['Singles 6v6 teams must have between 1 and 6 Pokémon.'];
+			let levelTotal = 0;
+			let bstTotal = 0;
+			for (const set of team) {
+				const species = this.dex.species.get(set.species);
+				const level = set.level || 50;
+				if (level < 45 || level > 55) return [`${species.name} must be between levels 45 and 55.`];
+				levelTotal += level;
+				bstTotal += Object.values(species.baseStats).reduce((sum, stat) => sum + stat, 0);
+			}
+			if (levelTotal > 300) return [`The team's combined levels cannot exceed 300 (currently ${levelTotal}).`];
+			if (bstTotal > 3150) return [`The team's combined base stat total cannot exceed 3,150 (currently ${bstTotal}).`];
+		},
+		onValidateSet(set) {
+			const species = this.dex.species.get(set.species);
+			if (species.isMega) return [`${species.name} cannot be selected as a starting form; bring its base form and Mega Evolve in battle.`];
+		},
+		onBegin() {
+			this.add('rule', 'Singles 6v6: Levels 45–55; combined levels ≤ 300; team BST ≤ 3,150');
+			this.add('rule', 'One battle gimmick: Mega Evolution or Z-Move');
 		},
 	},
 

@@ -64,6 +64,31 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 		inherit: true,
 		isNonstandard: null,
 	},
+	hadronengine: {
+		inherit: true,
+		onStart(pokemon) {
+			if (!this.field.setTerrain('electricterrain', pokemon, this.effect) && this.field.isTerrain('electricterrain')) {
+				this.add('-activate', pokemon, 'ability: Hadron Engine');
+			}
+			if (this.field.isTerrain('electricterrain')) this.field.terrainState.duration = pokemon.hasItem('terrainextender') ? 5 : 2;
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(spa, pokemon) {
+			if (this.field.isTerrain('electricterrain')) return this.chainModify(1.15);
+		},
+	},
+	orichalcumpulse: {
+		inherit: true,
+		onStart(pokemon) {
+			if (this.field.setWeather('sunnyday', pokemon, this.effect)) this.add('-activate', pokemon, 'Orichalcum Pulse', '[source]');
+			else if (this.field.isWeather('sunnyday')) this.add('-activate', pokemon, 'ability: Orichalcum Pulse');
+			if (this.field.isWeather('sunnyday')) this.field.weatherState.duration = pokemon.hasItem('heatrock') ? 5 : 2;
+		},
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, pokemon) {
+			if (this.field.isWeather(['sunnyday', 'desolateland'])) return this.chainModify(1.15);
+		},
+	},
 	naturalcure: {
 		inherit: true,
 		onCheckShow: undefined, // no inherit

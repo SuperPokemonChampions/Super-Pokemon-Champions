@@ -28,6 +28,27 @@ export const Scripts: ModdedBattleScriptsData = {
 			'magnemite', 'magneton', 'magnezone', 'milcery', 'minior', 'muk', 'polteageist', 'poltchageist',
 			'pyukumuku', 'reuniclus', 'runerigus', 'shuckle', 'sinistcha', 'sinistea', 'slaking', 'solosis', 'wynaut', 'wobbuffet',
 		]);
+		const signatureMoves: Record<string, string[]> = {
+			mewtwo: ['psystrike'], lugia: ['aeroblast'], hooh: ['sacredfire'], deoxys: ['psychoboost'],
+			groudon: ['precipiceblades'], jirachi: ['doomdesire'], kyogre: ['originpulse'],
+			latias: ['mistball'], latios: ['lusterpurge'], rayquaza: ['dragonascent'],
+			arceus: ['judgment'], dialga: ['roaroftime'], giratina: ['shadowforce'], palkia: ['spacialrend'],
+			bouffalant: ['headcharge'], reshiram: ['fusionflare', 'blueflare'], victini: ['vcreate', 'searingshot'],
+			zekrom: ['fusionbolt', 'boltstrike'], xerneas: ['geomancy'], yveltal: ['oblivionwing'],
+			zygarde: ['thousandwaves', 'thousandarrows', 'landswrath', 'coreenforcer'],
+			magearna: ['fleurcannon'], lunala: ['moongeistbeam'], solgaleo: ['sunsteelstrike'],
+			necrozma: ['prismaticlaser'], zeraora: ['plasmafists'], eternatus: ['dynamaxcannon', 'eternabeam'],
+			zacian: ['behemothblade'], zamazenta: ['behemothbash'], koraidon: ['collisioncourse'],
+			miraidon: ['electrodrift'],
+		};
+		for (const [speciesId, moveIds] of Object.entries(signatureMoves)) {
+			const learnset = this.data.Learnsets[speciesId]?.learnset as Record<string, string[]> | undefined;
+			if (!learnset) continue;
+			for (const moveId of moveIds) {
+				learnset[moveId] = ['9M'];
+				this.modData('Moves', moveId).isNonstandard = null;
+			}
+		}
 		for (const speciesId in this.data.Learnsets) {
 			const learnset = this.data.Learnsets[speciesId].learnset;
 			if (!learnset) continue;

@@ -241,10 +241,14 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
 	choiceband: {
 		inherit: true,
 		isNonstandard: null,
+		onModifyAtkPriority: 1,
+		onModifyAtk(atk, pokemon) { if (!pokemon.volatiles['dynamax']) return this.chainModify(1.3); },
 	},
 	choicespecs: {
 		inherit: true,
 		isNonstandard: null,
+		onModifySpAPriority: 1,
+		onModifySpA(spa, pokemon) { if (!pokemon.volatiles['dynamax']) return this.chainModify(1.3); },
 	},
 	clawfossil: {
 		inherit: true,
@@ -869,6 +873,12 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
 	lifeorb: {
 		inherit: true,
 		isNonstandard: null,
+		onModifyDamage(damage, source, target, move) { return this.chainModify(1.2); },
+		onAfterMove(source, target, move) {
+			if (source && source !== target && move && move.category !== 'Status' && !source.forceSwitchFlag) {
+				this.damage(source.baseMaxhp / 20, source, source, this.dex.items.get('lifeorb'));
+			}
+		},
 	},
 	lightclay: {
 		inherit: true,

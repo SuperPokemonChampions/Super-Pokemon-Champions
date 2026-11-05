@@ -20,9 +20,10 @@ export const Formats: FormatList = [
 		mod: 'champions',
 		bestOfDefault: true,
 		ruleset: [
-			'Team Preview', 'Default Level = 50', 'Min Team Size = 6', 'Max Team Size = 6',
-			'VGC Timer', '!! Timer Starting = 300', 'Picked Team Size = 6', 'Open Team Sheets',
-			'Super Champions', 'Cancel Mod',
+			'Team Preview', 'Default Level = 50', 'Min Team Size = 1', 'Max Team Size = 6',
+			'Timer Starting = 300', 'Timer Grace = 90', 'Timer Add Per Turn = 20', 'Timer Max Per Turn = 240',
+			'Timer Max First Turn = 90', 'Timeout Auto Choose', 'DC Timer Bank', 'Open Team Sheets',
+			'Super Champions', 'Champions Singles 6v6 Rules', 'Cancel Mod',
 		],
 	},
 	{

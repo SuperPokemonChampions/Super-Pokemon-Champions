@@ -714,6 +714,9 @@ export class BattleActions {
 				}
 			} else {
 				accuracy = this.battle.runEvent('ModifyAccuracy', target, pokemon, move, accuracy);
+				if (this.battle.ruleTable.has('championssingles6v6rules') && target.side.dodgeActive) {
+					accuracy = this.battle.modify(typeof accuracy === 'number' ? accuracy : 100, 0.8);
+				}
 				if (accuracy !== true) {
 					let boost = 0;
 					if (!move.ignoreAccuracy) {
@@ -1462,6 +1465,7 @@ export class BattleActions {
 
 	canZMove(pokemon: Pokemon) {
 		if (pokemon.side.zMoveUsed ||
+			(this.battle.ruleTable.has('championssingles6v6rules') && pokemon.side.pokemon.some(ally => ally.species.isMega || ally.species.forme === 'Ultra')) ||
 			(pokemon.transformed &&
 				(pokemon.species.isMega || pokemon.species.isPrimal || pokemon.species.forme === "Ultra"))
 		) return;
@@ -1826,7 +1830,7 @@ export class BattleActions {
 
 		if (pokemon.status === 'brn' && move.category === 'Physical' && !pokemon.hasAbility('guts')) {
 			if (this.battle.gen < 6 || move.id !== 'facade') {
-				baseDamage = this.battle.modify(baseDamage, 0.5);
+				baseDamage = this.battle.modify(baseDamage, this.battle.ruleTable.has('superchampions') ? 0.75 : 0.5);
 			}
 		}
 
@@ -1878,6 +1882,7 @@ export class BattleActions {
 	// ==================================================================
 
 	canMegaEvo(pokemon: Pokemon) {
+		if (this.battle.ruleTable.has('championssingles6v6rules') && (pokemon.side.choice.zMove || pokemon.side.zMoveUsed)) return null;
 		const species = pokemon.baseSpecies;
 		const altForme = species.otherFormes && this.dex.species.get(species.otherFormes[0]);
 		const item = pokemon.getItem();
@@ -1892,6 +1897,8 @@ export class BattleActions {
 	}
 
 	canUltraBurst(pokemon: Pokemon) {
+		if (this.battle.ruleTable.has('championssingles6v6rules') &&
+			(pokemon.side.zMoveUsed || pokemon.side.pokemon.some(ally => ally.species.isMega))) return null;
 		if (['Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane'].includes(pokemon.baseSpecies.name) &&
 			pokemon.getItem().id === 'ultranecroziumz') {
 			return "Necrozma-Ultra";

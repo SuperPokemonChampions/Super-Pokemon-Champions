@@ -42,6 +42,7 @@ export interface ChosenAction {
 	zmove?: string; // if zmoving, the name of the zmove
 	maxMove?: string; // if dynamaxed, the name of the max move
 	terastallize?: string; // if terastallizing, tera type
+	dodge?: boolean; // uses a Super Champions dodge attempt this turn
 	priority?: number; // priority of the action
 }
 
@@ -115,6 +116,7 @@ export interface PokemonMoveRequestData {
 	canDynamax?: boolean;
 	maxMoves?: DynamaxOptions;
 	canTerastallize?: string;
+	canDodge?: boolean;
 }
 export interface DynamaxOptions {
 	maxMoves: ({ move: string, target: MoveTarget, disabled?: boolean })[];
@@ -186,6 +188,8 @@ export class Side {
 	 * player per team can dynamax on any given turn of a gen 8 Multi Battle.
 	 */
 	dynamaxUsed: boolean;
+	dodgeUses = 0;
+	dodgeActive = false;
 
 	faintedLastTurn: Pokemon | null;
 	faintedThisTurn: Pokemon | null;
@@ -535,7 +539,8 @@ export class Side {
 	chooseMove(
 		moveText?: string | number,
 		targetLoc = 0,
-		event: 'mega' | 'megax' | 'megay' | 'zmove' | 'ultra' | 'dynamax' | 'terastallize' | '' = ''
+		event: 'mega' | 'megax' | 'megay' | 'zmove' | 'ultra' | 'dynamax' | 'terastallize' | '' = '',
+		dodge = false,
 	) {
 		if (this.requestState !== 'move') {
 			return this.emitChoiceError(`Can't move: You need a ${this.requestState} response`);
@@ -546,6 +551,9 @@ export class Side {
 		}
 		const autoChoose = !moveText;
 		const pokemon: Pokemon = this.active[index];
+		if (dodge && (!this.battle.ruleTable.has('championssingles6v6rules') || this.dodgeUses >= 3)) {
+			return this.emitChoiceError(`Can't move: You have no Dodge it! attempts remaining`);
+		}
 
 		// Parse moveText (name or index)
 		// If the move is not found, the action is invalid without requiring further inspection.
@@ -814,6 +822,7 @@ export class Side {
 			zmove: zMove,
 			maxMove: maxMove ? maxMove.id : undefined,
 			terastallize: terastallize ? pokemon.teraType : undefined,
+			dodge,
 		});
 
 		if (pokemon.maybeDisabled && (this.battle.gameType === 'singles' || (
@@ -1112,6 +1121,12 @@ export class Side {
 	}
 
 	commitChoices() {
+		const dodgeAction = this.choice.actions.find(action => action.dodge);
+		if (dodgeAction?.pokemon) {
+			this.dodgeUses++;
+			this.dodgeActive = true;
+			this.battle.add('message', `${dodgeAction.pokemon.name} is bracing itself to evade an attack!`);
+		}
 		if (this.battle.gen === 1) {
 			for (const choice of this.choice.actions) {
 				if (choice.choice !== 'move' || !choice.pokemon) continue;
@@ -1178,6 +1193,7 @@ export class Side {
 				const error = () => this.emitChoiceError(`Conflicting arguments for "move": ${original}`);
 				let targetLoc: number | undefined;
 				let event: 'mega' | 'megax' | 'megay' | 'zmove' | 'ultra' | 'dynamax' | 'terastallize' | '' = '';
+				let dodge = false;
 				while (true) {
 					// If data ends with a number, treat it as a target location.
 					// We need to special case 'Conversion 2' so it doesn't get
@@ -1187,6 +1203,9 @@ export class Side {
 						if (targetLoc !== undefined) return error();
 						targetLoc = parseInt(data.slice(-2));
 						data = data.slice(0, -2).trim();
+					} else if (data.endsWith(' dodge')) {
+						dodge = true;
+						data = data.slice(0, -6);
 					} else if (data.endsWith(' mega')) {
 						if (event) return error();
 						event = 'mega';
@@ -1231,7 +1250,7 @@ export class Side {
 						break;
 					}
 				}
-				if (!this.chooseMove(data, targetLoc, event)) return false;
+				if (!this.chooseMove(data, targetLoc, event, dodge)) return false;
 				break;
 			case 'switch':
 				if (!this.chooseSwitch(data)) return false;

@@ -70,7 +70,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		},
 	},
 	firespin: {
-		inherit: true, accuracy: 100, pp: 8, flags: { defrost: 1 },
+		inherit: true, accuracy: 100, pp: 8, noPPBoosts: true, flags: { defrost: 1 },
 		desc: "Thaws the user. Goes before moves of the same priority.",
 		shortDesc: "100% accurate; thaws the user.",
 	},
@@ -78,7 +78,41 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		inherit: true, secondary: undefined, flags: { defrost: 1 },
 		desc: "Thaws the user. Has no burn effect.", shortDesc: "Thaws the user; no burn effect.",
 	},
-	flareblitz: { inherit: true, secondary: undefined, desc: "Has no burn effect.", shortDesc: "No burn effect." },
+	armorcannon: {
+		inherit: true, basePower: 110, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ def: -2, spd: -2 }, source, source, this.effect); },
+	},
+	blastburn: { inherit: true, accuracy: 90, onAfterMove(source) { if (source) source.addVolatile('mustrecharge'); } },
+	bravebird: { inherit: true, basePower: 100 },
+	closecombat: {
+		inherit: true, basePower: 100, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ def: -2, spd: -2 }, source, source, this.effect); },
+	},
+	doubleedge: { inherit: true, basePower: 100 },
+	dracometeor: {
+		inherit: true, basePower: 110, target: 'allAdjacentFoes', self: undefined,
+		onAfterMove(source) { if (source) this.boost({ spa: -2 }, source, source, this.effect); },
+	},
+	eternabeam: { inherit: true, accuracy: 90, target: 'allAdjacentFoes', onAfterMove(source) { if (source) source.addVolatile('mustrecharge'); } },
+	frenzyplant: { inherit: true, accuracy: 90, onAfterMove(source) { if (source) source.addVolatile('mustrecharge'); } },
+	gigaimpact: { inherit: true, accuracy: 90, onAfterMove(source) { if (source) source.addVolatile('mustrecharge'); } },
+	headcharge: { inherit: true, basePower: 100 },
+	hydrocannon: { inherit: true, accuracy: 90, onAfterMove(source) { if (source) source.addVolatile('mustrecharge'); } },
+	hyperbeam: { inherit: true, accuracy: 90, onAfterMove(source) { if (source) source.addVolatile('mustrecharge'); } },
+	leafstorm: {
+		inherit: true, basePower: 110, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ spa: -2 }, source, source, this.effect); },
+	},
+	meteorassault: { inherit: true, accuracy: 90, onAfterMove(source) { if (source) source.addVolatile('mustrecharge'); } },
+	rockwrecker: { inherit: true, basePower: 160, accuracy: 90, onAfterMove(source) { if (source) source.addVolatile('mustrecharge'); } },
+	superpower: {
+		inherit: true, basePower: 100, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ atk: -2, def: -2 }, source, source, this.effect); },
+	},
+	toxic: { inherit: true, accuracy: 100 },
+	wavecrash: { inherit: true, basePower: 100 },
+	woodhammer: { inherit: true, basePower: 100 },
+	flareblitz: { inherit: true, basePower: 100, secondary: undefined, desc: "100 base power; no burn effect.", shortDesc: "100 base power; no burn effect." },
 	flipturn: { inherit: true, basePower: 50, pp: 8, desc: "50 base power; 8 PP.", shortDesc: "50 base power; 8 PP." },
 	glare: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
 	gravity: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
@@ -354,7 +388,11 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	collisioncourse: {
 		inherit: true,
-		isNonstandard: "Past",
+		isNonstandard: null,
+		basePower: 100,
+		onBasePower(basePower, attacker, defender, move) {
+			if (defender.runEffectiveness(move) > 0) return this.chainModify(1.05);
+		},
 	},
 	combattorque: {
 		inherit: true,
@@ -507,7 +545,11 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	electrodrift: {
 		inherit: true,
-		isNonstandard: "Past",
+		isNonstandard: null,
+		basePower: 100,
+		onBasePower(basePower, attacker, defender, move) {
+			if (defender.runEffectiveness(move) > 0) return this.chainModify(1.05);
+		},
 	},
 	ember: {
 		inherit: true,
@@ -612,8 +654,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		isNonstandard: "Past",
 	},
 	fleurcannon: {
-		inherit: true,
-		isNonstandard: "Past",
+		inherit: true, isNonstandard: null, basePower: 120, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ spa: -2 }, source, source, this.effect); },
 	},
 	floralhealing: {
 		inherit: true,
@@ -831,8 +873,11 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	makeitrain: {
 		inherit: true,
-		accuracy: 95,
-		isNonstandard: "Past",
+		accuracy: 100,
+		isNonstandard: null,
+		basePower: 110,
+		self: undefined,
+		onAfterMove(source) { if (source) this.boost({ spa: -1 }, source, source, this.effect); },
 	},
 	malignantchain: {
 		inherit: true,
@@ -983,7 +1028,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	prismaticlaser: {
 		inherit: true,
-		isNonstandard: "Past",
+		isNonstandard: null,
+		accuracy: 90,
+		flags: { recharge: 1, protect: 1, mirror: 1, metronome: 1 },
+		onAfterMove(source) { if (source) source.addVolatile('mustrecharge'); },
 	},
 	protect: {
 		inherit: true,
@@ -999,7 +1047,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	psychoboost: {
 		inherit: true,
-		isNonstandard: "Past",
+		isNonstandard: null,
+		basePower: 120,
+		self: undefined,
+		onAfterMove(source) { if (source) this.boost({ spa: -2 }, source, source, this.effect); },
 	},
 	psyshieldbash: {
 		inherit: true,
@@ -1053,7 +1104,9 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	roaroftime: {
 		inherit: true,
-		isNonstandard: "Past",
+		isNonstandard: null,
+		accuracy: 90,
+		onAfterMove(source) { if (source) source.addVolatile('mustrecharge'); },
 	},
 	rocksmash: {
 		inherit: true,
@@ -1346,7 +1399,8 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	vcreate: {
 		inherit: true,
-		isNonstandard: "Past",
+		accuracy: 80,
+		isNonstandard: null,
 	},
 	victorydance: {
 		inherit: true,

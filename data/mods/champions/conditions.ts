@@ -1,4 +1,25 @@
 export const Conditions: import('../../../sim/dex-conditions').ModdedConditionDataTable = {
+	deepfog: {
+		name: 'Deep Fog',
+		effectType: 'Weather',
+		duration: 5,
+		onStart() { this.add('-weather', 'Deep Fog'); },
+		onWeather() {},
+	},
+	brn: {
+		inherit: true,
+		onResidualOrder: 0,
+		onResidual(pokemon) {
+			if (this.field.isWeather('raindance')) {
+				pokemon.cureStatus();
+				return;
+			}
+			this.damage(pokemon.baseMaxhp / 12);
+		},
+		onDamagingHit(damage, target, source, move) {
+			if (move.type === 'Water') target.cureStatus();
+		},
+	},
 	flinch: {
 		inherit: true,
 		duration: 2,

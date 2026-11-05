@@ -1620,6 +1620,7 @@ export class Battle {
 	endTurn() {
 		this.turn++;
 		this.lastSuccessfulMoveThisTurn = null;
+		for (const side of this.sides) side.dodgeActive = false;
 
 		const dynamaxEnding: Pokemon[] = [];
 		for (const pokemon of this.getAllActive()) {

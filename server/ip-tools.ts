@@ -89,7 +89,9 @@ export const IPTools = new class {
 	 * Return value matches isBlocked when treated as a boolean.
 	 */
 	queryDnsbl(ip: string) {
-		if (!Config.dnsbl) return Promise.resolve(null);
+		// DNSBL queries in this server use the IPv4 reverse-DNS format.
+		// IPv6 addresses are valid client addresses, but cannot be queried this way.
+		if (!Config.dnsbl || IPTools.ipToNumber(ip) === null) return Promise.resolve(null);
 		if (IPTools.dnsblCache.has(ip)) {
 			return Promise.resolve(IPTools.dnsblCache.get(ip) || null);
 		}
@@ -480,16 +482,17 @@ export const IPTools = new class {
 			}
 
 			const ipNumber = IPTools.ipToNumber(ip);
-			if (ipNumber === null) throw new Error(`Bad IP address: '${ip}'`);
-			for (const range of IPTools.ranges) {
-				if (ipNumber >= range.minIP && ipNumber <= range.maxIP) {
-					resolve(range.host);
-					return;
+			if (ipNumber !== null) {
+				for (const range of IPTools.ranges) {
+					if (ipNumber >= range.minIP && ipNumber <= range.maxIP) {
+						resolve(range.host);
+						return;
+					}
 				}
 			}
 			dns.reverse(ip, (err, hosts) => {
 				if (err) {
-					resolve(`${ip.split('.').slice(0, 2).join('.')}?/unknown`);
+					resolve(ip.includes(':') ? 'ipv6?/unknown' : `${ip.split('.').slice(0, 2).join('.')}?/unknown`);
 					return;
 				}
 				if (!hosts?.[0]) {

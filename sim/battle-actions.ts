@@ -1882,7 +1882,7 @@ export class BattleActions {
 	// ==================================================================
 
 	canMegaEvo(pokemon: Pokemon) {
-		if (this.battle.ruleTable.has('championssingles6v6rules') && (pokemon.side.choice.zMove || pokemon.side.zMoveUsed)) return null;
+		if (this.battle.ruleTable.has('championssingles6v6rules') && (pokemon.side.choice?.zMove || pokemon.side.zMoveUsed)) return null;
 		const species = pokemon.baseSpecies;
 		const altForme = species.otherFormes && this.dex.species.get(species.otherFormes[0]);
 		const item = pokemon.getItem();

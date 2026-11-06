@@ -116,7 +116,7 @@ export interface PokemonMoveRequestData {
 	canDynamax?: boolean;
 	maxMoves?: DynamaxOptions;
 	canTerastallize?: string;
-	canDodge?: boolean;
+	canDodge?: number;
 }
 export interface DynamaxOptions {
 	maxMoves: ({ move: string, target: MoveTarget, disabled?: boolean })[];
@@ -324,6 +324,7 @@ export class Side {
 				if (action.zmove) details += ` zmove`;
 				if (action.maxMove) details += ` dynamax`;
 				if (action.terastallize) details += ` terastallize`;
+				if (action.dodge) details += ` dodge`;
 				return `move ${action.moveid}${details}`;
 			case 'switch':
 			case 'instaswitch':
@@ -551,7 +552,7 @@ export class Side {
 		}
 		const autoChoose = !moveText;
 		const pokemon: Pokemon = this.active[index];
-		if (dodge && (!this.battle.ruleTable.has('championssingles6v6rules') || this.dodgeUses >= 3)) {
+		if (dodge && (!this.battle.ruleTable.has('championssingles6v6rules') || this.dodgeUses >= 3 || this.dodgeActive)) {
 			return this.emitChoiceError(`Can't move: You have no Dodge it! attempts remaining`);
 		}
 
@@ -1122,8 +1123,8 @@ export class Side {
 
 	commitChoices() {
 		const dodgeAction = this.choice.actions.find(action => action.dodge);
-		if (dodgeAction?.pokemon) {
-			this.dodgeUses++;
+		if (dodgeAction?.pokemon && !this.dodgeActive && this.dodgeUses < 3) {
+			this.dodgeUses = Math.min(3, this.dodgeUses + 1);
 			this.dodgeActive = true;
 			this.battle.add('message', `${dodgeAction.pokemon.name} is bracing itself to evade an attack!`);
 		}

@@ -103,11 +103,11 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			}
 			if (
 				(species.types.includes('Steel') && move.id === 'metalburst') ||
-				(species.types.includes('Rock') && move.id === 'Smack Down') ||
+				(species.types.includes('Rock') && move.id === 'smackdown') ||
 				move.id === 'doubleteam' || move.id === 'quickattack' ||
 				move.id === 'taunt'
 			) {
-				return '9L1';
+				return ` can't learn ${move.name} under Super Champions rules.`;
 			} else return this.checkCanLearn(move, species, setSources, set);
 		},
 	},

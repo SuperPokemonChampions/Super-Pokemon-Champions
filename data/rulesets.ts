@@ -101,14 +101,15 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				}
 				return null;
 			}
+			if (move.id === 'taunt') return null;
 			if (
 				(species.types.includes('Steel') && move.id === 'metalburst') ||
 				(species.types.includes('Rock') && move.id === 'smackdown') ||
-				move.id === 'doubleteam' || move.id === 'quickattack' ||
-				move.id === 'taunt'
+				move.id === 'doubleteam' || move.id === 'quickattack'
 			) {
 				return ` can't learn ${move.name} under Super Champions rules.`;
-			} else return this.checkCanLearn(move, species, setSources, set);
+			}
+			return this.checkCanLearn(move, species, setSources, set);
 		},
 	},
 	championssingles6v6rules: {

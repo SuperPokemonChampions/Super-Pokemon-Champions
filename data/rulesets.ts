@@ -113,7 +113,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 	championssingles6v6rules: {
 		effectType: 'ValidatorRule',
 		name: 'Champions Singles 6v6 Rules',
-		desc: 'Singles 6v6 team limits and one-gimmick rules.',
+		desc: 'Singles 6v6 team limits, transformed Palafin BST, and one-gimmick rules.',
 		onResidualOrder: 1,
 		onResidual() {
 			if (this.randomChance(1, 20)) this.field.setWeather('deepfog');
@@ -124,10 +124,12 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			let bstTotal = 0;
 			for (const set of team) {
 				const species = this.dex.species.get(set.species);
+				const bstSpecies = species.baseSpecies === 'Palafin' && this.dex.abilities.get(set.ability).id === 'zerotohero' ?
+					this.dex.species.get('Palafin-Hero') : species;
 				const level = set.level || 50;
 				if (level < 45 || level > 55) return [`${species.name} must be between levels 45 and 55.`];
 				levelTotal += level;
-				bstTotal += Object.values(species.baseStats).reduce((sum, stat) => sum + stat, 0);
+				bstTotal += Object.values(bstSpecies.baseStats).reduce((sum, stat) => sum + stat, 0);
 			}
 			if (levelTotal > 300) return [`The team's combined levels cannot exceed 300 (currently ${levelTotal}).`];
 			if (bstTotal > 3150) return [`The team's combined base stat total cannot exceed 3,150 (currently ${bstTotal}).`];
@@ -137,7 +139,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			if (species.isMega) return [`${species.name} cannot be selected as a starting form; bring its base form and Mega Evolve in battle.`];
 		},
 		onBegin() {
-			this.add('rule', 'Singles 6v6: Levels 45–55; combined levels ≤ 300; team BST ≤ 3,150');
+			this.add('rule', 'Singles 6v6: Levels 45–55; combined levels ≤ 300; team BST ≤ 3,150 (Zero to Hero Palafin counts as Hero Form)');
 			this.add('rule', 'One battle gimmick: Mega Evolution or Z-Move');
 		},
 	},

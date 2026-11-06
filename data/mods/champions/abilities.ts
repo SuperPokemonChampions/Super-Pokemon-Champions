@@ -1,4 +1,16 @@
 export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTable = {
+	zerotohero: {
+		inherit: true,
+		onSwitchIn(pokemon) {
+			if (pokemon.baseSpecies.baseSpecies !== 'Palafin') return;
+			if (!pokemon.heroMessageDisplayed && pokemon.species.forme === 'Hero') {
+				this.add('-activate', pokemon, 'ability: Zero to Hero');
+				const healed = pokemon.heal(pokemon.maxhp);
+				if (healed) this.add('-heal', pokemon, pokemon.getHealth, '[from] ability: Zero to Hero');
+				pokemon.heroMessageDisplayed = true;
+			}
+		},
+	},
 	sheerforce: {
 		inherit: true,
 		desc: "Removes move secondary effects to increase power, but does not prevent Life Orb recoil or Shell Bell recovery.",

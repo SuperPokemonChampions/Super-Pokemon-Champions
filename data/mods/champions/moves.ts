@@ -5,6 +5,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		desc: "Has a 20% chance to make the target flinch.",
 		shortDesc: "20% chance to make the target flinch.",
 	},
+	outrage: { inherit: true, accuracy: 90 },
 	aquaring: {
 		inherit: true,
 		target: 'adjacentAllyOrSelf',

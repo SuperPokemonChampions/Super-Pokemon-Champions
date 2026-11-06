@@ -2272,7 +2272,7 @@ export class Battle {
 		return damage;
 	}
 
-	heal(damage: number, target?: Pokemon, source: Pokemon | null = null, effect: 'drain' | Effect | null = null) {
+	heal(damage: number, target?: Pokemon, source: Pokemon | null = null, effect: 'drain' | Effect | null = null, silent = false) {
 		if (this.event) {
 			target ||= this.event.target;
 			source ||= this.event.source;
@@ -2288,7 +2288,9 @@ export class Battle {
 		if (!target.isActive) return false;
 		if (target.hp >= target.maxhp) return false;
 		const finalDamage = target.heal(damage, source, effect);
-		switch (effect?.id) {
+		if (silent) {
+			this.add('-heal', target, target.getHealth, '[silent]');
+		} else switch (effect?.id) {
 		case 'leechseed':
 		case 'rest':
 			this.add('-heal', target, target.getHealth, '[silent]');

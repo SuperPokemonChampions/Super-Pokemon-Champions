@@ -41,8 +41,8 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		// Heal on switch
 		onSwitchOut(pokemon) {
 			if (!pokemon.hasAbility('Regenerator')) {
-				const healed = this.heal(pokemon.maxhp / 12, pokemon, pokemon);
-				if (healed) this.add('-heal', pokemon, pokemon.getHealth, '[from] move: Take a Break');
+				const healed = this.heal(pokemon.maxhp / 12, pokemon, pokemon, undefined, true);
+				if (healed) this.add('-message', 'Take a Break', pokemon);
 			};
 		},
 		// No effects should affect OHKO moves

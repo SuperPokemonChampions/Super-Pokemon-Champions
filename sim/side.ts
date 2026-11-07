@@ -104,6 +104,8 @@ export interface MoveRequestData {
 
 export interface PokemonMoveRequestData {
 	moves: MoveRequestData[];
+	canDodge?: number;
+	dodgeActive?: boolean;
 	maybeDisabled?: boolean;
 	maybeLocked?: boolean;
 	trapped?: boolean;

@@ -1,6 +1,6 @@
 export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	airslash: {
-		inherit: true, basePower: 90, accuracy: 90, pp: 12,
+		inherit: true, basePower: 90, accuracy: 90, pp: 12, noPPBoosts: true,
 		secondary: { chance: 20, volatileStatus: 'flinch' },
 		desc: "Has a 20% chance to make the target flinch.",
 		shortDesc: "20% chance to make the target flinch.",
@@ -16,7 +16,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		},
 	},
 	bodyslam: {
-		inherit: true, pp: 12, secondary: { chance: 10, status: 'par' },
+		inherit: true, pp: 12, noPPBoosts: true, secondary: { chance: 10, status: 'par' },
 		desc: "Has a 10% chance to paralyze the target.",
 		shortDesc: "10% chance to paralyze the target.",
 	},
@@ -54,7 +54,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	destinybond: {
 		inherit: true,
-		pp: 1,
+		pp: 1, noPPBoosts: true,
 		desc: "If the user is knocked out by an opponent's move, that opponent also faints. Expires after an opponent acts. Goes before moves of the same priority.",
 		shortDesc: "If knocked out by an opponent, that opponent also faints.",
 	},
@@ -94,9 +94,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	bravebird: { inherit: true, basePower: 100, desc: '100 base power.', shortDesc: '100 base power.' },
 	closecombat: {
-		inherit: true, basePower: 100, self: { boosts: { def: -2, spd: -2 } },
-		desc: '100 base power. Lowers the user’s Defense and Special Defense by 2 stages.',
-		shortDesc: '100 power; lowers the user’s Defense and Sp. Def by 2.',
+		inherit: true, basePower: 100, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ def: -2, spd: -2 }, source, source, this.effect); },
+		desc: '100 base power. Lowers the user’s Defense and Special Defense by 2 stages even if it misses or deals no damage.',
+		shortDesc: '100 power; lowers the user’s Defense and Sp. Def by 2 even on a miss.',
 	},
 	doubleedge: { inherit: true, basePower: 100, desc: '100 base power.', shortDesc: '100 base power.' },
 	dracometeor: {
@@ -149,15 +150,16 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		shortDesc: '160 power, 90% accurate; user recharges after use, even on a miss.',
 	},
 	superpower: {
-		inherit: true, basePower: 100, self: { boosts: { atk: -2, def: -2 } },
-		desc: '100 base power. Lowers the user’s Attack and Defense by 2 stages.',
-		shortDesc: '100 power; lowers the user’s Attack and Defense by 2.',
+		inherit: true, basePower: 100, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ atk: -2, def: -2 }, source, source, this.effect); },
+		desc: '100 base power. Lowers the user’s Attack and Defense by 2 stages even if it misses or deals no damage.',
+		shortDesc: '100 power; lowers the user’s Attack and Defense by 2 even on a miss.',
 	},
 	toxic: { inherit: true, accuracy: 100, desc: '100% accurate.', shortDesc: '100% accurate.' },
 	wavecrash: { inherit: true, basePower: 100, desc: '100 base power.', shortDesc: '100 base power.' },
 	woodhammer: { inherit: true, basePower: 100, desc: '100 base power.', shortDesc: '100 base power.' },
 	flareblitz: { inherit: true, basePower: 100, secondary: undefined, desc: '100 base power; no burn effect.', shortDesc: '100 base power; no burn effect.' },
-	flipturn: { inherit: true, basePower: 50, pp: 8, desc: "50 base power; 8 PP.", shortDesc: "50 base power; 8 PP." },
+	flipturn: { inherit: true, basePower: 50, pp: 8, noPPBoosts: true, desc: "50 base power; 8 PP.", shortDesc: "50 base power; 8 PP." },
 	glare: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
 	gravity: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
 	guardswap: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
@@ -165,6 +167,30 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	heatwave: {
 		inherit: true, accuracy: 95, secondary: undefined,
 		desc: "Has 95% accuracy and no secondary effect.", shortDesc: "95% accurate; no secondary effect.",
+	},
+	overheat: {
+		inherit: true, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ spa: -2 }, source, source, this.effect); },
+		desc: 'Lowers the user’s Special Attack by 2 stages even if it misses or deals no damage.',
+		shortDesc: 'Lowers the user’s Sp. Atk by 2 even on a miss.',
+	},
+	hammerarm: {
+		inherit: true, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ spe: -1 }, source, source, this.effect); },
+		desc: 'Lowers the user’s Speed by 1 stage even if it misses or deals no damage.',
+		shortDesc: 'Lowers the user’s Speed by 1 even on a miss.',
+	},
+	headlongrush: {
+		inherit: true, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ def: -2, spd: -2 }, source, source, this.effect); },
+		desc: 'Lowers the user’s Defense and Special Defense by 2 stages even if it misses or deals no damage.',
+		shortDesc: 'Lowers the user’s Defense and Sp. Def by 2 even on a miss.',
+	},
+	icehammer: {
+		inherit: true, self: undefined,
+		onAfterMove(source) { if (source) this.boost({ spe: -1 }, source, source, this.effect); },
+		desc: 'Lowers the user’s Speed by 1 stage even if it misses or deals no damage.',
+		shortDesc: 'Lowers the user’s Speed by 1 even on a miss.',
 	},
 	icebeam: { inherit: true, secondary: undefined, desc: "Has no secondary effect.", shortDesc: "No secondary effect." },
 	imprison: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
@@ -190,6 +216,11 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	knockoff: { inherit: true, basePower: 65, basePowerCallback() { return 65; }, onBasePower: undefined },
 	lastrespects: { inherit: true, stallingMove: true, basePowerCallback(pokemon) { return 50 + 25 * pokemon.side.totalFainted; } },
+	lastresort: {
+		inherit: true, basePower: 120, accuracy: 95, pp: 5, noPPBoosts: true,
+		desc: '120 base power, 95% accurate, and 5 PP. Can only be used after the user has used all its other moves at least once.',
+		shortDesc: '120 power, 95% accurate; must use all other moves first.',
+	},
 	leaftornado: { inherit: true, basePower: 50, accuracy: 100 },
 	magicroom: { inherit: true },
 	lavaplume: {
@@ -201,7 +232,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 			}
 		},
 	},
-	partingshot: { inherit: true, pp: 8, desc: "8 PP.", shortDesc: "8 PP." },
+	partingshot: { inherit: true, pp: 8, noPPBoosts: true, desc: "8 PP.", shortDesc: "8 PP." },
 	playrough: {
 		inherit: true, secondary: { chance: 30, boosts: { atk: -2 } },
 		desc: "Has a 30% chance to lower the target's Attack by 2 stages.",
@@ -245,7 +276,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 			},
 		},
 	},
-	sandtomb: { inherit: true, accuracy: 100, pp: 8 },
+	sandtomb: { inherit: true, accuracy: 100, pp: 8, noPPBoosts: true, },
 	scald: { inherit: true, basePower: 70 },
 	shellsidearm: { inherit: true, secondary: { chance: 10, status: 'psn' } },
 	sludgebomb: { inherit: true, secondary: { chance: 10, status: 'psn' } },
@@ -296,11 +327,11 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	torment: { inherit: true },
 	triplearrows: { inherit: true, accuracy: 85, secondaries: [{ chance: 50, boosts: { def: -1 } }, { chance: 10, volatileStatus: 'flinch' }] },
-	uturn: { inherit: true, basePower: 50, pp: 8 },
-	voltswitch: { inherit: true, basePower: 50, pp: 8 },
+	uturn: { inherit: true, basePower: 50, pp: 8, noPPBoosts: true, },
+	voltswitch: { inherit: true, basePower: 50, pp: 8, noPPBoosts: true, },
 	waterfall: { inherit: true, secondary: { chance: 10, volatileStatus: 'flinch' } },
 	whirlpool: { inherit: true, accuracy: 100 },
-	wrap: { inherit: true, accuracy: 100, pp: 12 },
+	wrap: { inherit: true, accuracy: 100, pp: 12, noPPBoosts: true, },
 	absorb: {
 		inherit: true,
 		isNonstandard: "Past",
@@ -344,7 +375,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	banefulbunker: {
 		inherit: true,
-		pp: 5,
+		pp: 5, noPPBoosts: true,
 	},
 	barbbarrage: {
 		inherit: true,
@@ -353,7 +384,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	beakblast: {
 		inherit: true,
 		basePower: 120,
-		pp: 5,
+		pp: 5, noPPBoosts: true,
 	},
 	belch: {
 		inherit: true,
@@ -547,6 +578,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	dragonascent: {
 		inherit: true,
 		isNonstandard: "Past",
+		self: undefined,
+		onAfterMove(source) { if (source) this.boost({ def: -1, spd: -1 }, source, source, this.effect); },
+		desc: 'Lowers the user’s Defense and Special Defense by 1 stage even if it misses or deals no damage.',
+		shortDesc: 'Lowers the user’s Defense and Sp. Def by 1 even on a miss.',
 	},
 	dragonbreath: {
 		inherit: true,
@@ -834,6 +869,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	hyperspacefury: {
 		inherit: true,
 		isNonstandard: "Past",
+		self: undefined,
+		onAfterMove(source) { if (source) this.boost({ def: -1 }, source, source, this.effect); },
+		desc: 'Lowers the user’s Defense by 1 stage even if it misses or deals no damage.',
+		shortDesc: 'Lowers the user’s Defense by 1 even on a miss.',
 	},
 	hyperspacehole: {
 		inherit: true,
@@ -879,7 +918,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	kingsshield: {
 		inherit: true,
 		isNonstandard: null,
-		pp: 5,
+		pp: 5, noPPBoosts: true,
 	},
 	leafage: {
 		inherit: true,
@@ -986,7 +1025,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	mountaingale: {
 		inherit: true,
 		accuracy: 80,
-		pp: 8,
+		pp: 8, noPPBoosts: true,
 		basePower: 120,
 	},
 	mysticalpower: {
@@ -997,18 +1036,18 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		inherit: true,
 		basePower: 95,
 		accuracy: 95,
-		pp: 8,
+		pp: 8, noPPBoosts: true,
 		secondary: { chance: 30, boosts: { accuracy: -1 } },
 		desc: "Has a 30% chance to lower the target's accuracy by 1 stage.",
 		shortDesc: "95% accurate; 30% chance to lower accuracy.",
 	},
 	nightslash: {
 		inherit: true,
-		pp: 20,
+		pp: 20, noPPBoosts: true,
 	},
 	nihillight: {
 		inherit: true,
-		pp: 5,
+		pp: 5, noPPBoosts: true,
 	},
 	noretreat: {
 		inherit: true,
@@ -1020,7 +1059,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	obstruct: {
 		inherit: true,
-		pp: 5,
+		pp: 5, noPPBoosts: true,
 	},
 	orderup: {
 		inherit: true,
@@ -1089,7 +1128,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	protect: {
 		inherit: true,
-		pp: 5,
+		pp: 5, noPPBoosts: true,
 	},
 	psybeam: {
 		inherit: true,
@@ -1118,7 +1157,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	purify: {
 		inherit: true,
-		pp: 5,
+		pp: 5, noPPBoosts: true,
 	},
 	pyroball: {
 		inherit: true,
@@ -1150,7 +1189,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	revivalblessing: {
 		inherit: true,
-		pp: 1,
+		pp: 1, noPPBoosts: true,
 		isNonstandard: "Custom",
 		desc: "Revives a fainted teammate with 50% HP. The user loses 50% of its max HP.",
 		shortDesc: "Revives an ally; the user loses 50% max HP.",
@@ -1207,7 +1246,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	sandstorm: {
 		inherit: true,
-		pp: 5,
+		pp: 5, noPPBoosts: true,
 	},
 	scratch: {
 		inherit: true,
@@ -1231,7 +1270,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	shelltrap: {
 		inherit: true,
-		pp: 10,
+		pp: 10, noPPBoosts: true,
 	},
 	shiftgear: {
 		inherit: true,
@@ -1285,7 +1324,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	snowscape: {
 		inherit: true,
-		pp: 5,
+		pp: 5, noPPBoosts: true,
 	},
 	spacialrend: {
 		inherit: true,
@@ -1297,12 +1336,16 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	spikyshield: {
 		inherit: true,
-		pp: 5,
+		pp: 5, noPPBoosts: true,
 	},
 	spinout: {
 		inherit: true,
 		isNonstandard: "Past",
-		pp: 10,
+		pp: 10, noPPBoosts: true,
+		self: undefined,
+		onAfterMove(source) { if (source) this.boost({ spe: -2 }, source, source, this.effect); },
+		desc: 'Lowers the user’s Speed by 2 stages even if it misses or deals no damage.',
+		shortDesc: 'Lowers the user’s Speed by 2 even on a miss.',
 	},
 	spiritbreak: {
 		inherit: true,
@@ -1459,8 +1502,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		inherit: true,
 		accuracy: 80,
 		isNonstandard: null,
-		desc: '80% accurate.',
-		shortDesc: '80% accurate.',
+		self: undefined,
+		onAfterMove(source) { if (source) this.boost({ spe: -1, def: -1, spd: -1 }, source, source, this.effect); },
+		desc: '80% accurate. Lowers the user’s Speed, Defense, and Special Defense by 1 stage even if it misses or deals no damage.',
+		shortDesc: '80% accurate; lowers Speed, Defense, and Sp. Def by 1 even on a miss.',
 	},
 	victorydance: {
 		inherit: true,
@@ -1504,7 +1549,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	workup: {
 		inherit: true,
-		pp: 20,
+		pp: 20, noPPBoosts: true,
 		isNonstandard: null,
 	},
 	zingzap: {

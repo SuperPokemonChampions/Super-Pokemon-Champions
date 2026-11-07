@@ -291,6 +291,7 @@ interface ModdedBattlePokemon {
 	getMoveRequestData?: (this: Pokemon) => {
 		moves: { move: string, id: ID, target?: string, disabled?: boolean }[],
 		maybeDisabled?: boolean, trapped?: boolean, maybeTrapped?: boolean,
+		canDodge?: number, dodgeActive?: boolean,
 		canMegaEvo?: boolean, canUltraBurst?: boolean, canZMove?: ZMoveOptions,
 	};
 	getMoves?: (this: Pokemon, lockedMove?: string | null, restrictData?: boolean) => {

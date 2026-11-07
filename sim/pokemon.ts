@@ -1156,7 +1156,8 @@ export class Pokemon {
 
 		if (!lockedMove) {
 			if (this.battle.ruleTable.has('championssingles6v6rules')) {
-				data.canDodge = this.side.dodgeActive ? 0 : Math.max(0, 3 - this.side.dodgeUses);
+				data.canDodge = Math.max(0, 3 - this.side.dodgeUses);
+				data.dodgeActive = this.side.dodgeActive;
 			}
 			if (this.canMegaEvo) data.canMegaEvo = true;
 			if (this.canMegaEvoX) data.canMegaEvoX = true;

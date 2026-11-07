@@ -6517,6 +6517,7 @@ export const Learnsets: import('../../../sim/dex-species').ModdedLearnsetDataTab
 		learnset: {
 			aerialace: ["9M"],
 			aquatail: ["9M"],
+			aromatherapy: ["9M"],
 			attract: ["9M"],
 			bodyslam: ["9M"],
 			breakingswipe: ["9M"],

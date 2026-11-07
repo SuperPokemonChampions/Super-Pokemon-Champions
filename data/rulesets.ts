@@ -38,6 +38,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		effectType: 'Rule',
 		name: 'Super Champions',
 		desc: "Applies various modifications for Super Champions formats.",
+		ruleset: ['Obtainable Abilities'],
 		// Heal on switch
 		onSwitchOut(pokemon) {
 			if (!pokemon.hasAbility('Regenerator')) {

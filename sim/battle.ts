@@ -2388,7 +2388,10 @@ export class Battle {
 	}
 
 	calculatePP(move: Move, ppUps = 3) {
-		return move.noPPBoosts ? move.pp : (move.pp / 5 + 1) * 4;
+		if (move.noPPBoosts) return move.pp;
+		let pp = move.pp * (5 + ppUps) / 5;
+		if (this.gen <= 2 && move.pp === 40) pp -= ppUps;
+		return Math.floor(pp);
 	}
 
 	finalModify(relayVar: number) {

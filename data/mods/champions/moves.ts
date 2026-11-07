@@ -71,12 +71,13 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		},
 	},
 	firespin: {
-		inherit: true, accuracy: 100, pp: 8, noPPBoosts: true, flags: { defrost: 1 },
+		inherit: true, accuracy: 100, pp: 8, noPPBoosts: true,
+		flags: { protect: 1, mirror: 1, metronome: 1, defrost: 1 },
 		desc: "Thaws the user. Goes before moves of the same priority.",
 		shortDesc: "100% accurate; thaws the user.",
 	},
 	flamethrower: {
-		inherit: true, secondary: undefined, flags: { defrost: 1 },
+		inherit: true, secondary: undefined, flags: { protect: 1, mirror: 1, metronome: 1, defrost: 1 },
 		desc: "Thaws the user. Has no burn effect.", shortDesc: "Thaws the user; no burn effect.",
 	},
 	armorcannon: {

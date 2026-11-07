@@ -86,8 +86,9 @@ export const Scripts: ModdedBattleScriptsData = {
 		}
 		return stat;
 	},
-	calculatePP(move, ppUps) {
-		return move.noPPBoosts ? move.pp : (move.pp / 5 + 1) * 4;
+	calculatePP(move, ppUps = 3) {
+		if (move.noPPBoosts) return move.pp;
+		return Math.floor(move.pp * (5 + ppUps) / 5);
 	},
 	pokemon: {
 		// Don't revert Mega Evolutions after fainting

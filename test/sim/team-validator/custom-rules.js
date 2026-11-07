@@ -4,6 +4,20 @@ const assert = require('../../assert');
 const Dex = require('../../../dist/sim/dex').Dex;
 
 describe("Custom Rules", () => {
+	it('should enforce Champions ability legality and custom learnsets', () => {
+		const format = 'superchampionssingles6v6';
+		const validTeam = [
+			{ species: 'Sandslash-Alola', ability: 'Iron Barbs', moves: ['Protect'] },
+			{ species: 'Zoroark', ability: 'Illusion', moves: ['Will-O-Wisp', 'Parting Shot'] },
+		];
+		assert.legalTeam(validTeam, format);
+
+		const invalidAbilityTeam = [
+			{ species: 'Sandslash-Alola', ability: 'Levitate', moves: ['Protect'] },
+		];
+		assert.false.legalTeam(invalidAbilityTeam, format);
+	});
+
 	it('should support legality tags', () => {
 		let team = [
 			{ species: 'kitsunoh', ability: 'frisk', moves: ['shadowstrike'], evs: { hp: 1 } },

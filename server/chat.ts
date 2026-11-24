@@ -1951,6 +1951,9 @@ export const Chat = new class {
 
 	loadPluginFile(file: string) {
 		if (!file.endsWith('.js')) return;
+		// Staff Bros commands are optional when the Staff Bros mod is not installed.
+		if (file.replace(/\\/g, '/').endsWith('/randombattles/ssb.js') &&
+			!FS('dist/data/mods/gen9ssb/random-teams.js').existsSync()) return;
 		this.loadPlugin(require(FS(file).path), this.getPluginName(file));
 	}
 

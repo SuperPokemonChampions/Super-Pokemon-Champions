@@ -48,7 +48,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		},
 		// No effects should affect OHKO moves
 		onAccuracy(accuracy, target, source, move) {
-			if (move.ohko) {
+			if (move.ohko || move.id === 'sheercold') {
 				return move.accuracy;
 			};
 		},
@@ -102,11 +102,11 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				}
 				return null;
 			}
-			if (move.id === 'taunt') return null;
+			if (['taunt', 'hiddenpower', 'quickattack', 'refresh', 'return', 'toxic'].includes(move.id)) return null;
 			if (
 				(species.types.includes('Steel') && move.id === 'metalburst') ||
 				(species.types.includes('Rock') && move.id === 'smackdown') ||
-				move.id === 'doubleteam' || move.id === 'quickattack'
+				move.id === 'doubleteam'
 			) {
 				return ` can't learn ${move.name} under Super Champions rules.`;
 			}
@@ -128,7 +128,8 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			for (const set of team) {
 				const species = this.dex.species.get(set.species);
 				const bstSpecies = species.baseSpecies === 'Palafin' && this.dex.abilities.get(set.ability).id === 'zerotohero' ?
-					this.dex.species.get('Palafin-Hero') : species;
+					this.dex.species.get('Palafin-Hero') :
+					species.baseSpecies === 'Zygarde' && this.dex.abilities.get(set.ability).id === 'powerconstruct' ? this.dex.species.get('Zygarde-Complete') : species;
 				const level = set.level || 50;
 				if (level < 45 || level > 55) return [`${species.name} must be between levels 45 and 55.`];
 				levelTotal += level;
@@ -142,7 +143,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			if (species.isMega) return [`${species.name} cannot be selected as a starting form; bring its base form and Mega Evolve in battle.`];
 		},
 		onBegin() {
-			this.add('rule', 'Singles 6v6: Levels 45–55; combined levels ≤ 300; team BST ≤ 3,150 (Zero to Hero Palafin counts as Hero Form)');
+			this.add('rule', 'Singles 6v6: Levels 45–55; combined levels ≤ 300; team BST ≤ 3,150 (Zero to Hero Palafin and Power Construct Zygarde count as their transformed forms)');
 			this.add('rule', 'One battle gimmick: Mega Evolution or Z-Move');
 		},
 	},

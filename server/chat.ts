@@ -1151,7 +1151,7 @@ export class CommandContext extends MessageContext {
 						throw new Chat.ErrorMessage(this.tr`You are ${lockType} and can't talk in chat. ${lockExpiration}`);
 					}
 				}
-				if (!room.persist && !room.roomid.startsWith('help-') && !(user.registered || user.autoconfirmed)) {
+				if (!room.battle && !room.persist && !room.roomid.startsWith('help-') && !(user.registered || user.autoconfirmed)) {
 					this.sendReply(
 						this.tr`|html|<div class="message-error">You must be registered to chat in temporary rooms (like battles).</div>` +
 						this.tr`You may register in the <button name="openOptions"><i class="fa fa-cog"></i> Options</button> menu.`
@@ -2495,7 +2495,7 @@ export const Chat = new class {
 		buf += `<span class="col widelabelcol"><em>Accuracy</em><br>${typeof move.accuracy === 'number' ? (`${move.accuracy}%`) : '—'}</span> `;
 		const basePP = move.pp || 1;
 		let pp = Math.floor(move.noPPBoosts ? basePP : basePP * 8 / 5);
-		if (isChampions) pp = move.noPPBoosts ? basePP : (basePP / 5 + 1) * 4;
+		if (isChampions) pp = Math.floor(move.noPPBoosts ? basePP : basePP * 8 / 5);
 		buf += `<span class="col pplabelcol"><em>PP</em><br>${pp}</span> `;
 		buf += `<span class="col movedesccol">${move.shortDesc || move.desc}</span> `;
 		buf += `</li><li style="clear:both"></li></ul>`;

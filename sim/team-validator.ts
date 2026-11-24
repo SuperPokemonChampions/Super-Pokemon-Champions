@@ -698,7 +698,7 @@ export class TeamValidator {
 		}
 		if (set.hpType) {
 			const type = dex.types.get(set.hpType);
-			if (!type.exists || ['normal', 'fairy', 'stellar'].includes(type.id)) {
+			if (!type.exists || (['normal', 'stellar'].includes(type.id) || (type.id === 'fairy' && dex.currentMod !== 'champions'))) {
 				problems.push(`${name}'s Hidden Power type (${set.hpType}) is invalid.`);
 			} else {
 				set.hpType = type.name;
@@ -1152,7 +1152,7 @@ export class TeamValidator {
 				}
 			}
 		}
-		if (set.hpType && maxedIVs && ruleTable.has('obtainablemisc')) {
+		if (dex.currentMod !== 'champions' && set.hpType && maxedIVs && ruleTable.has('obtainablemisc')) {
 			if (dex.gen <= 2) {
 				const HPdvs = dex.types.get(set.hpType).HPdvs;
 				set.ivs = { hp: 30, atk: 30, def: 30, spa: 30, spd: 30, spe: 30 };
@@ -1206,12 +1206,12 @@ export class TeamValidator {
 			}
 		}
 
-		if (set.hpType && !canBottleCap) {
+		if (dex.currentMod !== 'champions' && set.hpType && !canBottleCap) {
 			const ivHpType = dex.getHiddenPower(set.ivs).type;
 			if (set.hpType !== ivHpType) {
 				problems.push(`${name} has Hidden Power ${set.hpType}, but its IVs are for Hidden Power ${ivHpType}.`);
 			}
-		} else if (set.hpType) {
+		} else if (dex.currentMod !== 'champions' && set.hpType) {
 			if (!this.possibleBottleCapHpType(set.hpType, set.ivs)) {
 				problems.push(`${name} has Hidden Power ${set.hpType}, but its IVs don't allow this even with (Bottle Cap) Hyper Training.`);
 			}

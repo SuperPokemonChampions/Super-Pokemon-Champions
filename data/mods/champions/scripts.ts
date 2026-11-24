@@ -1,10 +1,17 @@
 export const Scripts: ModdedBattleScriptsData = {
 	gen: 9,
 	init() {
+		this.data.Moves.hiddenpowerfairy = { ...this.data.Moves.hiddenpowergrass, name: 'Hidden Power Fairy', type: 'Fairy', isNonstandard: null };
 		for (const i in this.data.Moves) {
 			if (this.data.Moves[i].pp > 20) {
 				this.modData('Moves', i).pp = 20;
 			}
+		}
+		for (const moveId of ['earthquake', 'bulldoze', 'magnitude', 'surf', 'sparklingaria', 'discharge', 'paraboliccharge', 'lavaplume', 'searingshot', 'mindblown', 'boomburst', 'explosion', 'selfdestruct', 'sludgewave', 'brutalswing', 'petalblizzard']) {
+			const move = this.modData('Moves', moveId);
+			const text = this.getDescs('Moves', moveId as ID, move);
+			move.desc = (move.desc || text.desc || '') + ' Clears all entry hazards from both sides even if it misses or deals no damage.';
+			move.shortDesc = (move.shortDesc || text.shortDesc || '') + ' Clears all hazards even on miss.';
 		}
 		const auraSphereExclusions = new Set([
 			'aerodactyl', 'alakazam', 'mukalola', 'exeggutoralola', 'amoonguss', 'bewear', 'blacephalon',
@@ -53,6 +60,13 @@ export const Scripts: ModdedBattleScriptsData = {
 			const learnset = this.data.Learnsets[speciesId].learnset;
 			if (!learnset) continue;
 			const species = this.data.Pokedex[speciesId];
+			for (const moveId of ['hiddenpower', 'quickattack', 'refresh', 'return', 'toxic']) {
+				learnset[moveId as ID] = ['9M']; this.modData('Moves', moveId).isNonstandard = null;
+			}
+			if (learnset.dragonpulse || speciesId === 'charizard') learnset.dragonrage = ['9M'];
+			if (learnset.dynamicpunch || speciesId === 'charizard') learnset.seismictoss = ['9M'];
+			if (species?.types?.includes('Fairy') && learnset.dazzlinggleam) learnset.moonblast = ['9M'];
+			if (speciesId === 'ursalunabloodmoon') learnset.bloodmoon = ['9M'];
 			if (auraSphereExclusions.has(speciesId)) {
 				delete learnset.aurasphere;
 			} else if (learnset.focusblast) {
@@ -65,6 +79,14 @@ export const Scripts: ModdedBattleScriptsData = {
 				delete learnset.workup;
 			}
 		}
+		for (const species of this.species.all()) {
+			if (!species.types.includes('Fairy')) continue;
+			const baseId = this.toID(species.baseSpecies);
+			if (!this.data.Learnsets[species.id]?.learnset?.dazzlinggleam && !this.data.Learnsets[baseId]?.learnset?.dazzlinggleam) continue;
+			const learnset = this.data.Learnsets[species.id]?.learnset || this.data.Learnsets[baseId]?.learnset;
+			if (learnset) learnset.moonblast = ['9M'];
+		}
+
 	},
 	statModify(baseStats, set, statName) {
 		const tr = this.trunc;
@@ -95,6 +117,11 @@ export const Scripts: ModdedBattleScriptsData = {
 		// TODO: confirm interaction with Revival Blessing
 		formeChange(speciesId, source, isPermanent, abilitySlot = '0', message) {
 			const rawSpecies = this.battle.dex.species.get(speciesId);
+			if (['charizardmegax', 'beedrillmega'].includes(rawSpecies.id)) {
+				const base = this.battle.dex.species.get(rawSpecies.baseSpecies);
+				const chosen = this.battle.toID(this.set.ability);
+				if (Object.entries(base.abilities).some(([slot, ability]) => slot !== '0' && this.battle.toID(ability) === chosen)) abilitySlot = '1';
+			}
 
 			const species = this.setSpecies(rawSpecies, source);
 			if (!species) return false;
@@ -198,7 +225,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			// Not even if you Roost in Gen 4 and somehow manage to use
 			// Struggle in the same turn.
 			// (On second thought, it might be easier to get a MissingNo.)
-			if (type !== '???') {
+			if (type !== '???' || (move.id === 'hiddenpower' && pokemon.species.baseSpecies === 'Unown')) {
 				let stab: number | [number, number] = 1;
 
 				const isSTAB = move.forceSTAB || pokemon.hasType(type) || pokemon.getTypes(false, true).includes(type);
@@ -450,11 +477,11 @@ export const Scripts: ModdedBattleScriptsData = {
 				// like this (Triple Kick)
 				if (target && move.multiaccuracy && hit > 1) {
 					let accuracy = move.accuracy;
-					const boostTable = [1, 4 / 3, 5 / 3, 2, 7 / 3, 8 / 3, 3];
+					const boostTable = Array.from({ length: 13 }, (_, i) => 1 + i / 3);
 					if (accuracy !== true) {
 						if (!move.ignoreAccuracy) {
 							const boosts = this.battle.runEvent('ModifyBoost', pokemon, null, null, { ...pokemon.boosts });
-							const boost = this.battle.clampIntRange(boosts['accuracy'], -6, 6);
+							const boost = this.battle.clampIntRange(boosts['accuracy'], this.battle.dex.currentMod === 'champions' ? -12 : -6, this.battle.dex.currentMod === 'champions' ? 12 : 6);
 							if (boost > 0) {
 								accuracy *= boostTable[boost];
 							} else {
@@ -463,7 +490,7 @@ export const Scripts: ModdedBattleScriptsData = {
 						}
 						if (!move.ignoreEvasion) {
 							const boosts = this.battle.runEvent('ModifyBoost', target, null, null, { ...target.boosts });
-							const boost = this.battle.clampIntRange(boosts['evasion'], -6, 6);
+							const boost = this.battle.clampIntRange(boosts['evasion'], this.battle.dex.currentMod === 'champions' ? -12 : -6, this.battle.dex.currentMod === 'champions' ? 12 : 6);
 							if (boost > 0) {
 								accuracy /= boostTable[boost];
 							} else if (boost < 0) {

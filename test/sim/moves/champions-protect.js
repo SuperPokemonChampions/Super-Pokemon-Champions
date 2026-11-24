@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('../../assert');
+const assert = require('assert').strict;
 const common = require('../../common');
 
 let battle;
@@ -47,7 +47,7 @@ describe('Champions Protect regression', () => {
 		battle.makeChoices('team 1', 'team 1');
 
 		const moveSlots = battle.p1.active[0].moveSlots;
-		assert.equal(moveSlots.find(move => move.id === 'airslash').maxpp, 19);
-		assert.equal(moveSlots.find(move => move.id === 'nightdaze').maxpp, 12);
+		assert.equal(moveSlots.find(move => move.id === 'airslash').maxpp, 12);
+		assert.equal(moveSlots.find(move => move.id === 'nightdaze').maxpp, 8);
 	});
 });

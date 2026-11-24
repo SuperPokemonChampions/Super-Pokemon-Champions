@@ -157,6 +157,11 @@ export class BattleActions {
 			this.battle.add(isDrag ? 'drag' : 'switch', pokemon, pokemon.getFullDetails);
 		}
 		if (isDrag && this.battle.gen === 2) pokemon.draggedIn = this.battle.turn;
+		if (this.battle.dex.currentMod === 'champions') {
+			for (const stat of ['atk', 'spa'] as const) {
+				if (pokemon.boosts[stat] > 0) this.battle.add('-setboost', pokemon, stat, pokemon.boosts[stat]);
+			}
+		}
 		pokemon.previouslySwitchedIn++;
 
 		if (isDrag && this.battle.gen >= 5) {
@@ -699,13 +704,13 @@ export class BattleActions {
 			let accuracy = move.accuracy;
 			if (move.ohko) { // bypasses accuracy modifiers
 				if (!target.isSemiInvulnerable()) {
-					accuracy = 10;
-					if (move.ohko === 'Ice' && this.battle.gen >= 7 && pokemon.hasType('Ice')) {
+					accuracy = this.battle.dex.currentMod === 'champions' ? 30 : 10;
+					if (this.battle.dex.currentMod !== 'champions' && move.ohko === 'Ice' && this.battle.gen >= 7 && pokemon.hasType('Ice')) {
 						accuracy = 20;
 					}
-					if (!target.volatiles['dynamax'] && pokemon.level >= target.level &&
+					if (!target.volatiles['dynamax'] && (this.battle.dex.currentMod === 'champions' || pokemon.level >= target.level) &&
 						(move.ohko === true || !target.hasType(move.ohko))) {
-						accuracy += (pokemon.level - target.level);
+						if (this.battle.dex.currentMod !== 'champions') accuracy += (pokemon.level - target.level);
 					} else {
 						this.battle.add('-immune', target, '[ohko]');
 						hitResults[i] = false;
@@ -721,11 +726,11 @@ export class BattleActions {
 					let boost = 0;
 					if (!move.ignoreAccuracy) {
 						const boosts = this.battle.runEvent('ModifyBoost', pokemon, null, null, { ...pokemon.boosts });
-						boost = this.battle.clampIntRange(boosts['accuracy'], -6, 6);
+						boost = this.battle.clampIntRange(boosts['accuracy'], this.battle.dex.currentMod === 'champions' ? -12 : -6, this.battle.dex.currentMod === 'champions' ? 12 : 6);
 					}
 					if (!move.ignoreEvasion) {
 						const boosts = this.battle.runEvent('ModifyBoost', target, null, null, { ...target.boosts });
-						boost = this.battle.clampIntRange(boost - boosts['evasion'], -6, 6);
+						boost = this.battle.clampIntRange(boost - boosts['evasion'], this.battle.dex.currentMod === 'champions' ? -12 : -6, this.battle.dex.currentMod === 'champions' ? 12 : 6);
 					}
 					if (boost > 0) {
 						accuracy = this.battle.trunc(accuracy * (3 + boost) / 3);
@@ -918,11 +923,11 @@ export class BattleActions {
 			// like this (Triple Kick)
 			if (target && move.multiaccuracy && hit > 1) {
 				let accuracy = move.accuracy;
-				const boostTable = [1, 7 / 6, 8 / 6, 9 / 6, 10 / 6, 11 / 6, 2, 13 / 6, 14 / 6, 15 / 6, 16 / 6, 3];
+				const boostTable = this.battle.dex.currentMod === 'champions' ? Array.from({ length: 13 }, (_, i) => 1 + i / 3) : [1, 7 / 6, 8 / 6, 9 / 6, 10 / 6, 11 / 6, 2, 13 / 6, 14 / 6, 15 / 6, 16 / 6, 3];
 				if (accuracy !== true) {
 					if (!move.ignoreAccuracy) {
 						const boosts = this.battle.runEvent('ModifyBoost', pokemon, null, null, { ...pokemon.boosts });
-						const boost = this.battle.clampIntRange(boosts['accuracy'], -6, 6);
+						const boost = this.battle.clampIntRange(boosts['accuracy'], this.battle.dex.currentMod === 'champions' ? -12 : -6, this.battle.dex.currentMod === 'champions' ? 12 : 6);
 						if (boost > 0) {
 							accuracy *= boostTable[boost];
 						} else {
@@ -931,7 +936,7 @@ export class BattleActions {
 					}
 					if (!move.ignoreEvasion) {
 						const boosts = this.battle.runEvent('ModifyBoost', target, null, null, { ...target.boosts });
-						const boost = this.battle.clampIntRange(boosts['evasion'], -6, 6);
+						const boost = this.battle.clampIntRange(boosts['evasion'], this.battle.dex.currentMod === 'champions' ? -12 : -6, this.battle.dex.currentMod === 'champions' ? 12 : 6);
 						if (boost > 0) {
 							accuracy /= boostTable[boost];
 						} else if (boost < 0) {

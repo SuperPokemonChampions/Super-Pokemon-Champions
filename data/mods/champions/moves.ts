@@ -1,4 +1,101 @@
 export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+	stealthrock: {
+		inherit: true,
+		condition: {
+			inherit: true,
+			onSwitchIn(pokemon) {
+				if (pokemon.hasItem('heavydutyboots')) return;
+				const mod = this.clampIntRange(pokemon.runEffectiveness(this.dex.getActiveMove('stealthrock')), -2, 2);
+				this.damage(pokemon.maxhp * [5, 7, 10, 12, 15][mod + 2] / 100);
+			},
+		},
+		desc: 'Entry hazard: deals 5%, 7%, 10%, 12%, or 15% max HP based on Rock effectiveness.',
+		shortDesc: 'Rock hazard: 5/7/10/12/15% HP by effectiveness.',
+	},
+	hiddenpower: {
+		inherit: true, isNonstandard: null,
+		onModifyType(move, source) { move.type = source.species.baseSpecies === 'Unown' ? '???' : source.hpType || 'Dark'; },
+		onModifyMove(move, source) {
+			move.category = source.getStat('atk') > source.getStat('spa') ? 'Physical' : 'Special';
+			if (source.species.baseSpecies === 'Unown') { move.forceSTAB = true; move.ignoreImmunity = true; }
+		},
+		onEffectiveness(typeMod, target, type, move) {
+			if (move.type === '???') return target && type === target.getTypes()[0] ? 1 : 0;
+		},
+		desc: 'Selected type is independent of IVs. Physical if Attack exceeds Special Attack. Unown: typeless, STAB, and always super effective.',
+		shortDesc: 'Selected type; uses higher offense. Unown: typeless/STAB/SE.',
+	},
+	sheercold: {
+		inherit: true, accuracy: 30,
+		onModifyMove(move, source, target) {
+			if (target && target.hp * 100 >= target.maxhp * 51) {
+				delete move.ohko; move.category = 'Status'; move.status = 'frz' as ID;
+			}
+		},
+		desc: '30% accurate. Freezes targets at 51% HP or more; otherwise a one-hit KO.',
+		shortDesc: '30% accurate; freezes at 51%+ HP; OHKO below.',
+	},
+	horndrill: {
+		inherit: true, accuracy: 30,
+		onTryHit(target) { if (target.hp * 100 >= target.maxhp * 51) return false; },
+		desc: '30% accurate. Fails against targets with 51% HP or more.',
+		shortDesc: '30% accurate; OHKO only below 51% HP.',
+	},
+	guillotine: {
+		inherit: true, accuracy: 30,
+		onTryHit(target) { if (target.hp * 100 >= target.maxhp * 51) return false; },
+		desc: '30% accurate. Fails against targets with 51% HP or more.',
+		shortDesc: '30% accurate; OHKO only below 51% HP.',
+	},
+	fissure: {
+		inherit: true, accuracy: 30,
+		onTryHit(target) { if (target.hp * 100 >= target.maxhp * 51) return false; },
+		desc: '30% accurate. Fails against targets with 51% HP or more.',
+		shortDesc: '30% accurate; OHKO only below 51% HP.',
+	},
+	minimize: {
+		inherit: true, priority: 0.1, boosts: { evasion: 4 },
+		onTry(source) { if (source.boosts.evasion > 0) return false; },
+		desc: 'Raises evasion by 4 stages. Fails with any positive evasion boost. Goes before moves of the same priority.',
+		shortDesc: '+4 evasion; fails if already boosted; acts first in priority.',
+	},
+	return: {
+		inherit: true, basePower: 92, pp: 8, noPPBoosts: true, basePowerCallback() { return 92; }, isNonstandard: null,
+		desc: '92 power; 8 PP. Happiness does not affect its power.',
+		shortDesc: '92 power; 8 PP; ignores happiness.',
+	},
+	seismictoss: {
+		inherit: true, accuracy: 60, pp: 8, noPPBoosts: true, damage: undefined,
+		damageCallback(source) { return 2 * source.level; },
+		desc: '60% accurate; 8 PP. Deals damage equal to twice the user level.',
+		shortDesc: '60% accurate; deals twice the user level.',
+	},
+	dragonrage: {
+		inherit: true, accuracy: 95, pp: 8, noPPBoosts: true, damage: undefined,
+		damageCallback(source) { return 2 * source.level; },
+		onAfterMove(source) { this.damage(source.baseMaxhp / 2, source, source, this.effect); },
+		desc: '95% accurate; 8 PP. Deals twice the user level in damage; user loses 50% max HP even on a miss or no damage.',
+		shortDesc: '2x level damage; loses 50% HP even on miss.',
+	},
+	boomburst: {
+		inherit: true, basePower: 120, onAfterHit: undefined, onAfterSubDamage: undefined,
+		onAfterMove(source) {
+			for (const pokemon of this.getAllActive()) if (pokemon.status === 'slp') pokemon.cureStatus();
+			this.damage(source.baseMaxhp / 4, source, source, this.effect);
+		},
+		desc: '120 power. Wakes all active Pokemon and clears all hazards. User loses 25% max HP even on a miss or no damage.',
+		shortDesc: 'Wakes all; clears hazards; loses 25% HP even on miss.',
+	},
+	steelwing: {
+		inherit: true, accuracy: 95,
+		desc: '95% accurate; 10% chance to raise Defense by 1.',
+		shortDesc: '95% accurate; 10% chance to raise Defense by 1.',
+	},
+	bind: {
+		inherit: true, basePower: 35, accuracy: 100, pp: 8, noPPBoosts: true,
+		desc: '35 power; 100% accurate; 8 PP; traps the target for 4-5 turns.',
+		shortDesc: '35 power; 100% accurate; 8 PP; traps the target for 4-5 turns.',
+	},
 	airslash: {
 		inherit: true, basePower: 90, accuracy: 90, pp: 12, noPPBoosts: true,
 		secondary: { chance: 20, volatileStatus: 'flinch' },
@@ -16,9 +113,16 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		},
 	},
 	bodyslam: {
-		inherit: true, pp: 12, noPPBoosts: true, secondary: { chance: 10, status: 'par' },
-		desc: "Has a 10% chance to paralyze the target.",
-		shortDesc: "10% chance to paralyze the target.",
+		inherit: true, basePower: 0, pp: 12, noPPBoosts: true, secondary: undefined,
+		basePowerCallback(source, target) {
+			const ratio = source.getWeight() / target.getWeight();
+			return ratio >= 5 ? 120 : ratio >= 4 ? 100 : ratio >= 3 ? 80 : ratio >= 2 ? 60 : 40;
+		},
+		onModifyMove(move, source, target) {
+			if (target && source.getWeight() >= 3 * target.getWeight()) move.secondaries = [{ chance: 30, status: 'par' }];
+		},
+		desc: '12 PP. Heavy Slam weight-based power. Has a 30% paralysis chance only at 80, 100, or 120 power.',
+		shortDesc: 'Weight-based power; 30% paralysis at 80+ power.',
 	},
 	ceaselessedge: {
 		inherit: true, basePower: 75,
@@ -169,7 +273,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		desc: "Has 95% accuracy and no secondary effect.", shortDesc: "95% accurate; no secondary effect.",
 	},
 	overheat: {
-		inherit: true, self: undefined,
+		inherit: true, basePower: 110, self: undefined,
 		onAfterMove(source) { if (source) this.boost({ spa: -2 }, source, source, this.effect); },
 		desc: 'Lowers the user’s Special Attack by 2 stages even if it misses or deals no damage.',
 		shortDesc: 'Lowers the user’s Sp. Atk by 2 even on a miss.',
@@ -217,9 +321,9 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	knockoff: { inherit: true, basePower: 65, basePowerCallback() { return 65; }, onBasePower: undefined },
 	lastrespects: { inherit: true, stallingMove: true, basePowerCallback(pokemon) { return 50 + 25 * pokemon.side.totalFainted; } },
 	lastresort: {
-		inherit: true, basePower: 120, accuracy: 95, pp: 5, noPPBoosts: true,
-		desc: '120 base power, 95% accurate, and 5 PP. Can only be used after the user has used all its other moves at least once.',
-		shortDesc: '120 power, 95% accurate; must use all other moves first.',
+		inherit: true, basePower: 120, accuracy: 90, pp: 5, noPPBoosts: true,
+		desc: '120 base power, 90% accurate, and 5 PP. Can only be used after the user has used all its other moves at least once.',
+		shortDesc: '120 power, 90% accurate; must use all other moves first.',
 	},
 	leaftornado: { inherit: true, basePower: 50, accuracy: 100 },
 	magicroom: { inherit: true },
@@ -409,9 +513,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		isNonstandard: "Past",
 	},
 	bloodmoon: {
-		inherit: true,
-		basePower: 130,
-		isNonstandard: "Past",
+		inherit: true, basePower: 120, isNonstandard: null,
+		onAfterMove(source) { this.damage(source.baseMaxhp / 4, source, source, this.effect); },
+		desc: '120 power. Cannot be used twice in a row. User loses 25% max HP even on a miss or no damage.',
+		shortDesc: '120 power; no consecutive use; loses 25% HP even on miss.',
 	},
 	blueflare: {
 		inherit: true,
@@ -983,9 +1088,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		isNonstandard: "Past",
 	},
 	metalclaw: {
-		inherit: true,
-		isNonstandard: "Past",
+		inherit: true, basePower: 90, pp: 16, noPPBoosts: true, isNonstandard: null,
 		flags: { contact: 1, protect: 1, mirror: 1, metronome: 1, slicing: 1 },
+		desc: '90 power; 16 PP; 10% chance to raise Attack by 1.',
+		shortDesc: '90 power; 16 PP; 10% chance to raise Attack by 1.',
 	},
 	metronome: {
 		inherit: true,

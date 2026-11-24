@@ -1,4 +1,38 @@
 export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTable = {
+	drought: {
+		inherit: true,
+		onStart(source) {
+			if (source.species.id === 'groudon' && source.item === 'redorb') return;
+			if (this.field.setWeather('sunnyday', source, this.effect)) this.field.weatherState.duration = source.hasItem('heatrock') ? 8 : 5;
+		},
+		desc: 'Summons sun for 5 turns, or 8 with Heat Rock.', shortDesc: 'Sun for 5 turns (8 with Heat Rock).',
+	},
+	powerconstruct: {
+		inherit: true,
+		onResidual(pokemon) {
+			if (pokemon.baseSpecies.baseSpecies !== 'Zygarde' || pokemon.transformed || !pokemon.hp) return;
+			if (pokemon.species.id === 'zygardecomplete' || pokemon.hp > pokemon.maxhp / 2) return;
+			this.add('-activate', pokemon, 'ability: Power Construct');
+			pokemon.formeChange('Zygarde-Complete', this.effect, true);
+			pokemon.formeRegression = true;
+			this.heal(pokemon.maxhp * 0.18, pokemon, pokemon, this.effect);
+		},
+		desc: 'Below half HP, becomes Zygarde-Complete and heals 18% max HP. Counts Complete BST for team limits.',
+		shortDesc: 'Transforms below half HP and heals 18% max HP.',
+	},
+	serenegrace: {
+		inherit: true,
+		onModifyMove(move) {
+			for (const secondary of move.secondaries || []) if (secondary.chance) secondary.chance = Math.min(100, secondary.chance + 10);
+			if (move.self?.chance) move.self.chance = Math.min(100, move.self.chance + 10);
+		},
+		desc: 'Adds 10 percentage points to secondary effect chances.', shortDesc: 'Adds 10% to secondary effect chances.',
+	},
+	supremeoverlord: {
+		inherit: true,
+		onBasePower() { return this.chainModify(1 + 0.05 * (this.effectState.fallen || 0)); },
+		desc: 'Attacks gain 5% power per fainted teammate, up to 25%.', shortDesc: '5% power per fainted ally; maximum 25%.',
+	},
 	zerotohero: {
 		inherit: true,
 		onSwitchIn(pokemon) {

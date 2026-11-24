@@ -1246,7 +1246,7 @@ export class Pokemon {
 		for (boostName in boosts) {
 			const boost = boosts[boostName];
 			if (!boost) continue;
-			cappedBoost[boostName] = this.battle.clampIntRange(this.boosts[boostName] + boost, -6, 6) - this.boosts[boostName];
+			cappedBoost[boostName] = this.battle.clampIntRange(this.boosts[boostName] + boost, this.battle.dex.currentMod === 'champions' ? -12 : -6, this.battle.dex.currentMod === 'champions' ? 12 : 6) - this.boosts[boostName];
 		}
 		return cappedBoost;
 	}

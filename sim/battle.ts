@@ -2039,7 +2039,7 @@ export class Battle {
 			};
 			let boostBy = target.boostBy(currentBoost);
 			let msg = '-boost';
-			if (boost[boostName]! < 0 || target.boosts[boostName] === -6) {
+			if (boost[boostName]! < 0 || target.boosts[boostName] === (this.dex.currentMod === 'champions' ? -12 : -6)) {
 				msg = '-unboost';
 				boostBy = -boostBy;
 			}

@@ -118,7 +118,6 @@ export interface PokemonMoveRequestData {
 	canDynamax?: boolean;
 	maxMoves?: DynamaxOptions;
 	canTerastallize?: string;
-	canDodge?: number;
 }
 export interface DynamaxOptions {
 	maxMoves: ({ move: string, target: MoveTarget, disabled?: boolean })[];

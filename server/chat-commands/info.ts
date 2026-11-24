@@ -585,7 +585,9 @@ export const commands: Chat.ChatCommands = {
 		const gen = parseInt(cmd.substr(-1));
 		if (gen) target += `, gen${gen}`;
 
-		const { dex, format, targets } = this.splitFormat(target, true, true);
+		let { dex, format, targets } = this.splitFormat(target, true, true);
+
+		if (!target.includes(',') && !gen) dex = Dex.mod('champions');
 
 		const prefix = `|c|${user.getIdentity(room)}|/raw `;
 		let buffer = '';
@@ -744,7 +746,7 @@ export const commands: Chat.ChatCommands = {
 				break;
 			case 'move':
 				const move = dex.moves.get(newTarget.name);
-				buffer += `${prefix}${Chat.getDataMoveHTML(move, dex.currentMod === 'superchampions')}\n`;
+				buffer += `${prefix}${Chat.getDataMoveHTML(move, ['champions', 'superchampions'].includes(dex.currentMod))}\n`;
 				if (showDetails) {
 					details = {
 						Priority: String(move.priority),

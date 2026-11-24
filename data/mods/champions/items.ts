@@ -1,4 +1,12 @@
 export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
+	standardite: {
+		name: 'Standardite', spritenum: 577,
+		onSourceModifyDamage(damage, source, target) {
+			if (target.species.bst < 559 && source.species.bst >= 560) return this.chainModify(0.5);
+		},
+		desc: 'Holder with BST below 559 takes half damage from Pokemon with BST 560 or higher, including Mega Pokemon.',
+		shortDesc: 'BST below 559: half damage from BST 560+ attackers.',
+	},
 	shellbell: {
 		inherit: true,
 		onAfterMoveSecondarySelf: undefined,
@@ -877,12 +885,12 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
 	lifeorb: {
 		inherit: true,
 		isNonstandard: null,
-		desc: 'Holder’s attacks do 1.2x damage, and it loses 1/20 of its maximum HP after using a damaging move.',
-		shortDesc: 'Holder’s attacks do 1.2x damage; loses 1/20 max HP after a damaging move.',
+		desc: 'Holder’s attacks do 1.2x damage, and it loses 1/10 of its maximum HP after using a damaging move.',
+		shortDesc: 'Holder’s attacks do 1.2x damage; loses 1/10 max HP after a damaging move.',
 		onModifyDamage(damage, source, target, move) { return this.chainModify(1.2); },
 		onAfterMove(source, target, move) {
 			if (source && source !== target && move && move.category !== 'Status' && !source.forceSwitchFlag) {
-				this.damage(source.baseMaxhp / 20, source, source, this.dex.items.get('lifeorb'));
+				this.damage(source.baseMaxhp / 10, source, source, this.dex.items.get('lifeorb'));
 			}
 		},
 	},

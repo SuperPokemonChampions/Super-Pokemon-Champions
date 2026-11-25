@@ -336,7 +336,17 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 			}
 		},
 	},
-	partingshot: { inherit: true, pp: 8, noPPBoosts: true, desc: "8 PP.", shortDesc: "8 PP." },
+	partingshot: {
+		inherit: true,
+		pp: 8,
+		noPPBoosts: true,
+		onHit(target, source, move) {
+			const success = this.boost({ atk: -2, spa: -2 }, target, source);
+			if (!success && !target.hasAbility('mirrorarmor')) delete move.selfSwitch;
+		},
+		desc: "Lowers the target's Attack and Special Attack by 2 stages, then the user switches out. Fails against Soundproof and is blocked by Protect, but bypasses Substitute.",
+		shortDesc: "Lowers target's Atk and Sp. Atk by 2; user switches out.",
+	},
 	playrough: {
 		inherit: true, secondary: { chance: 30, boosts: { atk: -2 } },
 		desc: "Has a 30% chance to lower the target's Attack by 2 stages.",

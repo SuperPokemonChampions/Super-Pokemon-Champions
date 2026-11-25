@@ -1,4 +1,33 @@
 export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTable = {
+	shadowtag: {
+		inherit: true,
+		onStart(source) {
+			for (const foe of source.foes()) {
+				const state = foe.volatiles['shadowtag'];
+				if (state?.sources) state.sources = state.sources.filter((entry: { source: Pokemon }) => entry.source !== source);
+			}
+		},
+		onFoeTrapPokemon(pokemon) {
+			const source = this.effectState.target;
+			if (pokemon.hasAbility('shadowtag') || !pokemon.isAdjacent(source)) return;
+			pokemon.addVolatile('shadowtag', source, this.effect);
+			const state = pokemon.volatiles['shadowtag'];
+			if (!state) return;
+			const sources: { source: Pokemon, startTurn: number }[] = state.sources ||= [];
+			let entry = sources.find(trap => trap.source === source);
+			if (!entry) sources.push(entry = { source, startTurn: this.turn });
+			if (this.turn < entry.startTurn + 2) pokemon.tryTrap(true);
+		},
+		onFoeMaybeTrapPokemon(pokemon, source) {
+			source ||= this.effectState.target;
+			if (!source || pokemon.hasAbility('shadowtag') || !pokemon.isAdjacent(source)) return;
+			const entry = pokemon.volatiles['shadowtag']?.sources?.find((trap: { source: Pokemon }) => trap.source === source);
+			if (!entry || this.turn < entry.startTurn + 2) pokemon.maybeTrapped = true;
+		},
+		condition: { noCopy: true },
+		desc: "Traps each adjacent opponent for 2 turns after it faces this Pokemon. The timer resets when either Pokemon switches out. Ghost types and Pokemon with Shadow Tag can escape.",
+		shortDesc: "Traps adjacent foes for 2 turns; Ghosts and Shadow Tag users can escape.",
+	},
 	drought: {
 		inherit: true,
 		onStart(source) {

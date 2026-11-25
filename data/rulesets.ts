@@ -117,6 +117,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		effectType: 'ValidatorRule',
 		name: 'Champions Singles 6v6 Rules',
 		desc: 'Singles 6v6 team limits, transformed Palafin BST, and one-gimmick rules.',
+		ruleset: ['EV Limit = 66'],
 		onResidualOrder: 1,
 		onResidual() {
 			if (this.randomChance(1, 20)) this.field.setWeather('deepfog');
@@ -131,7 +132,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 					this.dex.species.get('Palafin-Hero') :
 					species.baseSpecies === 'Zygarde' && this.dex.abilities.get(set.ability).id === 'powerconstruct' ? this.dex.species.get('Zygarde-Complete') : species;
 				const level = set.level || 50;
-				if (level < 45 || level > 55) return [`${species.name} must be between levels 45 and 55.`];
+				if (!Number.isInteger(level) || level < 45 || level > 55) return [`${species.name} must be an integer level between 45 and 55.`];
 				levelTotal += level;
 				bstTotal += Object.values(bstSpecies.baseStats).reduce((sum, stat) => sum + stat, 0);
 			}
@@ -141,6 +142,21 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		onValidateSet(set) {
 			const species = this.dex.species.get(set.species);
 			if (species.isMega) return [`${species.name} cannot be selected as a starting form; bring its base form and Mega Evolve in battle.`];
+			const problems: string[] = [];
+			let total = 0;
+			for (const stat of ['hp', 'atk', 'def', 'spa', 'spd', 'spe'] as const) {
+				const points = set.evs[stat] ?? 0;
+				if (!Number.isInteger(points) || points < 0 || points > 32) {
+					problems.push(`${species.name} must have 0–32 whole Stat Points in ${this.dex.stats.names[stat]}.`);
+				}
+				total += points;
+				const iv = set.ivs[stat] ?? 31;
+				if (!Number.isInteger(iv) || iv < 0 || iv > 31) {
+					problems.push(`${species.name} must have 0–31 whole IVs in ${this.dex.stats.names[stat]}.`);
+				}
+			}
+			if (total > 66) problems.push(`${species.name} has ${total} Stat Points; the limit is 66.`);
+			return problems;
 		},
 		onBegin() {
 			this.add('rule', 'Singles 6v6: Levels 45–55; combined levels ≤ 300; team BST ≤ 3,150 (Zero to Hero Palafin and Power Construct Zygarde count as their transformed forms)');

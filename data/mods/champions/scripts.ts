@@ -57,10 +57,14 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 		}
 		for (const speciesId in this.data.Learnsets) {
-			const learnset = this.data.Learnsets[speciesId].learnset;
+			const learnset = this.modData('Learnsets', speciesId).learnset;
 			if (!learnset) continue;
+			// Learning levels do not restrict moves in Champions.
+			for (const moveId in learnset) {
+				learnset[moveId as ID] = learnset[moveId as ID]!.map((source: string) => source.replace(/^(\d+)L\d+$/, '$1L1'));
+			}
 			const species = this.data.Pokedex[speciesId];
-			for (const moveId of ['hiddenpower', 'quickattack', 'refresh', 'return', 'toxic']) {
+			for (const moveId of ['taunt', 'hiddenpower', 'quickattack', 'refresh', 'return', 'toxic']) {
 				learnset[moveId as ID] = ['9M']; this.modData('Moves', moveId).isNonstandard = null;
 			}
 			if (learnset.dragonpulse || speciesId === 'charizard') learnset.dragonrage = ['9M'];

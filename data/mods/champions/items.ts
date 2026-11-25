@@ -1,6 +1,6 @@
 export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
 	standardite: {
-		name: 'Standardite', spritenum: 577,
+		name: 'Standardite', spritenum: 130,
 		onSourceModifyDamage(damage, source, target) {
 			if (target.species.bst < 559 && source.species.bst >= 560) return this.chainModify(0.5);
 		},

@@ -88,18 +88,34 @@ describe('Champions trapping and legality regressions', () => {
 		assert(Dex.mod('champions').species.getLearnsetData('clodsire').learnset.taunt);
 		assert.equal(validate('Clodsire', ['taunt']), null);
 	});
-	it('uses 12.5 percentage points per stage for all five battle stats', () => {
+	it('uses 25 percentage points per stage for all five battle stats', () => {
 		make({species: 'Mew', ability: 'Synchronize'});
 		const pokemon = battle.p1.active[0];
 		for (const stat of ['atk', 'def', 'spa', 'spd', 'spe']) {
 			const base = pokemon.getStat(stat);
 			for (let stage = -12; stage <= 12; stage++) {
 				pokemon.boosts[stat] = stage;
-				const factor = stage < 0 ? 1 / (1 + Math.abs(stage) / 8) : 1 + stage / 8;
+				const factor = stage < 0 ? 1 / (1 + Math.abs(stage) / 4) : 1 + stage / 4;
 				assert.equal(pokemon.getStat(stat), Math.floor(base * factor), stat + ': ' + stage);
+				assert.equal(pokemon.calculateStat(stat, stage), Math.floor(base * factor), stat + ': calculated ' + stage);
 			}
 			pokemon.boosts[stat] = 0;
 		}
+	});
+	it('Nasty Plot retains exactly one stage and 1.25x Special Attack after switching back', () => {
+		make({species: 'Gengar', ability: 'Levitate', moves: ['nastyplot']});
+		const gengar = battle.p1.active[0];
+		const base = gengar.getStat('spa');
+		battle.makeChoices('move 1', 'move 1');
+		assert.equal(gengar.boosts.spa, 2);
+		assert.equal(gengar.getStat('spa'), Math.floor(base * 1.5));
+		battle.makeChoices('switch 2', 'move 1');
+		assert.equal(gengar.boosts.spa, 1);
+		battle.makeChoices('switch 2', 'move 1');
+		assert.equal(battle.p1.active[0], gengar);
+		assert.equal(gengar.boosts.spa, 1);
+		assert.equal(gengar.getStat('spa'), Math.floor(base * 1.25));
+		assert(battle.log.some(line => line.includes('|-setboost|p1a: Gengar|spa|1')));
 	});
 	it('learning levels never restrict Champions moves, including Make It Rain', () => {
 		for (const [species, move] of [['Gholdengo', 'makeitrain'], ['Volcarona', 'fierydance'], ['Dragonite', 'outrage']]) {

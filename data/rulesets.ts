@@ -77,7 +77,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			].includes(move.id)) {
 				for (const side of [source.side, source.side.foe]) {
 					for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) {
-						side.removeSideCondition(hazard);
+						if (side.removeSideCondition(hazard)) this.add('-sideend', side, this.dex.conditions.get(hazard).name);
 					}
 				}
 			}
@@ -137,7 +137,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 				bstTotal += Object.values(bstSpecies.baseStats).reduce((sum, stat) => sum + stat, 0);
 			}
 			if (levelTotal > 300) return [`The team's combined levels cannot exceed 300 (currently ${levelTotal}).`];
-			if (bstTotal > 3150) return [`The team's combined base stat total cannot exceed 3,150 (currently ${bstTotal}).`];
+			if (bstTotal > 3050) return [`The team's combined base stat total cannot exceed 3,050 (currently ${bstTotal}).`];
 		},
 		onValidateSet(set) {
 			const species = this.dex.species.get(set.species);
@@ -159,7 +159,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			return problems;
 		},
 		onBegin() {
-			this.add('rule', 'Singles 6v6: Levels 45–55; combined levels ≤ 300; team BST ≤ 3,150 (Zero to Hero Palafin and Power Construct Zygarde count as their transformed forms)');
+			this.add('rule', 'Singles 6v6: Levels 45–55; combined levels ≤ 300; team BST ≤ 3,050 (Zero to Hero Palafin and Power Construct Zygarde count as their transformed forms)');
 			this.add('rule', 'One battle gimmick: Mega Evolution or Z-Move');
 		},
 	},

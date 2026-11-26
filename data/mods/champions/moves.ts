@@ -66,7 +66,11 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	seismictoss: {
 		inherit: true, accuracy: 60, pp: 8, noPPBoosts: true, damage: undefined,
-		damageCallback(source) { return 2 * source.level; },
+		damageCallback(source) {
+			const damage = 2 * source.level;
+			const move = this.activeMove;
+			return move?.multihitType === 'parentalbond' && move.hit > 1 ? Math.max(1, Math.floor(damage / 4)) : damage;
+		},
 		desc: '60% accurate; 8 PP. Deals damage equal to twice the user level.',
 		shortDesc: '60% accurate; deals twice the user level.',
 	},
@@ -170,7 +174,9 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		shortDesc: "Removes all entry hazards; 10% chance to paralyze.",
 		onHit(target, source) {
 			for (const side of [source.side, source.side.foe]) {
-				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) side.removeSideCondition(hazard);
+				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) {
+					if (side.removeSideCondition(hazard)) this.add('-sideend', side, this.dex.conditions.get(hazard).name);
+				}
 			}
 		},
 	},
@@ -346,7 +352,9 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		secondary: { chance: 10, status: 'brn' },
 		onHit(target, source) {
 			for (const side of [source.side, source.side.foe]) {
-				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) side.removeSideCondition(hazard);
+				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) {
+					if (side.removeSideCondition(hazard)) this.add('-sideend', side, this.dex.conditions.get(hazard).name);
+				}
 			}
 		},
 	},
@@ -415,7 +423,9 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		shortDesc: "Clears entry hazards; no poison chance.",
 		onHit(target, source) {
 			for (const side of [source.side, source.side.foe]) {
-				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) side.removeSideCondition(hazard);
+				for (const hazard of ['stealthrock', 'spikes', 'toxicspikes', 'stickyweb', 'gmaxsteelsurge']) {
+					if (side.removeSideCondition(hazard)) this.add('-sideend', side, this.dex.conditions.get(hazard).name);
+				}
 			}
 		},
 	},

@@ -418,25 +418,18 @@ class Ladder extends LadderStore {
 		for (const [formatid, formatTable] of Ladders.searches) {
 			if (formatTable.playerCount > 2) continue; // TODO: implement
 			const matchmaker = Ladders(formatid);
-			let longest: [BattleReady, User] | null = null;
+			const waiting: [BattleReady, User][] = [];
 			for (const search of formatTable.searches.values()) {
-				if (!longest) {
-					const longestSearcher = matchmaker.getSearcher(search);
-					if (!longestSearcher) continue;
-					longest = [search, longestSearcher];
-					continue;
-				}
 				const searcher = matchmaker.getSearcher(search);
 				if (!searcher) continue;
-
-				const [longestSearch, longestSearcher] = longest;
-				const matched = matchmaker.matchmakingOK([[search, searcher], [longestSearch, longestSearcher]]);
+				const matched = waiting.find(candidate => matchmaker.matchmakingOK([candidate, [search, searcher]]));
 				if (matched) {
 					formatTable.searches.delete(search.userid);
-					formatTable.searches.delete(longestSearch.userid);
-					Ladder.match([longestSearch, search]);
+					formatTable.searches.delete(matched[0].userid);
+					Ladder.match([matched[0], search]);
 					return;
 				}
+				waiting.push([search, searcher]);
 			}
 		}
 	}

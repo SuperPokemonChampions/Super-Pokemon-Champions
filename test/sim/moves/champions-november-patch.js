@@ -6,7 +6,7 @@ describe('Champions November patch', () => {
     const dex = Dex.mod('champions');
     function check(name, fn) { it(name, fn); }
     function make(a = {}, b = {}) { const battle = common.mod('champions').createBattle({ formatid: 'superchampionssingles6v6' }, [[{ species: 'Mew', ability: 'Synchronize', moves: ['splash'], ...a }, { species: 'Chansey', ability: 'Natural Cure', moves: ['splash'] }], [{ species: 'Mew', ability: 'Synchronize', moves: ['splash'], ...b }, { species: 'Chansey', ability: 'Natural Cure', moves: ['splash'] }]]); battle.makeChoices('team 12', 'team 12'); return battle; }
-    check('requested power, accuracy and exact PP', () => { for (const [id, bp, acc, pp] of [['airslash', 90, 90, 12], ['bind', 35, 100, 8], ['bloodmoon', 120, 100], ['boomburst', 120, 100], ['dragonrage', 0, 95, 8], ['lastresort', 120, 90, 5], ['metalclaw', 90, 95, 16], ['overheat', 110, 90], ['return', 92, 100, 8], ['seismictoss', 0, 60, 8], ['steelwing', 70, 95]]) {
+    check('requested power, accuracy and exact PP', () => { for (const [id, bp, acc, pp] of [['airslash', 90, 90, 12], ['bind', 35, 100, 8], ['bloodmoon', 120, 100], ['boomburst', 120, 100], ['dragonrage', 0, 95, 8], ['lastresort', 120, 90, 8], ['metalclaw', 90, 95, 16], ['overheat', 110, 90], ['return', 92, 100, 8], ['seismictoss', 0, 60, 8], ['steelwing', 70, 95]]) {
         const m = dex.moves.get(id);
         assert.equal(m.basePower, bp, id);
         assert.equal(m.accuracy, acc, id);
@@ -61,6 +61,27 @@ describe('Champions November patch', () => {
         b.makeChoices('move 1', 'move 1'); assert.notEqual(b.field.weather, 'sunnyday'); b.destroy(); });
     check('Power Construct counts the complete form for team BST', () => { const validator = new TeamValidator('superchampionssingles6v6'); const team = [{ species: 'Zygarde', ability: 'Power Construct', moves: ['tackle'], level: 50 }, ...Array.from({ length: 5 }, () => ({ species: 'Mew', ability: 'Synchronize', moves: ['tackle'], level: 50 }))]; const problems = validator.validateTeam(team); assert(problems.some(x => x.includes('3708')), JSON.stringify(problems)); });
 
+    check('Last Respects can fail on repetition and works again after a different move', () => {
+        const b = make({species: 'Houndstone', moves: ['lastrespects', 'splash']}, {species: 'Umbreon'});
+        const target = b.p2.active[0];
+        b.makeChoices('move 1', 'move 1');
+        const afterFirst = target.hp;
+        assert(afterFirst < target.maxhp);
+        const roll = b.randomChance.bind(b);
+        let repeats = 0;
+        b.randomChance = (n, d) => {
+            if (n !== 1 || d !== 3) return roll(n, d);
+            repeats++;
+            return false;
+        };
+        b.makeChoices('move 1', 'move 1');
+        assert.equal(repeats, 1);
+        assert.equal(target.hp, afterFirst);
+        b.makeChoices('move 2', 'move 1');
+        b.makeChoices('move 1', 'move 1');
+        assert(target.hp < afterFirst);
+        b.destroy();
+    });
     check('Body Slam weight thresholds control power and paralysis', () => {
         const move = dex.moves.get('bodyslam');
         for (const [ratio, power] of [[1, 40], [2, 60], [3, 80], [4, 100], [5, 120]]) {

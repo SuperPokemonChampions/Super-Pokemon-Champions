@@ -22,7 +22,7 @@ export const Formats: FormatList = [
 		ruleset: [
 			'Team Preview', 'Default Level = 50', 'Min Team Size = 1', 'Max Team Size = 6',
 			'Obtainable Moves',
-			'Timer Starting = 300', 'Timer Grace = 90', 'Timer Add Per Turn = 15', 'Timer Max Per Turn = 240',
+			'Timer Starting = 300', 'Timer Grace = 90', 'Timer Add Per Turn = 15', 'Timer Max Per Turn = 90',
 			'Timer Max First Turn = 90', 'Timeout Auto Choose', 'DC Timer Bank', 'Open Team Sheets',
 			'Super Champions', 'Champions Singles 6v6 Rules', 'Cancel Mod',
 		],
@@ -41,7 +41,7 @@ export const Formats: FormatList = [
 	},
 	{
 		name: "[Super Champions] VGC 6v6",
-		mod: 'superchampions',
+		mod: 'champions',
 		gameType: 'doubles',
 		ruleset: ['Flat Rules', 'VGC Timer', 'Force Open Team Sheets', '!!Picked Team Size = 6', 'Super Champions'],
 	},
@@ -51,7 +51,7 @@ export const Formats: FormatList = [
 		searchShow: false,
 		debug: true,
 		battle: { trunc: Math.trunc },
-		ruleset: ['Team Preview', 'Cancel Mod', 'Max Team Size = 24', 'Max Move Count = 24', 'Max Level = 9999', 'Default Level = 50', 'Open Team Sheets', 'Super Champions'],
+		ruleset: ['Team Preview', 'Cancel Mod', 'Max Team Size = 24', 'Max Move Count = 24', 'Max Level = 9999', 'Default Level = 50', 'Timer Max Per Turn = 90', 'Timer Max First Turn = 90', 'Open Team Sheets', 'Super Champions'],
 	},
 	{
 		name: "[Super Champions] Doubles Custom Game",
@@ -60,6 +60,6 @@ export const Formats: FormatList = [
 		searchShow: false,
 		debug: true,
 		battle: { trunc: Math.trunc },
-		ruleset: ['Team Preview', 'Cancel Mod', 'Max Team Size = 24', 'Max Move Count = 24', 'Max Level = 9999', 'Default Level = 50', 'Open Team Sheets', 'Super Champions'],
+		ruleset: ['Team Preview', 'Cancel Mod', 'Max Team Size = 24', 'Max Move Count = 24', 'Max Level = 9999', 'Default Level = 50', 'Timer Max Per Turn = 90', 'Timer Max First Turn = 90', 'Open Team Sheets', 'Super Champions'],
 	},
 ];

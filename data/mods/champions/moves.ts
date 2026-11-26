@@ -296,7 +296,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		desc: 'Lowers the user’s Speed by 1 stage even if it misses or deals no damage.',
 		shortDesc: 'Lowers the user’s Speed by 1 even on a miss.',
 	},
-	icebeam: { inherit: true, secondary: undefined, desc: "Has no secondary effect.", shortDesc: "No secondary effect." },
+	icebeam: { inherit: true, pp: 16, secondary: undefined, desc: "Has no secondary effect.", shortDesc: "No secondary effect." },
 	imprison: { inherit: true, desc: "Goes before moves of the same priority.", shortDesc: "Goes before moves of the same priority." },
 	instruct: {
 		inherit: true,
@@ -319,10 +319,24 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		},
 	},
 	knockoff: { inherit: true, basePower: 65, basePowerCallback() { return 65; }, onBasePower: undefined },
-	lastrespects: { inherit: true, stallingMove: true, basePowerCallback(pokemon) { return 50 + 25 * pokemon.side.totalFainted; } },
+	lastrespects: {
+		inherit: true,
+		stallingMove: true,
+		basePowerCallback(pokemon) { return 50 + 25 * pokemon.side.totalFainted; },
+		onPrepareHit(target, source) {
+			if (source.volatiles['lastrespects'] && !this.randomChance(1, 3)) return false;
+		},
+		onHit(target, source) { source.addVolatile('lastrespects'); },
+		condition: {
+			duration: 2,
+			onRestart() { this.effectState.duration = 2; },
+		},
+		desc: 'Starts at 50 power and gains 25 power for each fainted ally. If Last Respects hit on the previous turn, it has only a 1 in 3 chance to succeed this turn.',
+		shortDesc: 'Gains 25 power per fainted ally. Repeated use can fail.',
+	},
 	lastresort: {
 		inherit: true, basePower: 120, accuracy: 90, pp: 5, noPPBoosts: true,
-		desc: '120 base power, 90% accurate, and 5 PP. Can only be used after the user has used all its other moves at least once.',
+		desc: 'Can only be used after the user has used all its other moves at least once.',
 		shortDesc: '120 power, 90% accurate; must use all other moves first.',
 	},
 	leaftornado: { inherit: true, basePower: 50, accuracy: 100 },

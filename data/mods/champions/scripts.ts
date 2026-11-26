@@ -2,10 +2,11 @@ export const Scripts: ModdedBattleScriptsData = {
 	gen: 9,
 	init() {
 		this.data.Moves.hiddenpowerfairy = { ...this.data.Moves.hiddenpowergrass, name: 'Hidden Power Fairy', type: 'Fairy', isNonstandard: null };
-		for (const i in this.data.Moves) {
-			if (this.data.Moves[i].pp > 20) {
-				this.modData('Moves', i).pp = 20;
-			}
+		const ppTiers: Record<number, number> = { 5: 8, 10: 12, 15: 16 };
+		for (const id in this.data.Moves) {
+			const move = this.modData('Moves', id);
+			move.pp = ppTiers[move.pp] ?? Math.min(move.pp, 20);
+			move.noPPBoosts = true;
 		}
 		for (const moveId of ['earthquake', 'bulldoze', 'magnitude', 'surf', 'sparklingaria', 'discharge', 'paraboliccharge', 'lavaplume', 'searingshot', 'mindblown', 'boomburst', 'explosion', 'selfdestruct', 'sludgewave', 'brutalswing', 'petalblizzard']) {
 			const move = this.modData('Moves', moveId);

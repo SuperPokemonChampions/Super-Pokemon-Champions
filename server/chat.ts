@@ -2500,8 +2500,8 @@ export const Chat = new class {
 		let pp = Math.floor(move.noPPBoosts ? basePP : basePP * 8 / 5);
 		if (isChampions) pp = Math.floor(move.noPPBoosts ? basePP : basePP * 8 / 5);
 		buf += `<span class="col pplabelcol"><em>PP</em><br>${pp}</span> `;
-		buf += `<span class="col movedesccol">${move.shortDesc || move.desc}</span> `;
 		buf += `</li><li style="clear:both"></li></ul>`;
+		buf += `<div>${Utils.escapeHTML(move.desc || move.shortDesc)}</div>`;
 		return buf;
 	}
 	getDataAbilityHTML(ability: Ability) {
